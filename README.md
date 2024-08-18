@@ -1,4 +1,4 @@
-
+![Student View](https://firebasestorage.googleapis.com/v0/b/exe2-96fd1.appspot.com/o/Screenshot%202024-08-18%20101516.png?alt=media&token=11bbb3f9-d9b4-4ff7-ada8-4ecbc52c543a)
 # 🌟 Sith Arana Psychological Counseling System 🌟
 
 Welcome to the **Sith Arana Psychological Counseling System**! This web-based application is designed to enhance psychological counseling services at the Faculty of Social Sciences, Sabaragamuwa University of Sri Lanka (SUSL). Whether you're a student seeking support, a counselor offering guidance, or an admin overseeing operations, this system has everything you need to manage and streamline counseling services efficiently.
