@@ -1,0 +1,130 @@
+.container {
+    margin-top: 40px;
+}
+
+.profile-pic img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.contact-details h1 {
+    font-size: 28px;
+    margin-top: 20px;
+}
+
+.contact-details h2 {
+    font-size: 14px;
+    color: #6D6D6D;
+    margin-top: 20px;
+}
+
+.contact-details p {
+    color: #622864;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.contact-details .tel-wrapper,
+.contact-details .email-wrapper {
+    font-size: 40px;
+    margin-top: 10px;
+}
+
+.bio-wrapper {
+    font-size: 18px;
+}
+
+.card {
+    border-radius: 50px;
+}
+
+.card-header {
+    border-radius: 1rem;
+    border: none;
+    background: var(--gradient-primary);
+    padding: 0.8em 1.6em;
+    color: var(--white);
+    font-size: 20px;
+    text-align: center;
+}
+
+.card-body {
+    background-color: #f5f3f0;
+}
+
+.card-text .date h2 {
+    font-size: 15px;
+    color: #6D6D6D;
+}
+
+.card-text a {
+    text-align: center;
+    padding: 8px 40px;
+    font-size: 20px;
+    background-color: #622864;
+    border: none;
+    color: white;
+    width: 100%;
+    display: block;
+    /* Ensure the link fills the container */
+}
+
+.card-text .booking-timeslots-container a {
+    background-color: #f5f3f0;
+    color: black;
+    padding: 10px 15px;
+    border: 1px rgb(168, 168, 168) solid;
+    border-radius: 12px;
+}
+
+
+
+.next-btn {
+    width: 10%;
+}
+
+.languages h2,
+.specialisation h2,
+.reviews h2 {
+    font-size: 24px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgb(126, 126, 126);
+}
+
+.languages ul,
+.specialisation ul {
+    font-size: 14px;
+    margin-top: 20px;
+    color: #a241a5;
+    font-weight: 500;
+    line-height: 2em;
+}
+
+.reviews p {
+    font-size: 18px;
+    margin: 20px 0;
+    color: #a241a5;
+}
+
+.review-box {
+    margin-top: 24px;
+}
+
+.review-form {
+    margin: 20px 0;
+}
+
+.review-form textarea {
+    background-color: #f5f3f0;
+    padding: 10px 15px;
+    width: 100%;
+    border: 2px solid rgb(184, 184, 184);
+    font-size: 20px;
+    border-radius: 24px;
+    height: 50%;
+}
+
+.review-form button {
+    font-size: 18px;
+}

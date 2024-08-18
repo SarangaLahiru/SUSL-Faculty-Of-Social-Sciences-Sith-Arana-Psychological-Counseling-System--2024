@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+/* Global Reset */
+*::before,
+*::after,
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+/* Style Variables */
+:root {
+    /* Colors */
+    --bg-primary: #f5f3f0;
+    --bg-purple: #622864;
+    --bg-yellow: #f6991a;
+    --bg-tags: #84a1e51c;
+    --gradient-primary: linear-gradient(90deg, #632965, #bc3fc1);
+    --gradient-secondary: linear-gradient(90deg, #bc3fc1, #632965);
+    --white: #fff;
+    --text-primary: #262526;
+    --text-tags: #7d9ce6;
+
+    /* Shadows */
+    --shadow-header: 0px 4px 64px 0px rgba(0, 0, 0, 0.05);
+}
+
+a,
+li {
+    text-decoration: none;
+    list-style: none;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--bg-purple);
+}
+
+html {
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    color: var(--text-primary);
+}
+
+body {
+    background-color: var(--bg-primary);
+}
+
+.outer-container {
+    width: 100vw;
+}
+
+.main-container {
+    width: min(160rem, 90%);
+    margin-inline: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+.text-gradient {
+    background: var(--gradient-primary);
+    color: transparent;
+    background-clip: text;
+}
+
+.btn-gradient {
+    border-radius: 1rem;
+    border: none;
+    background: var(--gradient-primary);
+    box-shadow: 0px 16px 32px 0px rgba(250, 167, 252, 0.7);
+    padding: 0.8em 1.6em;
+    color: var(--white);
+    transition: all 1s ease-in-out;
+    cursor: pointer;
+}
+
+.card-gradient {
+    border-radius: 1rem;
+    border: none;
+    background: var(--gradient-primary);
+    padding: 0.8em 1.6em;
+    color: var(--white);
+}
+
+.btn-gradient:hover {
+    background: var(--gradient-secondary);
+}
+
+.section-title {
+    font-size: 4.8rem;
+    text-align: center;
+}
+
+.section-sub-title {
+    font-size: 2.4rem;
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+    .section-title {
+        font-size: 3.2rem;
+    }
+
+    .section-sub-title {
+        font-size: 1.8rem;
+    }
+}

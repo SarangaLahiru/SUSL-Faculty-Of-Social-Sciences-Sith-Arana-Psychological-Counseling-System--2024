@@ -1,0 +1,138 @@
+/* Adjustments for the filters */
+.gender-filter a {
+    border: 2px black solid;
+    padding: 6px 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    color: rgb(0, 0, 0);
+    background-color: #ffffff00;
+}
+
+.gender-filter .active {
+    background-color: #720d75;
+    color: white;
+
+}
+
+.gender-filter h3 {
+    font-size: 32px;
+    padding: 15px 0px;
+}
+
+.filters .card {
+    background-color: rgba(165, 42, 42, 0);
+    border: none;
+}
+
+.days-filter h3 {
+    font-size: 32px;
+    padding: 20px 0px;
+    width: 250px;
+}
+
+.filters .filters-body {
+    width: 150px;
+    margin: 0px auto;
+}
+
+.filters .filters-body #datepicker {
+    transform: scale(1.1);
+    margin: 10px 15px;
+    padding: 14px 14px;
+}
+
+.datepicker table td,
+.datepicker table th {
+    color: #242222;
+    font-size: 12px;
+}
+
+.see-more-link {
+    color: #7c317e;
+    font-weight: 600;
+    font-size: 14px;
+
+}
+
+/* Additional styles for the showcase */
+.showcase h1 {
+    background: linear-gradient(90deg, #632965, #e34fe9);
+    font-size: 45px;
+    width: 350px;
+    margin: auto;
+    font-weight: 600;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.showcase p {
+    font-size: 25px;
+}
+
+.counsellor-card {
+    border: none;
+    background-color: rgba(169, 12, 12, 0);
+    overflow: hidden;
+}
+
+.counsellor-image {
+    width: 235px;
+    height: 235px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.card-text {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #632965;
+    border-color: #632965;
+    color: white;
+}
+
+.pagination .page-link {
+    color: #720d75;
+    font-size: 18px;
+}
+
+.pagination .page-link:hover {
+    color: #632965;
+    background-color: #e9ecef;
+
+}
+
+.pagination .page-item .page-link {
+    background-color: white;
+    border: 1px solid #dee2e6;
+
+}
+
+
+@media (max-width: 576px) {
+    .gender-filter a {
+        font-size: 12px;
+        padding: 2px 8px;
+    }
+
+    .gender-filter h3,
+    .days-filter h3 {
+        font-size: 20px;
+    }
+
+    .filters .filters-body {
+
+        margin: 0px 55px;
+        padding: 8px 8px;
+        transform: scale(1.1);
+
+    }
+
+
+}
