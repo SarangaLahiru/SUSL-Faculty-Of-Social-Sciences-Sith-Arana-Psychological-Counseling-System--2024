@@ -2,11 +2,13 @@
     margin-top: 40px;
 }
 
+
 .profile-pic img {
     width: 300px;
     height: 300px;
     object-fit: cover;
 }
+
 
 .contact-details h1 {
     font-size: 28px;

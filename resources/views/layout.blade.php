@@ -92,8 +92,10 @@
 
 
 
+
     <script src="{{ asset('js/navbar.js') }}"></script>
     <script src="{{ asset('js/testimonial.js') }}"></script>
+
 
 
 </body>
