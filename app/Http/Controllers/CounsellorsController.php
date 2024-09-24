@@ -70,43 +70,55 @@ class CounsellorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($counsellor)
-    {
-        $counsellors = counsellor::all();
+    public function show($counsellor, Request $request)
+{
+    $counsellors = counsellor::all();
 
-        $index = array_search($counsellor, array_column(json_decode($counsellors, true), 'counsellor_id'));
+    // Find the index of the selected counsellor
+    $index = array_search($counsellor, array_column(json_decode($counsellors, true), 'counsellor_id'));
 
-        $bookingDetailsCount = DB::table('booking_details')->count();
-
-        $timeslots = DB::table('time_slots')
-            ->where('counsellor_id','=', $index+1)
-            ->orderBy('time','asc')
-            ->get();
-
-        if($bookingDetailsCount > 0){
-            $availableTimeslots = DB::table('time_slots')
-            ->leftJoin('booking_details', 'time_slots.timeslot_id', '=', 'booking_details.timeslot_id')
-            ->where('time_slots.counsellor_id', $counsellor)
-            ->whereNull('booking_details.timeslot_id') // Filter out booked timeslots
-            ->select('time_slots.timeslot_id', 'time_slots.counsellor_id', 'time_slots.date', 'time_slots.time', 'time_slots.created_at', 'time_slots.updated_at')
-            ->orderBy('time', 'asc')
-            ->get();
-        }else {
-            $availableTimeslots = $timeslots;
-        }
-
-
-        if ($index === false) {
-            abort(404);
-        }
-
-
-
-        return view('counsellors.show', [
-            'counsellor' => $counsellors[$index],
-            'timeslots' => $availableTimeslots,
-        ]);
+    // Check if the index is valid
+    if ($index === false) {
+        abort(404);
     }
+
+    // Retrieve available dates for the selected counsellor
+    $availableDates = DB::table('time_slots')
+        ->select('date')
+        ->where('counsellor_id', $counsellor)
+        ->groupBy('date')
+        ->orderBy('date', 'asc')
+        ->pluck('date');
+
+    // Check if there are available dates
+    if ($availableDates->isEmpty()) {
+        abort(404, 'No available dates for this counsellor.');
+    }
+
+    // Get the selected date from the request, default to the first available date
+    $selectedDate = $request->input('date', $availableDates->first());
+
+    // Retrieve available timeslots based on the selected date
+    $availableTimeslots = DB::table('time_slots')
+        ->leftJoin('booking_details', 'time_slots.timeslot_id', '=', 'booking_details.timeslot_id')
+        ->where('time_slots.counsellor_id', $counsellor)
+        ->where('time_slots.date', $selectedDate)
+        ->whereNull('booking_details.timeslot_id') // Filter out booked timeslots
+        ->select('time_slots.timeslot_id', 'time_slots.counsellor_id', 'time_slots.date', 'time_slots.time', 'time_slots.created_at', 'time_slots.updated_at')
+        ->orderBy('time', 'asc')
+        ->get();
+
+    return view('counsellors.show', [
+        'counsellor' => $counsellors[$index],
+        'timeslots' => $availableTimeslots,
+        'selectedDate' => $selectedDate, // Pass the selected date to the view
+    ]);
+}
+
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.

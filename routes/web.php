@@ -18,3 +18,5 @@ Route::get('/contactus', [HomeController::class,'contactus']) -> name('home.cont
 Route::resource('counsellors', CounsellorsController::class);
 
 Route::resource('counsellors.bookings', BookingsController::class);
+
+Route::get('/counsellors/{counsellor}/timeslots', [CounsellorsController::class, 'getAvailableTimeslots'])->name('counsellors.timeslots');
