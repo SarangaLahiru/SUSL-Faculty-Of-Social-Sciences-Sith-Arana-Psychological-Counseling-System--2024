@@ -16,19 +16,31 @@ class CounsellorsController extends Controller
      */
     public function index(Request $request)
     {
-
         $gender = $request->query('gender');
+        $date = $request->query('date');
 
+        $query = Counsellor::query();
+
+        // Filter by gender
         if ($gender) {
-            $counsellors = counsellor::where('gender', $gender)->paginate(3);
-        } else {
-            $counsellors = counsellor::paginate(3);
+            $query->where('gender', $gender);
         }
 
-        return view('counsellors.index',[
+        // Filter by date using the related 'timeSlots' model
+        if ($date) {
+            $query->whereHas('timeSlots', function ($q) use ($date) {
+                $q->whereDate('date', \Carbon\Carbon::createFromFormat('m/d/Y', $date));
+            });
+        }
+
+        $counsellors = $query->paginate(3);
+
+        return view('counsellors.index', [
             'counsellors' => $counsellors,
             'time_slots' => TimeSlots::all(),
+            'selectedDate' => $date, // Pass the selected date to the view
         ]);
+
     }
 
     /**

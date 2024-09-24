@@ -27,7 +27,7 @@
                                 <h3>Gender</h3>
                                 <ul class="list-unstyled d-flex">
                                     @php
-                                        $query = request()->query();
+                                        $query = request()->query(); // Capture existing query parameters
                                     @endphp
                                     <li class="m-2">
                                         @php
@@ -107,15 +107,23 @@
 
 <script>
     $(document).ready(function() {
+        var selectedDate = "{{ $selectedDate }}"; // Get the selected date from the server
+
         $('#datepicker').datepicker({
             format: "mm/dd/yyyy",
             todayHighlight: true,
-        }).on('changeDate', function() {
+            autoclose: true // Close datepicker on date selection
+        }).datepicker('setDate', new Date(selectedDate)); // Set the initial date
+
+        $('#datepicker').on('changeDate', function() {
             var selectedDate = $('#datepicker').datepicker('getFormattedDate');
             var url = new URL(window.location.href);
             var params = new URLSearchParams(url.search);
+
             params.set('date', selectedDate); // Set the new date parameter
-            window.location.search = params.toString(); // Update the URL with new parameters
+
+            // Maintain other query parameters (like gender)
+            window.location.search = params.toString();
         });
     });
 </script>

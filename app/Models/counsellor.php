@@ -9,4 +9,9 @@ class counsellor extends Model
 {
     protected $primaryKey = 'counsellor_id';
     use HasFactory;
+    public function timeSlots()
+    {
+        return $this->hasMany(TimeSlots::class, 'counsellor_id', 'counsellor_id');
+    }
+
 }
