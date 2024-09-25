@@ -59,7 +59,7 @@
                     <span class="me-2">Mr. John Doe</span>
                     <img src="https://via.placeholder.com/40" class="rounded-circle dropdown-toggle" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false" alt="Avatar">
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="avatarDropdown">
-                        <li><a class="dropdown-item" href="/reset-password">Reset Password</a></li>
+                        <li><a class="dropdown-item" href="{{ route('counsellor.password.request') }}">Reset Password</a></li>
                         <li>
                             <form action="{{ route('counsellor.logout') }}" method="POST" class="d-inline">
                                 @csrf <!-- Include CSRF token for security -->

@@ -96,6 +96,12 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'counsellors' => [
+        'provider' => 'counsellors',
+        'table' => 'password_resets', // Ensure you have a `password_resets` table in the database
+        'expire' => 60,
+        'throttle' => 60,
+    ],
     ],
 
     /*
