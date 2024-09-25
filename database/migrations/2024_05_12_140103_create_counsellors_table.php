@@ -18,13 +18,14 @@ class CreateCounsellorsTable extends Migration
             $table->primary('counsellor_id');
             $table->string('full_name_with_rate');
             $table->string('title');
-            $table->enum('gender',['female','male']);
+            $table->enum('gender', ['female', 'male']);
             $table->string('mobile_no');
             $table->string('email')->unique(); // Make email unique
             $table->string('username')->unique(); // Add unique username field
             $table->string('password'); // Add password field
             $table->text('intro');
             $table->mediumText('bio');
+            $table->string('remember_token')->nullable(); // Add remember_token column
             $table->timestamps();
         });
     }

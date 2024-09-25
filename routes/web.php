@@ -3,6 +3,8 @@
 use App\Http\Controllers\BookingsController;
 use App\Http\Controllers\CounsellorAuthController;
 use App\Http\Controllers\CounsellorsController;
+use App\Http\Controllers\Counsellor\Auth\ForgotPasswordController;
+use App\Http\Controllers\Counsellor\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
@@ -44,4 +46,9 @@ Route::prefix('counsellor')->group(function () {
 // Update the profile
     Route::put('/profile/{id}', [CounsellorAuthController::class, 'update'])->name('profile.update');
     });
+
+    Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('counsellor.password.request');
+Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('counsellor.password.email');
+Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('counsellor.password.update');
 });
