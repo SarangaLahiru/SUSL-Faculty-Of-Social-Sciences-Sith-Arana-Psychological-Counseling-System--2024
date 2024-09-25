@@ -44,6 +44,10 @@ return [
         'driver' => 'session',
         'provider' => 'users',
     ],
+    'admin' => [
+        'driver' => 'session',
+        'provider' => 'admins',
+    ],
     ],
 
     /*
@@ -72,6 +76,10 @@ return [
         'driver' => 'eloquent',
         'model' => App\Models\User::class,
     ],
+    'admins' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Admin::class,
+    ],
 ],
 
     /*
@@ -99,6 +107,12 @@ return [
         'counsellors' => [
         'provider' => 'counsellors',
         'table' => 'password_resets', // Ensure you have a `password_resets` table in the database
+        'expire' => 60,
+        'throttle' => 60,
+    ],
+    'admins' => [
+        'provider' => 'admins',
+        'table' => 'password_resets',
         'expire' => 60,
         'throttle' => 60,
     ],
