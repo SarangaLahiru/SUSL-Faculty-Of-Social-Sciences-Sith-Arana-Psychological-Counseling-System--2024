@@ -14,7 +14,9 @@
     @if(!empty($formDetails['registration_no']))
         <p><strong>Registration Number:</strong> {{ $formDetails['registration_no'] }}</p>
     @endif
+
     @if(!empty($formDetails['message']))
+
         <p><strong>Message:</strong> {{ $formDetails['message'] }}</p>
     @endif
 </body>

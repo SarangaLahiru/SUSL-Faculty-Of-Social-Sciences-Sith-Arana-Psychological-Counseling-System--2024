@@ -58,48 +58,65 @@ class BookingsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $counsellor_id)
-    {
+{
+    // Retrieve the counsellor and timeslot from the database
+    $counsellor = Counsellor::where('counsellor_id', $counsellor_id)->first();
+    $timeslot_id = $request->query('timeslot');
+    $specificTimeSlot = TimeSlots::where('timeslot_id', $timeslot_id)->first();
 
-        $counsellor = counsellor::where('counsellor_id', $counsellor_id)->first();
+    // Validate request inputs with custom error messages
+    $validatedData = $request->validate([
+        'mobile-no' => 'required|digits_between:10,15', // Validate mobile number to be between 10-15 digits
+        'email' => 'required|email', // Validate email
+        'faculty' => 'required', // Ensure faculty is selected
+        'name' => 'nullable|string|max:255', // Name is optional
+        'registration_no' => 'nullable|string|max:20', // Registration number is optional
+        'message' => 'nullable|string|max:1000', // Optional message with a max of 1000 characters
+    ], [
+        'mobile-no.required' => 'Please provide your mobile number.',
+        'mobile-no.digits_between' => 'Mobile number must be between 10 and 15 digits.',
+        'email.required' => 'Your email is required.',
+        'email.email' => 'Please enter a valid email address.',
+        'faculty.required' => 'Please select your faculty.',
+    ]);
 
-        $timeslot_id = $request->query('timeslot');
+    // Prepare form details for email or future use
+    $formDetails = [
+        'mobile_no' => $validatedData['mobile-no'],
+        'email' => $validatedData['email'],
+        'faculty' => $validatedData['faculty'],
+        'name' => $validatedData['name'] ?? null, // Optional field
+        'registration_no' => $validatedData['registration_no'] ?? null, // Optional field
+        'message' => $validatedData['message'] ?? null, // Optional field
+    ];
 
-        $specificTimeSlot = TimeSlots::where('timeslot_id', $timeslot_id)->first();
+    // Create a new booking record
+    $bookingRecord = new BookingDetails();
+    $bookingRecord->counsellor_id = $counsellor->counsellor_id;
+    $bookingRecord->timeslot_id = $timeslot_id;
+    $bookingRecord->mobile_no = $formDetails['mobile_no'];
+    $bookingRecord->email = $formDetails['email'];
+    $bookingRecord->faculty = $formDetails['faculty'];
+    $bookingRecord->name = $formDetails['name'];
+    $bookingRecord->registration_no = $formDetails['registration_no'];
+    $bookingRecord->message = $formDetails['message'];
 
+    $bookingRecord->save();
 
-        $request->validate([
-            'mobile-no' => 'required',
-            'email' => ['required','email'],
-            'faculty' => 'required',
-        ]);
+    // Optionally, send an email confirmation
+    Mail::to($formDetails['email'])->send(new BookedTime($formDetails));
 
-        $formDetails = [
-            'mobile_no' => $request->input('mobile-no'),
-            'email' => $request->input('email'),
-            'faculty' => $request->input('faculty'),
-            'name' => $request->input('name'),
-            'registration_no' => $request->input('registration_no'),
-            'message' => $request->input('message'),
-        ];
+    // Retrieve the saved booking details
+    $bookingDetail = BookingDetails::where('timeslot_id', $timeslot_id)->first();
 
-        // Mail::to('sumalsurendrasammu@gmail.com')->send(new BookedTime($formDetails));
+    // Return view with booking details
+    return view('emails.invoice', [
+        'counsellor' => $counsellor,
+        'timeslot' => $specificTimeSlot,
+        'bookingDetail' => $bookingDetail,
+    ]);
+}
 
-        $bookingrecord = new BookingDetails();
-
-        $bookingrecord->timeslot_id = $timeslot_id;
-
-        $bookingrecord->save();
-
-        $bookingdetail = BookingDetails::where('timeslot_id', $timeslot_id)->first();
-
-
-        return view('emails.invoice',[
-            'counsellor' => $counsellor,
-            'timeslot' => $specificTimeSlot,
-            'bookingdetail' => $bookingdetail,
-        ]);
-
-    }
 
     /**
      * Display the specified resource.
