@@ -20,7 +20,9 @@ class CreateCounsellorsTable extends Migration
             $table->string('title');
             $table->enum('gender',['female','male']);
             $table->string('mobile_no');
-            $table->string('email');
+            $table->string('email')->unique(); // Make email unique
+            $table->string('username')->unique(); // Add unique username field
+            $table->string('password'); // Add password field
             $table->text('intro');
             $table->mediumText('bio');
             $table->timestamps();
