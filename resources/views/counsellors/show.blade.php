@@ -3,12 +3,7 @@
 @section('title', 'Sith Arana | Counsellors')
 
 @section('content')
-<style>
-    .highlight {
-        background-color: #007bff; /* Bootstrap primary color */
-        color: white; /* Adjust text color for visibility */
-    }
-</style>
+
 <link rel="stylesheet" href="{{ asset('css/show.css') }}">
 
 <div class="container mt-5">
@@ -102,51 +97,57 @@
         </div>
 
        <!-- Booking Timeslots -->
-<div class="col-12 col-sm-4">
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            Booking {{ $counsellor->full_name }}
-        </div>
-        <div class="card-body">
-            <div class="card-text">
-                <div class="row mb-3">
-                    <div class="col">
-                        <h2>Date</h2>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dateModal">
-                            Select Date
-                        </button>
-                        <p>Selected Date: <strong>{{ $selectedDate }}</strong></p>
-                    </div>
+       <div class="col-12 col-sm-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    Booking {{ $counsellor->full_name }}
                 </div>
+                <div class="card-body">
+                    <div class="card-text">
+                        <div class="row mb-3">
+                            {{--  <div class="col">
+                                <h2>Date</h2>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dateModal">
+                                    Select Date
+                                </button>
+                                <p>Selected Date: <strong>{{ $selectedDate }}</strong></p>
+                            </div>  --}}
 
-                <!-- Booking Timeslots -->
-                <div class="booking-timeslots-container">
-                    @if($timeslots->isEmpty())
-                        <p>No available timeslots for this date.</p>
-                    @else
-                        @foreach ($timeslots->chunk(2) as $timeslotChunk)
-                            <div class="row mb-2">
-                                @foreach ($timeslotChunk as $timeslot)
-                                    <div class="col-6">
-                                        <a href="#"
-                                           class="timeslot {{ session('selected_timeslot') == $timeslot->timeslot_id ? 'highlight' : '' }}"
-                                           data-timeslot-id="{{ $timeslot->timeslot_id }}"
-                                           onclick="selectTimeslot(this)">
-                                            {{ date('h:i A', strtotime($timeslot->time)) }}
-                                        </a>
+                             <div class="col">
+                        <h2>Date</h2>
+                        <h3>{{ \Carbon\Carbon::parse($selectedDate)->format('F / d') }}</h3>
+                    </div>
+                    <div class="col d-flex align-items-center justify-content-end">
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dateModal">Set Date</a>
+
+                        </div>
+
+                        <!-- Booking Timeslots -->
+                        <div class="booking-timeslots-container">
+                            @if($timeslots->isEmpty())
+                                <p>No available timeslots for this date.</p>
+                            @else
+                                @foreach ($timeslots->chunk(2) as $timeslotChunk)
+                                    <div class="row mb-2">
+                                        @foreach ($timeslotChunk as $timeslot)
+                                            <div class="col-6">
+                                                <a href="#"
+                                                   class="timeslot {{ session('selected_timeslot') == $timeslot->timeslot_id ? 'highlight' : '' }}"
+                                                   data-timeslot-id="{{ $timeslot->timeslot_id }}"
+                                                   onclick="selectTimeslot(this)">
+                                                    {{ date('h:i A', strtotime($timeslot->time)) }}
+                                                </a>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 @endforeach
-                            </div>
-                        @endforeach
-                    @endif
+                            @endif
+                        </div>
+                        <a href="#" id="nextButton" class="btn btn-primary w-100 mt-3" onclick="goToNextPage()">Next</a>
+                    </div>
                 </div>
-                <a href="#" id="nextButton" class="btn btn-primary w-100 mt-3" onclick="goToNextPage()">Next</a>
             </div>
         </div>
-    </div>
-</div>
-
-
 
         <!-- Date Selection Modal -->
         <div class="modal fade" id="dateModal" tabindex="-1" aria-labelledby="dateModalLabel" aria-hidden="true">
@@ -174,14 +175,22 @@
             let selectedTimeslotId = null;
 
             function selectTimeslot(element) {
+                // Log to verify if the function is being called
+                console.log("Timeslot clicked!");
+
                 // Remove highlight from all timeslots
-                document.querySelectorAll('.timeslot').forEach((slot) => {
+                const timeslots = document.querySelectorAll('.timeslot');
+                timeslots.forEach((slot) => {
                     slot.classList.remove('highlight');
                 });
 
-                // Highlight the selected timeslot
+                // Add highlight to the clicked timeslot
                 element.classList.add('highlight');
+                console.log(element)
                 selectedTimeslotId = element.getAttribute('data-timeslot-id');
+
+                // Log to verify the selected timeslot id
+                console.log("Selected Timeslot ID: ", selectedTimeslotId);
             }
 
             function goToNextPage() {
@@ -201,5 +210,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Include jQuery library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
 
 @endsection

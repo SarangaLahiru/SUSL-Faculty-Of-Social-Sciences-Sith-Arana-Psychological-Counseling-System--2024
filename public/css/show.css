@@ -1,5 +1,23 @@
+
+
 .container {
     margin-top: 40px;
+}
+
+.booking-timeslots-container .timeslot {
+    display: inline-block;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ccc;
+    margin: 5px;
+}
+
+.booking-timeslots-container .highlight {
+    background-color: #0d6efd;
+    color: white;
 }
 
 
@@ -78,6 +96,10 @@
     padding: 10px 15px;
     border: 1px rgb(168, 168, 168) solid;
     border-radius: 12px;
+}
+.card-text .booking-timeslots-container .highlight{
+    background-color: #622864;
+    color: white;
 }
 
 
