@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -33,6 +35,18 @@
         }
         .navbar {
             background-color: #f5f3f0;
+            height: 90px;
+        }
+        @media (max-width: 767.98px) {
+            .sidebar {
+                position: relative;
+                height: auto;
+                padding: 15px;
+            }
+            .sidebar .nav-link {
+                font-size: 14px;
+                padding: 10px;
+            }
         }
     </style>
 </head>
@@ -41,7 +55,6 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="#">LOGO</a>
             <div>
-
                 <div class="dropdown">
                     <span class="me-2">Mr. John Doe</span>
                     <img src="https://via.placeholder.com/40" class="rounded-circle dropdown-toggle" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false" alt="Avatar">
@@ -85,7 +98,7 @@
             </nav>
 
             <!-- Main Content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4">
                 @yield('content')
             </main>
         </div>

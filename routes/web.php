@@ -26,12 +26,22 @@ Route::prefix('counsellor')->group(function () {
     Route::middleware('auth:counsellor')->group(function () {
         Route::get('/dashboard', [CounsellorAuthController::class, 'dashboard'])->name('counsellor.dashboard');
 
-        Route::get('/profile', function () {
-            return view('counsellors.dashboard.pages.profile'); // Profile view
-        })->name('counsellor.profile');
+        Route::get('/profile',
+        [CounsellorAuthController::class, 'profile'])
+        ->name('counsellor.profile');
 
-        Route::get('/availability', function () {
-            return view('counsellors.dashboard.pages.availability'); // Availability view
-        })->name('counsellor.availability');
+        Route::get('/availability',
+            [CounsellorAuthController::class, 'availability'])
+        ->name('counsellor.availability');
+
+        Route::get('/editDetails',
+            [CounsellorAuthController::class, 'editDetails'])
+        ->name('counsellor.editDetails');
+
+        Route::delete('/bookings/{booking}', [BookingsController::class, 'destroy'])->name('bookings.destroy');
+      // Display the profile edit form
+
+// Update the profile
+    Route::put('/profile/{id}', [CounsellorAuthController::class, 'update'])->name('profile.update');
     });
 });

@@ -18,6 +18,9 @@ class Counsellor extends Model implements AuthenticatableContract
         return $this->hasMany(TimeSlots::class, 'counsellor_id', 'counsellor_id');
     }
 
+    public function bookings() {
+        return $this->hasMany(BookingDetails::class, 'counsellor_id', 'counsellor_id');
+    }
     protected $fillable = [
         'full_name_with_rate',
         'title',
