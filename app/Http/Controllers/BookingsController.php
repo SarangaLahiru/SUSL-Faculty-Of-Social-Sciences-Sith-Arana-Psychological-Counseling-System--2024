@@ -160,6 +160,13 @@ class BookingsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Find the booking by ID
+        $booking = BookingDetails::findOrFail($id);
+
+        // Delete the booking
+        $booking->delete();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Booking deleted successfully.');
     }
 }
