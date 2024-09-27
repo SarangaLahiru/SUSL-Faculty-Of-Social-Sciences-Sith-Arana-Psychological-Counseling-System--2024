@@ -23,7 +23,7 @@ class AdminLoginController extends Controller
         ]);
 
         if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.counsellors');
         }
 
         return back()->withErrors(['email' => 'Invalid credentials.']);

@@ -10,7 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\Auth\AdminLoginController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\Auth\AdminResetPasswordController;
-
+use App\Http\Controllers\Admin\CounsellorController;
 
 // Home Routes
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
@@ -24,61 +24,66 @@ Route::get('/counsellors/{counsellor}/timeslots', [CounsellorsController::class,
 
 // Counsellor Authentication Routes
 Route::prefix('counsellor')->group(function () {
+
+    // Counsellor login and logout routes
     Route::get('/login', [CounsellorAuthController::class, 'loginForm'])->name('counsellor.loginForm');
     Route::post('/login', [CounsellorAuthController::class, 'login'])->name('counsellor.login');
     Route::post('/logout', [CounsellorAuthController::class, 'logout'])->name('counsellor.logout');
 
-    // Counsellor Dashboard Routes
+    // Routes that require counsellor authentication
     Route::middleware('auth:counsellor')->group(function () {
+
+        // Counsellor dashboard and profile management
         Route::get('/dashboard', [CounsellorAuthController::class, 'dashboard'])->name('counsellor.dashboard');
+        Route::get('/profile', [CounsellorAuthController::class, 'profile'])->name('counsellor.profile');
+        Route::put('/profile/{id}', [CounsellorAuthController::class, 'update'])->name('profile.update');
 
-        Route::get('/profile',
-        [CounsellorAuthController::class, 'profile'])
-        ->name('counsellor.profile');
+        // Counsellor availability and details editing
+        Route::get('/availability', [CounsellorAuthController::class, 'availability'])->name('counsellor.availability');
+        Route::get('/editDetails', [CounsellorAuthController::class, 'editDetails'])->name('counsellor.editDetails');
 
-        Route::get('/availability',
-            [CounsellorAuthController::class, 'availability'])
-        ->name('counsellor.availability');
-
-
-        Route::get('/editDetails',
-            [CounsellorAuthController::class, 'editDetails'])
-        ->name('counsellor.editDetails');
-
+        // Booking management (e.g., deleting a booking)
         Route::delete('/bookings/{booking}', [BookingsController::class, 'destroy'])->name('bookings.destroy');
-      // Display the profile edit form
 
-// Update the profile
-    Route::put('/profile/{id}', [CounsellorAuthController::class, 'update'])->name('profile.update');
+        Route::post('counsellor/availability/store', [CounsellorAuthController::class, 'store'])->name('counsellors.availability.store');
+
     });
 
+    // Password reset routes (should be inside the counsellor prefix group)
     Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('counsellor.password.request');
-Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('counsellor.password.email');
-Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('counsellor.password.update');
+    Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('counsellor.password.email');
+    Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('counsellor.password.update');
 });
 
-
+// Admin Routes
 Route::prefix('admin')->group(function () {
+
+    // Admin login routes
     Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/login', [AdminLoginController::class, 'login']);
-    Route::get('/counsellors',
-        [AdminDashboardController::class, 'counsellors'])
-        ->name('counsellor.profile')->middleware('auth:admin');
 
-        Route::get('/bookings',
-            [AdminDashboardController::class, 'bookings'])
-        ->name('counsellor.availability')->middleware('auth:admin');
+    // Protected routes requiring admin authentication
+    Route::middleware('auth:admin')->group(function () {
+
+        // Admin dashboard and counsellor management
+        // Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+        Route::get('/counsellors', [AdminDashboardController::class, 'counsellors'])->name('admin.counsellors');
+
+        // Bookings management
+        Route::get('/bookings', [AdminDashboardController::class, 'bookings'])->name('admin.bookings');
+
+        // Admin logout route
+        Route::post('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+
+        // Password Reset Link Request Routes
+        Route::get('/password/reset', [AdminResetPasswordController::class, 'showLinkRequestForm'])->name('admin.password.request');
+        Route::post('/password/email', [AdminResetPasswordController::class, 'sendResetLinkEmail'])->name('admin.password.email');
+        Route::resource('counsellorsShow', CounsellorController::class);
 
 
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard')->middleware('auth:admin');
-    Route::post('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout')->middleware('auth:admin');
-
-// Password Reset Link Request Routes...
-Route::get('/password/reset', [AdminResetPasswordController::class, 'showLinkRequestForm'])->name('admin.password.request');
-Route::post('/password/email', [AdminResetPasswordController::class, 'sendResetLinkEmail'])->name('admin.password.email');
-
-// Password Reset Routes...
-Route::get('/password/reset/{token}', [AdminResetPasswordController::class, 'showResetForm'])->name('admin.password.reset');
-Route::post('/password/reset', [AdminResetPasswordController::class, 'reset'])->name('admin.password.update');
+    });
+     // Password Reset Routes
+     Route::get('/password/reset/{token}', [AdminResetPasswordController::class, 'showResetForm'])->name('admin.password.reset');
+     Route::post('/password/reset', [AdminResetPasswordController::class, 'reset'])->name('admin.password.update');
 });

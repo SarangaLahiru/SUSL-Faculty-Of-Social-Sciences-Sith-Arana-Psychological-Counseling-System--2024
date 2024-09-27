@@ -130,4 +130,43 @@ public function update(Request $request, $id)
 
     return redirect()->route('counsellor.profile')->with('success', 'Profile updated successfully!');
 }
+
+
+public function store(Request $request)
+{
+    // Validate the request
+    $request->validate([
+        'date.*' => 'required|date',
+        'time.*' => 'required|date_format:H:i',
+    ]);
+
+    $counsellorId = Auth::guard('counsellor')->user()->counsellor_id;
+
+    // Loop through the date and time arrays
+    for ($i = 0; $i < count($request->date); $i++) {
+        $date = $request->date[$i];
+        $time = $request->time[$i];
+
+        // Check if the slot already exists for the counsellor
+        $existingSlot = TimeSlots::where('counsellor_id', $counsellorId)
+                        ->where('date', $date)
+                        ->where('time', $time)
+                        ->first();
+
+        if ($existingSlot) {
+            return redirect()->back()->with('error', 'One or more time slots already exist.');
+        }
+
+        // Store the new time slot
+        TimeSlots::create([
+            'counsellor_id' => $counsellorId,
+            'date' => $date,
+            'time' => $time,
+            'isBooked' => false, // Initially, the slot is available
+        ]);
+    }
+
+    return redirect()->back()->with('success', 'Time slots added successfully.');
+}
+
 }

@@ -16,6 +16,8 @@ class CreateAdminsTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken(); // For remember me functionality
+            $table->string('reset_token')->nullable(); // Column for storing the reset token
+            $table->timestamp('token_expires_at')->nullable(); // Column for token expiration time
             $table->timestamps();
         });
     }
