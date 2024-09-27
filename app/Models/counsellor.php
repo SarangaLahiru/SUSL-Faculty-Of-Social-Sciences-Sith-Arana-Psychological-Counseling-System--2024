@@ -17,6 +17,7 @@ class Counsellor extends Authenticatable implements CanResetPassword
 
     // Fillable attributes for mass assignment
     protected $fillable = [
+        'counsellor_id',
         'full_name_with_rate',
         'title',
         'gender',

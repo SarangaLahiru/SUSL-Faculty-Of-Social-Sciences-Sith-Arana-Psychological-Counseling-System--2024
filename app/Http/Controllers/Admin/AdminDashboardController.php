@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Counsellor;
 use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller
@@ -10,7 +11,9 @@ class AdminDashboardController extends Controller
     //
     public function index()
     {
-        return view('admin.counsellors'); // Create this view
+        $counsellors = Counsellor::all();
+        return view('admin.pages.counsellors', compact('counsellors'));
+        // return view('admin.pages.counsellors'); // Create this view
     }
     public function bookings()
     {
@@ -18,6 +21,7 @@ class AdminDashboardController extends Controller
     }
     public function counsellors()
     {
-        return view('admin.pages.counsellors'); // Create this view
+        $counsellors = Counsellor::all();
+        return view('admin.pages.counsellors', compact('counsellors'));
     }
 }

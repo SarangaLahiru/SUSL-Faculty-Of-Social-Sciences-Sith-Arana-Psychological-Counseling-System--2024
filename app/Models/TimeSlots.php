@@ -10,6 +10,13 @@ class TimeSlots extends Model
     use HasFactory;
     protected $primaryKey = 'timeslot_id'; // Make sure this is correctly defined
 
+    protected $fillable = [
+        'counsellor_id',
+        'date',
+        'time',
+
+    ];
+
     public function counsellor()
     {
         return $this->belongsTo(Counsellor::class, 'counsellor_id', 'counsellor_id');
