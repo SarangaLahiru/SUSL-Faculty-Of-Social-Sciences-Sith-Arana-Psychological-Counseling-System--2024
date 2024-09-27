@@ -44,6 +44,11 @@ Route::prefix('counsellor')->group(function () {
 
         // Booking management (e.g., deleting a booking)
         Route::delete('/bookings/{booking}', [BookingsController::class, 'destroy'])->name('bookings.destroy');
+        Route::delete('/counsellors/availability/delete/{id}', [CounsellorsController::class, 'deleteTimeSlot'])->name('counsellors.availability.delete');
+
+
+
+
 
         Route::post('counsellor/availability/store', [CounsellorAuthController::class, 'store'])->name('counsellors.availability.store');
 
@@ -80,6 +85,14 @@ Route::prefix('admin')->group(function () {
         Route::get('/password/reset', [AdminResetPasswordController::class, 'showLinkRequestForm'])->name('admin.password.request');
         Route::post('/password/email', [AdminResetPasswordController::class, 'sendResetLinkEmail'])->name('admin.password.email');
         Route::resource('counsellorsShow', CounsellorController::class);
+
+
+
+
+        Route::delete('/admin/bookings/{id}', [AdminDashboardController::class, 'destroy'])->name('admin.bookings.destroy');
+
+
+
 
 
     });
