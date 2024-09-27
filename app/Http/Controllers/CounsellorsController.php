@@ -43,6 +43,20 @@ class CounsellorsController extends Controller
 
     }
 
+    public function deleteTimeSlot($id)
+    {
+        $slot = TimeSlots::find($id);
+        if ($slot && !$slot->isBooked) {
+            // If time slot is not booked, proceed with deletion
+            $slot->delete();
+            return redirect()->back()->with('success', 'Time slot deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Only available time slots can be deleted.');
+        }
+    }
+
+
+
     /**
      * Show the form for creating a new resource.
      *

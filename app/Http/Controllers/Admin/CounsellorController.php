@@ -139,4 +139,7 @@ class CounsellorController extends Controller
     // Redirect with success message
     return redirect()->route('admin.counsellors')->with('success', 'Counsellor deleted successfully.');
     }
+
+
+
 }

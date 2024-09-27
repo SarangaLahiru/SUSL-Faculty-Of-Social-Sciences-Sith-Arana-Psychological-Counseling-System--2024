@@ -2,13 +2,35 @@
 
 @section('content')
 <h1>Availability</h1>
-<ul class="list-group">
+{{--  <ul class="list-group">
     @foreach ($availability as $slot)
         <li class="list-group-item">
             {{ $slot['date'] }} - {{ $slot['time'] }} -
             <span class="{{ $slot['isBooked'] ? 'text-danger' : 'text-success' }}">
                 {{ $slot['isBooked'] ? 'Booked' : 'Available' }}
             </span>
+        </li>
+    @endforeach
+    @if (empty($availability))
+        <li class="list-group-item">No time slots available.</li>
+    @endif
+</ul>  --}}
+<ul class="list-group">
+    @foreach ($availability as $slot)
+        <li class="list-group-item d-flex justify-content-between">
+            <div>
+                {{ $slot['date'] }} - {{ $slot['time'] }} -
+                <span class="{{ $slot['isBooked'] ? 'text-danger' : 'text-success' }}">
+                    {{ $slot['isBooked'] ? 'Booked' : 'Available' }}
+                </span>
+            </div>
+            @if (!$slot['isBooked'])
+                <form action="{{ route('counsellors.availability.delete', $slot['time_slot_id']) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            @endif
         </li>
     @endforeach
     @if (empty($availability))

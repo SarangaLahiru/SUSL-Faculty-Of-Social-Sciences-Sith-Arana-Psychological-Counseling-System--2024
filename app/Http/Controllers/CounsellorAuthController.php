@@ -59,6 +59,7 @@ public function availability()
 
         // Add the slot to the availability array
         $availability[] = [
+            'time_slot_id'=>$slot->timeslot_id,
             'date' => $slot->date, // Assuming you have a date field in your time slots
             'time' => $slot->time, // Assuming you have a time field in your time slots
             'isBooked' => $isBooked,
