@@ -81,6 +81,17 @@ body {
     transition: all 1s ease-in-out;
     cursor: pointer;
 }
+.btn-gradient-primary {
+    border-radius: 6px;
+    font-size: 12px;
+    border: none;
+    background: var(--gradient-primary);
+    /* box-shadow: 0px 16px 32px 0px rgba(250, 167, 252, 0.7); */
+    padding: 10px 50px;
+    color: var(--white);
+    transition: all 1s ease-in-out;
+    cursor: pointer;
+}
 
 .card-gradient {
     border-radius: 1rem;
@@ -88,6 +99,9 @@ body {
     background: var(--gradient-primary);
     padding: 0.8em 1.6em;
     color: var(--white);
+}
+.btn-gradient-primary:hover {
+    background: var(--gradient-secondary);
 }
 
 .btn-gradient:hover {

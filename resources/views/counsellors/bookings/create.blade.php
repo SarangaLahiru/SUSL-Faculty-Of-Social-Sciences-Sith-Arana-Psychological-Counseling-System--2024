@@ -9,7 +9,18 @@
     <div class="container-timeslot">
         <div class="container-timeslot-details">
             <div class="counsellor-details-wrapper">
-                <div class="cousellor-profile-pic"></div>
+                <div class="cousellor-profile-pi">
+                    <img
+    src="{{ $counsellor->profile_image
+        ? asset('storage/' . $counsellor->profile_image)
+        : ($counsellor->gender === 'male'
+            ? 'https://static.vecteezy.com/system/resources/previews/000/350/778/non_2x/vector-male-student-icon.jpg'
+            : 'https://static.vecteezy.com/system/resources/previews/000/350/779/non_2x/vector-female-student-icon.jpg')
+    }}"
+    alt="{{ $counsellor->full_name_with_rate }}"
+    class="counsellor-image p-3 p-md-4 rounded img-fluid"
+    style="width: 100px; height: 100px;">
+                </div>
                 <div class="person-booking-details">
                     <p>Booking with</p>
                     <h2>{{ $counsellor->full_name_with_rate }}</h2>

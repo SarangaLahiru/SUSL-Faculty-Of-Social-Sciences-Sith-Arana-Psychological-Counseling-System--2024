@@ -19,9 +19,9 @@
 
 
         <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" class="form-control @error('username') is-invalid @enderror" value="{{ old('username') }}" required>
-            @error('username')
+            <label for="username">NIC No</label>
+            <input type="text" name="NIC" id="username" class="form-control @error('username') is-invalid @enderror" value="{{ old('username') }}" required>
+            @error('NIC')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>

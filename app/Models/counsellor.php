@@ -14,11 +14,19 @@ class Counsellor extends Authenticatable implements CanResetPassword
 
     // Set the primary key
     protected $primaryKey = 'counsellor_id';
+    protected $casts = [
+        'languages' => 'array',
+        'specializations' => 'array',
+    ];
 
     // Fillable attributes for mass assignment
     protected $fillable = [
         'counsellor_id',
+        'NIC',
+        'languages',
+        'specializations',
         'full_name_with_rate',
+        'profile_image',
         'title',
         'gender',
         'mobile_no',

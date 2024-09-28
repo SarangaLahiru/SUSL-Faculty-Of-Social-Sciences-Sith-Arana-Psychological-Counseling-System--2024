@@ -14,17 +14,22 @@ class CreateCounsellorsTable extends Migration
     public function up()
     {
         Schema::create('counsellors', function (Blueprint $table) {
-            $table->unsignedBigInteger('counsellor_id');
-            $table->primary('counsellor_id');
-            $table->string('full_name_with_rate');
-            $table->string('title');
-            $table->enum('gender', ['female', 'male']);
-            $table->string('mobile_no');
+            $table->id('counsellor_id');
+            // $table->uuid('counsellor_id')->primary();
+            $table->string('full_name_with_rate')->nullable();;
+            $table->string('title')->nullable();;
+            $table->string('NIC')->unique();;
+            $table->enum('gender', ['female', 'male'])->nullable();;
+            $table->string('mobile_no')->nullable();
             $table->string('email')->unique(); // Make email unique
-            $table->string('username')->unique(); // Add unique username field
+            $table->string('username')->nullable(); // Add unique username field
             $table->string('password'); // Add password field
-            $table->text('intro');
-            $table->mediumText('bio');
+            $table->text('intro')->nullable();;
+            $table->mediumText('bio')->nullable();;
+            $table->json('languages')->nullable(); // Store multiple languages
+            $table->json('specializations')->nullable(); // Store multiple specializations
+
+            $table->string('profile_image')->nullable();
             $table->string('remember_token')->nullable(); // Add remember_token column
             $table->timestamps();
         });
