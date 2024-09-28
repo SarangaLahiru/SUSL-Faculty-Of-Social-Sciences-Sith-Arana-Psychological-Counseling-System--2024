@@ -62,23 +62,41 @@
                         <div class="card counsellor-card">
                             <div class="row no-gutters">
                                 <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
-                                    <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="{{ $counsellor->full_name_with_rate }}" class="counsellor-image p-3 p-md-4 rounded img-fluid">
+                                    <img
+                                    src="{{ $counsellor->profile_image
+                                    ? asset('storage/' . $counsellor->profile_image)
+                                    : ($counsellor->gender === 'male'
+                                        ? 'https://t4.ftcdn.net/jpg/02/44/43/69/360_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg'
+                                        : 'https://static.vecteezy.com/system/resources/previews/000/350/779/non_2x/vector-female-student-icon.jpg')
+                                }}"
+                                        class="counsellor-image p-3 p-md-4 rounded img-fluid"
+
+                                        >
                                 </div>
                                 <div class="col-12 col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ $counsellor->full_name_with_rate }}</h5>
-                                        <p class="card-subtitle mb-2 text-muted">{{ $counsellor->title }}</p>
+                                        <h5 class="card-title" style="font-size: 28px">{{ $counsellor->full_name_with_rate }}</h5>
+                                        <p class="card-subtitle mb-2 text-muted" style="font-size: 16px" >{{ $counsellor->title }}</p>
                                         <hr>
                                         <p class="card-text">{{ $counsellor->intro }}</p>
                                         <a href="{{ route('counsellors.show', ['counsellor' => $counsellor->counsellor_id]) }}" class="see-more-link">See more about {{ $counsellor->full_name_with_rate }} ></a>
 
                                         <div class="row mt-4 mt-md-5">
                                             <div class="col-7">
-                                                <p class="mb-2 text-muted"><strong>Next available</strong></p>
-                                                <p class="text-primary mb-3">Today 10.30am</p>
+                                                <p class="mb-2 text-muted" style="font-size: 14px;"><strong>Next available</strong></p>
+                                                {{--  <p class="text-primary mb-3" style="font-size: 14px; " >Today 10.30am</p>  --}}
+                                               {{-- Show the next available time slot --}}
+                                               @if ($counsellor->nextAvailableSlot)
+                                               <p class="text-primary mb-3" style="font-size: 14px;">
+                                                   {{ $counsellor->nextAvailableSlot['date'] }} at {{ $counsellor->nextAvailableSlot['time'] }}
+                                               </p>
+                                           @else
+                                               <p class="text-danger mb-3" style="font-size: 14px;">No available slots</p>
+                                           @endif
+
                                             </div>
                                             <div class="col mt-2">
-                                                <a href="{{ route('counsellors.show', ['counsellor' => $counsellor->counsellor_id]) }}" class="btn-gradient" style="padding: 10px 30px;">Book Now</a>
+                                                <a href="{{ route('counsellors.show', ['counsellor' => $counsellor->counsellor_id]) }}" class="btn-gradient-primary">Book Now</a>
                                             </div>
                                         </div>
                                     </div>

@@ -16,6 +16,11 @@ class TimeSlots extends Model
         'time',
 
     ];
+    protected $casts = [
+        'date' => 'datetime',  // Ensures date is a Carbon instance
+        'time' => 'datetime',  // Ensures time is a Carbon instance
+    ];
+
 
     public function counsellor()
     {
@@ -26,5 +31,7 @@ class TimeSlots extends Model
     {
         return $this->hasMany(BookingDetails::class, 'timeslot_id', 'timeslot_id');
     }
+
+
 
 }
