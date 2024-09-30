@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Counsellor\Auth;
 
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
 use App\Models\BookingDetails;
 use App\Models\Counsellor;
 use App\Models\TimeSlots;

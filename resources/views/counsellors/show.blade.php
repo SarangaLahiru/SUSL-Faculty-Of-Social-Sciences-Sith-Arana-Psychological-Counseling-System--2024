@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="{{ asset('css/show.css') }}">
 
+
 <div class="container mt-5">
     <div class="row">
         <!-- Counsellor Details -->
@@ -153,26 +154,53 @@
         </div>
 
         <!-- Date Selection Modal -->
-        <div class="modal fade" id="dateModal" tabindex="-1" aria-labelledby="dateModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="dateModalLabel">Select a Date</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ route('counsellors.show', $counsellor->counsellor_id) }}" method="GET">
-                            <input type="date" name="date" value="{{ $selectedDate }}" class="form-control" required>
-                            <input type="hidden" name="counsellor_id" value="{{ $counsellor->counsellor_id }}">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Select Date</button>
-                    </div>
-                        </form>
-                </div>
+        <!-- Date Selection Modal -->
+<!-- Creative Date Selection Modal with Animated Tiles -->
+<div class="modal fade" id="dateModal" tabindex="-1" aria-labelledby="dateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content rounded-4 shadow-lg">
+            <div class="modal-header bg-gradient-primary text-white">
+                <h5 class="modal-title d-flex align-items-center" id="dateModalLabel">
+                     Select a Date
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body">
+                <form action="{{ route('counsellors.show', $counsellor->counsellor_id) }}" method="GET">
+                    <!-- Creative Date Tiles -->
+                    <div class="form-group">
+                        <label for="date" class="form-label mb-3">Available Dates</label>
+                        <div class="d-flex flex-wrap gap-3 justify-content-center"> <!-- Flexbox for tiles -->
+                            @foreach($availableDates as $date)
+                                <label class="date-tile" for="date-{{ $date }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to select {{ \Carbon\Carbon::parse($date)->format('F d, Y') }}">
+                                    <input type="radio" name="date" id="date-{{ $date }}" value="{{ $date }}" class="d-none" {{ $date == $selectedDate ? 'checked' : '' }}>
+                                    <div class="date-content text-center py-4 px-3 rounded">
+
+                                        <div class="mt-2">
+                                            <span class="date-day">{{ \Carbon\Carbon::parse($date)->format('d') }}</span> <br>
+                                            <span class="date-month">{{ \Carbon\Carbon::parse($date)->format('F') }}</span>
+                                        </div>
+                                    </div>
+                                </label>
+                            @endforeach
+                        </div>
+                    </div>
+                    <input type="hidden" name="counsellor_id" value="{{ $counsellor->counsellor_id }}">
+            </div>
+            <div class="modal-footer justify-content-between w-100">
+
+                <button type="submit" class="btn btn-primary w-100 align-items-center shadow-sm">
+                    Select Date
+                </button>
+            </div>
+                </form>
         </div>
+    </div>
+</div>
+
+        </div>
+
+
 
         <script>
             let selectedTimeslotId = null;

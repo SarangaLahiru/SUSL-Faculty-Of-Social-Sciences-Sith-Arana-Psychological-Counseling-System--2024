@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\student;
+use App\Http\Controllers\Controller;
 use App\Mail\BookedTime;
 use App\Models\BookingDetails;
 use App\Models\counsellor;
