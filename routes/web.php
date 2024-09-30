@@ -1,16 +1,17 @@
 <?php
 
-use App\Http\Controllers\BookingsController;
-use App\Http\Controllers\CounsellorAuthController;
-use App\Http\Controllers\CounsellorsController;
+
 use App\Http\Controllers\Counsellor\Auth\ForgotPasswordController;
 use App\Http\Controllers\Counsellor\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\Auth\AdminLoginController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\Auth\AdminResetPasswordController;
 use App\Http\Controllers\Admin\CounsellorController;
+use App\Http\Controllers\Counsellor\Auth\CounsellorAuthController;
+use App\Http\Controllers\student\BookingsController;
+use App\Http\Controllers\student\CounsellorsController;
+use App\Http\Controllers\student\HomeController;
 
 // Home Routes
 Route::get('/', [HomeController::class, 'index'])->name('home.index');

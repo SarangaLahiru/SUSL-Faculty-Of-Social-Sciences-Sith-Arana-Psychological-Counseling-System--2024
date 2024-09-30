@@ -152,3 +152,86 @@
 .review-form button {
     font-size: 18px;
 }
+
+/* Modal Styles */
+.modal-content {
+    background-color: #e4e4e4; /* White background */
+}
+
+/* Date Tile Styles */
+.date-tile {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.date-tile:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+/* Date Content Styles */
+.date-content {
+     /* Light gradient */
+     background-color: white;
+     border: 2px solid #730d95;
+    border-radius: 10px; /* Rounded corners */
+    width: 100px;
+    border: 2px solid transparent; /* For selection outline */
+    transition: border 0.3s ease; /* Transition for border */
+}
+
+.date-content:hover {
+    border: 2px solid #730d95; /* Blue border on hover */
+}
+
+/* Selected Date Style */
+input[type="radio"]:checked + .date-content {
+    border: 2px solid #771196; /* Blue border for selected */
+    background: #710d7c; /* Lighter background for selected */
+
+}
+input[type="radio"]:checked + .date-content .date-day{
+color: white;
+
+}
+input[type="radio"]:checked + .date-content .date-month{
+    color: white;
+
+    }
+
+/* Additional styling for date text */
+.date-day {
+    font-size: 2rem; /* Large day number */
+    font-weight: bold; /* Bold day number */
+    color: #6c757d; /* Darker color */
+}
+
+.date-month {
+    font-size: 1.2rem; /* Smaller month name */
+    color: #6c757d; /* Darker color */
+}
+
+/* Modal Header Gradient */
+.bg-gradient-primary {
+    background: linear-gradient(90deg, #5f0777, #9d08b7); /* Gradient background */
+}
+
+/* Button Shadow Styles */
+.btn {
+    transition: box-shadow 0.3s ease; /* Smooth shadow transition */
+}
+
+.btn:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+}
+#dateModalLabel{
+    font-size: 20px;
+}
+.form-label{
+    font-size: 15px;
+}
+.btn{
+    background-color: #5f0777;
+    border: none;
+    font-size: 15px;
+}

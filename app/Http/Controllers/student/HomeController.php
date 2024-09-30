@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\student;
+use App\Http\Controllers\Controller;
 use App\Models\counsellor;
 
 class HomeController extends Controller
@@ -13,14 +13,14 @@ class HomeController extends Controller
             'counsellors' => $counsellors,
         ]);
     }
-    
+
     public function aboutus(){
         return view('aboutus');
     }
-    
-    
+
+
     public function contactus(){
         return view('contactus');
     }
-    
+
 }
