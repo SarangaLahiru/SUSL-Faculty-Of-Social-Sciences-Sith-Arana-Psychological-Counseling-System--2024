@@ -4,7 +4,7 @@
 
 @section('content')
 
-<link rel="stylesheet" href="{{ asset('css/show.css') }}">
+
 
 
 <div class="container mt-5">
@@ -29,11 +29,13 @@
                         </div>
                         <hr class="border-dark border-top mb-3">
                         <div class="tel-wrapper d-flex align-items-center mb-2">
-                            <i class="fas fa-phone me-2"></i>
+
+                            <i class="bi bi-telephone me-2"></i>
                             <p class="mb-0">{{ $counsellor->mobile_no }}</p>
                         </div>
                         <div class="email-wrapper d-flex align-items-center">
-                            <i class="fas fa-envelope me-2"></i>
+
+                            <i class="bi bi-envelope me-2"></i>
                             <p class="mb-0">{{ $counsellor->email }}</p>
                         </div>
                     </div>
@@ -44,7 +46,7 @@
             </div>
             <div class="row">
                 <div class="col-4 languages">
-                    <h2>Languages Spoken</h2>
+                    <h2>Languages Spoke</h2>
                     <ul>
                         @if($counsellor->languages && count($counsellor->languages) > 0)
                             @foreach ($counsellor->languages as $language)
@@ -55,17 +57,19 @@
                         @endif
                     </ul>
                 </div>
-                <div class="col-4 specialisation">
-                    <h2>Specialisations</h2>
-                    {{--  <ul>
-                        @if($counsellor->languages && $counsellor->languages->isNotEmpty())
-                        @foreach ($counsellor->languages as $language)
-                            <li>{{ $language->name }}</li>
-                        @endforeach
-                    @else
-                        <li>No languages specified.</li>
-                    @endif
-                    </ul>  --}}
+                <div class="col-4 languages">
+                    <h2>Specialisation</h2>
+
+                <ul>
+                    @if($counsellor->specializations && count($counsellor->specializations) > 0)
+                    @foreach ($counsellor->specializations as $specialization)
+                        <li>{{ $specialization }}</li>
+
+                    @endforeach
+                @else
+                    <li>No languages specified.</li>
+                @endif
+                </ul>
                 </div>
             </div>
             <div class="row mt-4">
@@ -85,7 +89,7 @@
                         </div>
 
                         <!-- Next Arrow -->
-                        <button class="btn">
+                        <button class="btn1">
                             <img src="/images/right-arrow.svg" alt="">
                         </button>
                     </div>
@@ -189,7 +193,7 @@
             </div>
             <div class="modal-footer justify-content-between w-100">
 
-                <button type="submit" class="btn btn-primary w-100 align-items-center shadow-sm">
+                <button type="submit" class="btn  w-100 align-items-center shadow-sm">
                     Select Date
                 </button>
             </div>
