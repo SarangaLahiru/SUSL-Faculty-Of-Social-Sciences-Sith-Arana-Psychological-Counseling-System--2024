@@ -56,7 +56,7 @@
 }
 
 .card {
-    border-radius: 50px;
+    border-radius: 5px;
 }
 
 .card-header {
@@ -71,6 +71,7 @@
 
 .card-body {
     background-color: #f5f3f0;
+    padding: 10px 20px;
 }
 
 .card-text .date h2 {

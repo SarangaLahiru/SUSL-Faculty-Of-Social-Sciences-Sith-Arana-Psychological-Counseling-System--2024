@@ -114,7 +114,7 @@
 
         <!-- Booking Timeslots -->
         <div class="col-12 col-sm-4">
-            <div class="card shadow-sm">
+            <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white">
                     Booking {{ $counsellor->full_name }}
                 </div>

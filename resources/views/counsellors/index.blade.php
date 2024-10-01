@@ -12,8 +12,8 @@
     <div class="box mt-5">
         <div class="row">
             {{-- Filters section --}}
-            <div class="col-lg-5 mb-4 p-5 filters">
-                <div class="card">
+            <div class="col-sm-12 col-lg-5 mb-4 col-md-12 p-5 filters">
+                <div class="card" >
                     <div class="card-body">
                         {{-- Days filter --}}
                         <div class="filters-body">
@@ -55,10 +55,10 @@
             </div>
 
             {{-- Counsellors list --}}
-            <div class="col-lg-7 col-md-10 mb-4">
+            <div class="col-sm-12 col-lg-7 col-md-12 mb-4">
                 <div class="justify-content-center p-3 p-lg-5">
                     @foreach ($counsellors as $counsellor)
-                    <div class="col-12 col-md-10 mb-4 shadow rounded-2">
+                    <div class="col-12 col-md-12 mb-4 shadow rounded-2">
                         <div class="card counsellor-card">
                             <div class="row no-gutters">
                                 <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
@@ -95,8 +95,12 @@
                                            @endif
 
                                             </div>
-                                            <div class="col mt-2">
-                                                <a href="{{ route('counsellors.show', ['counsellor' => $counsellor->counsellor_id]) }}" class="btn-gradient-primary">Book Now</a>
+                                            <div class="col col-lg-5 mt-2">
+                                                <a href="{{ route('counsellors.show', ['counsellor' => $counsellor->counsellor_id, 'date' => \Carbon\Carbon::parse($counsellor->nextAvailableSlot['date'])->format('Y-m-d'), 'counsellor_id' => $counsellor->counsellor_id]) }}"
+                                                    class="btn-gradient-primary" {{ !$counsellor->nextAvailableSlot ? 'disabled' : '' }}>
+                                                     Book Now
+                                                 </a>
+
                                             </div>
                                         </div>
                                     </div>
