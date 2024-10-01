@@ -201,6 +201,7 @@ input[type="radio"]:checked + .date-content .date-month{
 
 /* Additional styling for date text */
 .date-day {
+
     font-size: 2rem; /* Large day number */
     font-weight: bold; /* Bold day number */
     color: #6c757d; /* Darker color */
