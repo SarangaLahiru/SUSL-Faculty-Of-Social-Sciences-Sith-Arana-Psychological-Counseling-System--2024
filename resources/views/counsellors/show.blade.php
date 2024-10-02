@@ -77,7 +77,7 @@
                     <h2>Verified Reviews</h2>
                     <div class="d-flex align-items-center review-box">
                         <!-- Previous Arrow -->
-                        <button class="btn">
+                        <button class="btn1">
                             <img src="/images/left-arrow.svg" alt="">
                         </button>
 

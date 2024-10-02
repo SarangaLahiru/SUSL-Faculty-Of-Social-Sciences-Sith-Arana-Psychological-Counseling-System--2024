@@ -92,14 +92,17 @@
                                                </p>
                                            @else
                                                <p class="text-danger mb-3" style="font-size: 14px;">No available slots</p>
-                                           @endif
+                                               @endif
 
                                             </div>
                                             <div class="col col-lg-5 mt-2">
+                                                @if ($counsellor->nextAvailableSlot)
                                                 <a href="{{ route('counsellors.show', ['counsellor' => $counsellor->counsellor_id, 'date' => \Carbon\Carbon::parse($counsellor->nextAvailableSlot['date'])->format('Y-m-d'), 'counsellor_id' => $counsellor->counsellor_id]) }}"
                                                     class="btn-gradient-primary" {{ !$counsellor->nextAvailableSlot ? 'disabled' : '' }}>
                                                      Book Now
                                                  </a>
+                                                 @endif
+
 
                                             </div>
                                         </div>

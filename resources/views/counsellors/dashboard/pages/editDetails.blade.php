@@ -26,6 +26,16 @@
                     @enderror
                 </div>
 
+                <div class="mb-3">
+                    <label for="post" class="form-label">Post</label>
+                    <input type="text" class="form-control @error('post') is-invalid @enderror" id="name" name="post" value="{{ old('post', $counsellor->post) }}" maxlength="255" required>
+                    @error('post')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
                 <!-- Email Field -->
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
@@ -42,6 +52,17 @@
                     <label for="phone" class="form-label">Phone</label>
                     <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', $counsellor->mobile_no) }}" maxlength="15" required>
                     @error('phone')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <!-- Phone Field -->
+                <div class="mb-3">
+                    <label for="phone" class="form-label">username</label>
+                    <input type="text" class="form-control @error('username') is-invalid @enderror" id="phone" name="username" value="{{ old('username', $counsellor->username) }}" maxlength="15" required>
+                    @error('username')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -94,17 +115,7 @@
                     <button type="button" class="btn btn-secondary" id="add-specialization">Add Specialization</button>
                 </div>
 
-                <!-- Bio Field with Word Limit -->
-                <div class="mb-3">
-                    <label for="bio" class="form-label">Bio</label>
-                    <textarea class="form-control @error('bio') is-invalid @enderror" id="bio" name="bio" rows="3" maxlength="500">{{ old('bio', $counsellor->bio) }}</textarea>
-                    <small id="bioHelp" class="form-text text-muted">Max 500 characters.</small>
-                    @error('bio')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
+
 
                 <!-- Languages Field with "Add More" -->
                 <div class="mb-3">
@@ -118,6 +129,27 @@
                         @endforeach
                     </div>
                     <button type="button" id="add-language" class="btn btn-secondary">Add Language</button>
+                </div>
+                <!-- Bio Field with Word Limit -->
+                <div class="mb-3">
+                    <label for="bio" class="form-label">Bio</label>
+                    <textarea class="form-control @error('bio') is-invalid @enderror" id="bio" name="bio" rows="3" maxlength="500">{{ old('bio', $counsellor->bio) }}</textarea>
+                    <small id="bioHelp" class="form-text text-muted">Max 500 characters.</small>
+                    @error('bio')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="bio" class="form-label">Introduction </label>
+                    <textarea class="form-control @error('intro') is-invalid @enderror" id="intro" name="intro" rows="3" maxlength="100">{{ old('intro', $counsellor->intro) }}</textarea>
+                    <small id="bioHelp" class="form-text text-muted">Max 100 characters.</small>
+                    @error('intro')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
                 <!-- Profile Image Upload -->
