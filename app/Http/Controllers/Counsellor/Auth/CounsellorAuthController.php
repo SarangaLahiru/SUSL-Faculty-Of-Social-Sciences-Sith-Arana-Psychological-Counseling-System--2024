@@ -122,10 +122,13 @@ public function update(Request $request, $id)
         'phone' => 'required|string|max:15',
         'title' => 'nullable|string|max:100',
         'gender' => 'nullable|in:male,female',
-        'bio' => 'nullable|string|max:1000',
+        'bio' => 'nullable|string|max:500',
          'specializations.*' => 'nullable|string|max:100', // Validate each specialization
         'languages.*' => 'nullable|string|max:100',
-        'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // File validation
+        'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+         'post'=>'required|string',
+         'intro' => 'required|string|max:100',
+         'username' => 'required|string|max:100',
     ]);
 
     // Find the counsellor by ID
@@ -138,6 +141,9 @@ public function update(Request $request, $id)
     $counsellor->title = $request->input('title');
     $counsellor->gender = $request->input('gender');
     $counsellor->bio = $request->input('bio');
+    $counsellor->intro = $request->input('intro');
+    $counsellor->post = $request->input('post');
+    $counsellor->username = $request->input('username');
     // Handle specializations
     $counsellor->specializations = $request->input('specializations', []); // Assuming you have a column for this in your database
 

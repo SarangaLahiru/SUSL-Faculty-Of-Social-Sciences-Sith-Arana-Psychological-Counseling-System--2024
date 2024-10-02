@@ -99,49 +99,64 @@ class CounsellorsController extends Controller
     public function show($counsellor, Request $request)
     {
         // Retrieve all counsellors
-        $counsellors = Counsellor::all();
+$counsellors = Counsellor::all();
 
-        // Find the index of the selected counsellor using counsellor_id
-        $index = array_search($counsellor, array_column(json_decode($counsellors, true), 'counsellor_id'));
+// Find the index of the selected counsellor using counsellor_id
+$index = array_search($counsellor, array_column(json_decode($counsellors, true), 'counsellor_id'));
 
-        // If the counsellor is not found, show a 404 page
-        if ($index === false) {
-            abort(404);
-        }
+// If the counsellor is not found, show a 404 page
+if ($index === false) {
+    abort(404);
+}
 
-        // Retrieve available dates for the selected counsellor
-        $availableDates = DB::table('time_slots')
-            ->select('date')
-            ->where('counsellor_id', $counsellor)
-            ->groupBy('date')
-            ->orderBy('date', 'asc')
-            ->pluck('date');
 
-        // If no dates are available, set the available timeslots to null
-        $availableTimeslots = collect();
-        $selectedDate = $availableDates->first(); // Default to first available date
+// Get the current date
+$currentDate = Carbon::now()->format('Y-m-d');
 
-        if ($availableDates->isNotEmpty()) {
-            // Get the selected date from the request, default to the first available date
-            $selectedDate = $request->input('date', $availableDates->first());
+// Retrieve available dates for the selected counsellor, only future dates including today
+$availableDates = DB::table('time_slots')
+    ->select('date')
+    ->where('counsellor_id', $counsellor)
+    ->where('date', '>=', $currentDate) // Only include dates today or in the future
+    ->groupBy('date')
+    ->orderBy('date', 'asc')
+    ->pluck('date');
 
-            // Retrieve available timeslots for the selected date
-            $availableTimeslots = DB::table('time_slots')
-                ->leftJoin('booking_details', 'time_slots.timeslot_id', '=', 'booking_details.timeslot_id')
-                ->where('time_slots.counsellor_id', $counsellor)
-                ->where('time_slots.date', $selectedDate)
-                ->whereNull('booking_details.timeslot_id') // Filter out booked timeslots
-                ->select('time_slots.timeslot_id', 'time_slots.counsellor_id', 'time_slots.date', 'time_slots.time', 'time_slots.created_at', 'time_slots.updated_at')
-                ->orderBy('time', 'asc')
-                ->get();
-        }
+// If no dates are available, set the available timeslots to null
+$availableTimeslots = collect();
+$selectedDate = $availableDates->first(); // Default to first available date
 
-        return view('counsellors.show', [
-            'counsellor' => $counsellors[$index],
-            'timeslots' => $availableTimeslots,
-            'selectedDate' => $selectedDate, // Pass the selected date to the view
-            'availableDates' => $availableDates, // Pass available dates to the view
-        ]);
+if ($availableDates->isNotEmpty()) {
+    // Get the selected date from the request, default to the first available date
+    $selectedDate = $request->input('date', $availableDates->first());
+
+    // Get the current date and time
+    $currentDate = Carbon::now()->format('Y-m-d');
+    $currentTime = Carbon::now()->format('H:i:s');
+
+    // Retrieve available timeslots for the selected date
+    $availableTimeslots = DB::table('time_slots')
+        ->leftJoin('booking_details', 'time_slots.timeslot_id', '=', 'booking_details.timeslot_id')
+        ->where('time_slots.counsellor_id', $counsellor)
+        ->where('time_slots.date', $selectedDate)
+        ->whereNull('booking_details.timeslot_id') // Filter out booked timeslots
+        ->where(function ($query) use ($selectedDate, $currentDate, $currentTime) {
+            // If the selected date is today, filter times that are greater than the current time
+            if ($selectedDate === $currentDate) {
+                $query->where('time_slots.time', '>', $currentTime);
+            }
+        })
+        ->select('time_slots.timeslot_id', 'time_slots.counsellor_id', 'time_slots.date', 'time_slots.time', 'time_slots.created_at', 'time_slots.updated_at')
+        ->orderBy('time', 'asc')
+        ->get();
+}
+
+return view('counsellors.show', [
+    'counsellor' => $counsellors[$index],
+    'timeslots' => $availableTimeslots,
+    'selectedDate' => $selectedDate, // Pass the selected date to the view
+    'availableDates' => $availableDates, // Pass available dates to the view
+]);
     }
 
 

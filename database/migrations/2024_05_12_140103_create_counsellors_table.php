@@ -17,7 +17,8 @@ class CreateCounsellorsTable extends Migration
             $table->id('counsellor_id');
             // $table->uuid('counsellor_id')->primary();
             $table->string('full_name_with_rate')->nullable();;
-            $table->string('title')->nullable();;
+            $table->string('title')->nullable();
+            $table->string('post')->nullable();
             $table->string('NIC')->unique();;
             $table->enum('gender', ['female', 'male'])->nullable();;
             $table->string('mobile_no')->nullable();

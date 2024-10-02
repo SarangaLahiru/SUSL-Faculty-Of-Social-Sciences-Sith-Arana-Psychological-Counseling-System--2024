@@ -94,6 +94,7 @@ class CounsellorController extends Controller
              'password' => 'nullable|string|min:6', // You might want to add logic for updating the password
              'intro' => 'required|string',
              'bio' => 'required|string',
+             'post'=>'required|string',
          ]);
 
          // Update the counsellor's information
@@ -105,6 +106,10 @@ class CounsellorController extends Controller
          $counsellor->username = $request->username;
          $counsellor->intro = $request->intro;
          $counsellor->bio = $request->bio;
+         $counsellor->post = $request->post;
+         $counsellor->intro = $request->intro;
+
+         dd($request->post);
 
          // If the password is provided, hash it and update
          if ($request->filled('password')) {
