@@ -12,9 +12,11 @@
     <div class="list-group shadow-sm ">
         @foreach($counsellors as $counsellor)
             <div class="list-group-item d-flex justify-content-between align-items-center py-3 ">
-                <div class="d-flex align-items-center">
-                    <img src="https://via.placeholder.com/40" alt="Avatar" class="rounded-circle me-3" width="40" height="40">
-                    <span class="fw-semibold">{{ $counsellor->title }} {{ $counsellor->full_name_with_rate }}</span>
+                <div class="d-flex align-items-center" style="font-size: 18px;">
+                    <img src="{{ asset('storage/' . $counsellor->profile_image)}}" alt="Avatar" class="rounded-circle me-3" width="70" height="70">
+                    <span class="fw-semibold m-2">{{ $counsellor->title }}</span>
+                    <span class="fw-semibold m-2"> {{ $counsellor->full_name_with_rate }}</span>
+                    <span class="fw-semibold m-2"> {{ $counsellor->mobile_no }}</span>
                 </div>
                 <div class="d-flex">
                     <a href="{{ route('counsellorsShow.edit', $counsellor->counsellor_id) }}" class="btn btn-outline-secondary btn-sm me-2">

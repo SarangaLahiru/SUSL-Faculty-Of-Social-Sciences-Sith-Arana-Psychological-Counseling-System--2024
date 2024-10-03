@@ -25,7 +25,7 @@
                     <div class="contact-details">
                         <div class="name-and-position-wrapper mb-3">
                             <h1>{{ $counsellor->full_name_with_rate }}</h1>
-                            <h2>Professor of Faculty of Social Sciences</h2>
+                            <h2>{{ $counsellor->post }}</h2>
                         </div>
                         <hr class="border-dark border-top mb-3">
                         <div class="tel-wrapper d-flex align-items-center mb-2">
