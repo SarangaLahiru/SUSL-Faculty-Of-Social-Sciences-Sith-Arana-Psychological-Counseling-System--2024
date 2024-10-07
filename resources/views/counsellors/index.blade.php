@@ -89,7 +89,7 @@
     <div class="box mt-5">
         <div class="row">
             {{-- Filters section --}}
-            <div class="col-sm-12 col-lg-4 mb-4 col-md-12 p-5 filters">
+            <div class="col-sm-12 col-lg-5 mb-4 col-md-12 p-5 filters">
                 <div class="shadow-lg">
                     <div id='calendar'></div>
                 </div>
@@ -186,6 +186,21 @@
     </div>
 </div>
 
+<style>
+    .highlighted-date {
+     background-color: #632965 !important; /* Yellow background */
+     border-color: #632965 !important;      /* Border for the highlighted cell */
+ }
+ .highlighted-date .fc-day-number {
+    color: white !important;  /* Red date number */
+    font-weight: bold;          /* Make the number bold */
+}
+.fc-day-number{
+    color: #632965;
+    font-size: 16px
+}
+ </style>
+
 {{-- Scripts --}}
 <script src='packages/core/main.js'></script>
 <script src='packages/interaction/main.js'></script>
@@ -200,12 +215,18 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
+
+
     $(document).ready(function() {
         var calendarEl = document.getElementById('calendar');
+
+        // Extract the selected date from the query string (if available)
+        var selectedDate = new URLSearchParams(window.location.search).get('date');
+
         var calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list'],
             themeSystem: 'bootstrap 4',
-            events: @json($calendarEvents),
+            events: @json($calendarEvents),  // Event data from your backend
 
             header: {
                 left: 'title',
@@ -215,40 +236,55 @@
             weekNumbers: true,
             navLinks: true,
             eventLimit: true,
-              // Add eventClick callback
-              eventClick: function(info) {
-                // Prevent the default behavior of the browser
-                info.jsEvent.preventDefault();
 
-                // Get the event start date, end date, and other details
-                var eventTitle = info.event.title;
-                var eventStart = info.event.start;
-                var eventEnd = info.event.end ? info.event.end : null;
+            // Handle clicking on a date cell
+            dateClick: function(info) {
+                var clickedDate = info.dateStr;  // Get the clicked date in 'YYYY-MM-DD' format
 
-                // Format the eventStart and eventEnd dates to 'YYYY-MM-DD'
-                var formattedEventStart = eventStart.toISOString().split('T')[0];  // Get 'YYYY-MM-DD'
-                var formattedEventEnd = eventEnd ? eventEnd.toISOString().split('T')[0] : null;
+                // Redirect to the same page with the clicked date as a query parameter
+                window.location.href = '?date=' + clickedDate;
+            },
 
-                // You can log the event date or use it in any way, e.g., passing it to a form or URL
-                console.log("Event Title: " + eventTitle);
-                console.log("Event Start: " + formattedEventStart);
-                if (formattedEventEnd) console.log("Event End: " + formattedEventEnd);
+            // After each calendar render, highlight the selected date (if any)
+            datesSet: function() {
+                highlightSelectedDate();
+            },
 
-                // Example: Redirecting to a filter page with the event start date as a query parameter
-                window.location.href = '?date=' + formattedEventStart;
+            // Handle event clicks (if needed)
+            eventClick: function(info) {
+                info.jsEvent.preventDefault();  // Prevent default behavior
 
-                // Or trigger an action, for example filtering events based on the event date
-                // filterEventsByDate(formattedEventStart); // Example function to filter events by the clicked date
+                // Redirect with the event start date as the query parameter
+                var eventStart = info.event.start.toISOString().split('T')[0]; // 'YYYY-MM-DD' format
+                window.location.href = '?date=' + eventStart;
             }
-
-
         });
 
-        calendar.render();
+        calendar.render();  // Render the calendar
 
-        console.log(@json($calendarEvents));
+        // Function to highlight the selected date after render
+        function highlightSelectedDate() {
+            // Remove previous highlights first
+            $('.fc-day').removeClass('highlighted-date');
 
+            if (selectedDate) {
+                // Highlight the date cell using data-date attribute
+                var dateCell = $('[data-date="' + selectedDate + '"]');
+                if (dateCell.length) {
+                    dateCell.addClass('highlighted-date');
+                }
+            }
+        }
+
+        // Call highlight function on page load for selected date
+        highlightSelectedDate();
     });
+
 </script>
+
+
+
+
+
 
 @endsection
