@@ -6,13 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <link href='https://use.fontawesome.com/releases/v6.0.0/css/all.css' rel='stylesheet'>
+    <link href='packages/core/main.css' rel='stylesheet' />
+    <link href='packages/bootstrap/main.css' rel='stylesheet' />
+    <link href='packages/timegrid/main.css' rel='stylesheet' />
+    <link href='packages/daygrid/main.css' rel='stylesheet' />
+    <link href='packages/list/main.css' rel='stylesheet' />
     <!-- Bootstrap Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
 
     {{-- boostrp css file links --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    {{--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">  --}}
 
     {{-- custom css file links --}}
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
@@ -20,6 +26,7 @@
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/show.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bookingSession.css') }}">
+
 
 
 
