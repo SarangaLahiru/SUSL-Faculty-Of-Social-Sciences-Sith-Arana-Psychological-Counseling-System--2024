@@ -20,6 +20,7 @@ class CounsellorsController extends Controller
         $gender = $request->query('gender');
         $date = $request->query('date');
 
+        // Initialize a query for counsellors
         $query = Counsellor::query();
 
         // Filter by gender if specified
@@ -31,7 +32,7 @@ class CounsellorsController extends Controller
         if ($date) {
             $query->whereHas('timeSlots', function ($q) use ($date) {
                 // Parse the date from the request and ensure it's in the proper format
-                $parsedDate = Carbon::createFromFormat('m/d/Y', $date);
+                $parsedDate = Carbon::createFromFormat('Y-m-d', $date); // Expecting date format as 'Y-m-d'
 
                 // Check if the date is valid, then filter based on availability
                 $q->whereDate('date', $parsedDate)
@@ -45,7 +46,6 @@ class CounsellorsController extends Controller
         // Find the next available time slot for each counsellor
         foreach ($counsellors as $counsellor) {
             $now = now(); // Current time in the app's time zone (ensure this is configured correctly)
-
 
             $nextAvailableSlot = $counsellor->timeSlots()
                 ->whereDoesntHave('bookings') // Ensure the time slot is not booked
@@ -73,13 +73,33 @@ class CounsellorsController extends Controller
             }
         }
 
+        // Prepare the calendar events for FullCalendar
+        $calendarEvents = [];
+        foreach ($counsellors as $counsellor) {
+            foreach ($counsellor->timeSlots as $slot) {
+                // Format start time and end time properly
+                $startDateTime = Carbon::parse($slot->date)->format('Y-m-d') . 'T' . Carbon::parse($slot->time)->format('H:i:s');
+                $endDateTime = Carbon::parse($slot->date)->format('Y-m-d') . 'T' . Carbon::parse($slot->time)->addHour()->format('H:i:s');
+
+                // Push event details to the calendarEvents array
+                $calendarEvents[] = [
+                    'title' => $counsellor->name,  // Use the counsellor's name for the event title
+                    'start' => $startDateTime,      // Correctly formatted start time
+                    'end' => $endDateTime,          // Correctly formatted end time
+                    'className' => $slot->bookings()->exists() ? 'bg-danger' : 'bg-success',  // Red if booked, green if available
+                ];
+            }
+        }
+
         // Pass counsellors, time slots, and the selected date to the view
         return view('counsellors.index', [
             'counsellors' => $counsellors,
             'time_slots' => TimeSlots::all(),  // Fetch all time slots
             'selectedDate' => $date,  // Pass the selected date to the view
+            'calendarEvents' => $calendarEvents,  // Pass the calendar events for FullCalendar
         ]);
     }
+
 
 
 

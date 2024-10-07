@@ -13,6 +13,9 @@ use App\Http\Controllers\student\BookingsController;
 use App\Http\Controllers\student\CounsellorsController;
 use App\Http\Controllers\student\HomeController;
 
+Route::get('/calendar', function () {
+    return view('counsellors.calendar');
+});
 // Home Routes
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/aboutus', [HomeController::class, 'aboutus'])->name('home.aboutus');
