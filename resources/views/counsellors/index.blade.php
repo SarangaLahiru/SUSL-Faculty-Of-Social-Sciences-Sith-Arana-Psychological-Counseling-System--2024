@@ -78,26 +78,31 @@
         border-color: #17a673; /* Change border color */
         color: white; /* Change text color of events */
     }
+
 </style>
 
-<div>
+<div class="containe ">
     <div class="showcase text-center mt-5">
         <h1>Book a session</h1>
         <p>Book a session with our qualified Counsellors</p>
     </div>
 
-    <div class="box mt-5">
+    <div class="box mt-5 main">
         <div class="row">
             {{-- Filters section --}}
-            <div class="col-sm-12 col-lg-5 mb-4 col-md-12 p-5 filters">
-                <div class="shadow-lg">
-                    <div id='calendar'></div>
+            <div class="col col-sm-12 col-lg-5 mb-8 col-md-12 p-5 filters">
+                <div class="shadow-lg " >
+                    {{--  <div id='calendar'></div>  --}}
+
                 </div>
                 <div class="card">
                     <div class="card-body">
                         {{-- Days filter --}}
                         <div class="filters-body">
+                            <h3>Available dates</h3>
+                                <div id="datepicker" class="datepicker-inline shadow rounded-3"></div>
                             {{-- Gender filter --}}
+
                             <div class="gender-filter">
                                 <h3>Gender</h3>
                                 <ul class="list-unstyled d-flex">
@@ -124,7 +129,7 @@
             </div>
 
             {{-- Counsellors list --}}
-            <div class="col-sm-12 col-lg-7 col-md-12 mb-4">
+            <div class="col col-sm-12 col-lg-7 col-md-12 mb-4">
                 <div class="justify-content-center p-3 p-lg-5">
                     @foreach ($counsellors as $counsellor)
                         <div class="col-12 col-md-12 mb-4 shadow rounded-2">
@@ -187,6 +192,10 @@
 </div>
 
 <style>
+    .selected-date {
+        background-color: #007bff !important;  /* Blue background for the selected date */
+        color: #fff !important;  /* White text for the selected date */
+    }
     .highlighted-date {
      background-color: #632965 !important; /* Yellow background */
      border-color: #632965 !important;      /* Border for the highlighted cell */
@@ -199,6 +208,11 @@
     color: #632965;
     font-size: 16px
 }
+.highlight-event a {
+    background-color: #f39c12 !important;  /* Orange color */
+    color: white !important;
+    border-radius: 50% !important;  /* Make the highlighted date circular */
+}
  </style>
 
 {{-- Scripts --}}
@@ -210,11 +224,13 @@
 <script src='packages/list/main.js'></script>
 <script src='js/theme-chooser.js'></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+{{--  <script>
 
 
     $(document).ready(function() {
@@ -230,8 +246,8 @@
 
             header: {
                 left: 'title',
-                center: 'prev,next today',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                center: 'prev,next ',
+                right: 'dayGridMonth,timeGridWeek'
             },
             weekNumbers: true,
             navLinks: true,
@@ -280,11 +296,63 @@
         highlightSelectedDate();
     });
 
-</script>
+</script>  --}}
+
+<script>
+    $(document).ready(function() {
+        var selectedDate = null;  // Variable to store selected date
+        var urlParams = new URLSearchParams(window.location.search);
+        var urlDate = urlParams.get('date'); // Get the date parameter from the URL
+
+        // Define event dates in a moment-friendly format
+        var eventDate = <?php echo json_encode($eventDates); ?>;
+
+        var eventDates = eventDate.map(date => moment(date).format('YYYY-MM-DD'));
+
+        // Initialize the datepicker with custom logic to highlight event dates
+        $('#datepicker').datepicker({
+            format: "yyyy-mm-dd",  // Set the format to "YYYY-MM-DD"
+            todayHighlight: true,
+            beforeShowDay: function(date) {
+                var formattedDate = moment(date).format('YYYY-MM-DD');  // Convert date to "YYYY-MM-DD"
+                console.log(eventDates.indexOf(formattedDate));
+                // Check if the current date is in the eventDates array
+                if (eventDates.indexOf(formattedDate) !== -1) {
+                    return { classes: 'selected-date',
+                    tooltip: 'Selected date'};  // Return an array for event dates
+                }
+
+                // Check if the current date is the selected date or from the URL
+                if (selectedDate === formattedDate || urlDate === formattedDate) {
+                    return [true, 'selected-date', 'Selected date'];  // Return an array for selected date
+                }
+
+                return [true, '', ''];  // Return default behavior for other dates
+            }
+        });
+
+        // Automatically select the date from the URL if it exists
+        if (urlDate) {
+            selectedDate = urlDate; // Set the selected date to the URL date
+            $('#datepicker').datepicker('setDate', selectedDate); // Set the datepicker to this date
+            $('#selected-date').text('Selected Date: ' + selectedDate); // Display selected date
+        }
+
+        // Add an event listener for when a date is selected
+        $('#datepicker').on('changeDate', function(e) {
+            selectedDate = e.format();  // Get the selected date in "YYYY-MM-DD" format
+            $('#selected-date').text('Selected Date: ' + selectedDate); // Display selected date
+
+            // Update the URL with the selected date
+            var url = new URL(window.location.href);
+            var params = new URLSearchParams(url.search);
+            params.set('date', selectedDate); // Set the new date parameter
+
+            // Maintain other query parameters
+            window.location.search = params.toString();
+        });
+    });
+    </script>
 
 
-
-
-
-
-@endsection
+    @endsection

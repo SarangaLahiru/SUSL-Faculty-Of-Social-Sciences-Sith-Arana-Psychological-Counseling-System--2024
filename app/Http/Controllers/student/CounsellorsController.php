@@ -30,15 +30,25 @@ class CounsellorsController extends Controller
 
         // Filter by date in the related 'timeSlots' model if specified
         if ($date) {
-            $query->whereHas('timeSlots', function ($q) use ($date) {
-                // Parse the date from the request and ensure it's in the proper format
-                $parsedDate = Carbon::createFromFormat('Y-m-d', $date); // Expecting date format as 'Y-m-d'
+    $query->whereHas('timeSlots', function ($q) use ($date) {
+        // Parse the date from the request and ensure it's in the proper format
+        $parsedDate = Carbon::createFromFormat('Y-m-d', $date); // Expecting date format as 'Y-m-d'
+        $now = Carbon::now(); // Get the current date and time
 
-                // Check if the date is valid, then filter based on availability
-                $q->whereDate('date', $parsedDate)
-                  ->whereDoesntHave('bookings');  // Ensure time slot is not booked
-            });
-        }
+        // Check if the date is valid, then filter based on availability
+        $q->whereDate('date', $parsedDate)   // Match the provided date
+          ->whereDoesntHave('bookings')      // Ensure time slot is not booked
+          ->where(function($q) use ($now) {  // Additional filter for future slots
+              // Ensure that either the date is in the future, or if the date is today, that the time is in the future
+              $q->where('date', '>', $now->format('Y-m-d'))  // Check for future dates
+                ->orWhere(function($q) use ($now) {
+                    // If the date is today, check for future times
+                    $q->where('date', '=', $now->format('Y-m-d'))
+                      ->where('time', '>', $now->format('H:i:s'));
+                });
+          });
+    });
+}
 
         // Fetch paginated counsellors (3 per page)
         $counsellors = $query->paginate(3);
@@ -74,30 +84,50 @@ class CounsellorsController extends Controller
         }
 
         // Prepare the calendar events for FullCalendar
-        $calendarEvents = [];
-        foreach ($counsellors as $counsellor) {
-            foreach ($counsellor->timeSlots as $slot) {
-                // Format start time and end time properly
-                $startDateTime = Carbon::parse($slot->date)->format('Y-m-d') . 'T' . Carbon::parse($slot->time)->format('H:i:s');
-                $endDateTime = Carbon::parse($slot->date)->format('Y-m-d') . 'T' . Carbon::parse($slot->time)->addHour()->format('H:i:s');
 
-                // Push event details to the calendarEvents array
-                $calendarEvents[] = [
-                    'title' => $counsellor->name,  // Use the counsellor's name for the event title
-                    'start' => $startDateTime,      // Correctly formatted start time
-                    'end' => $endDateTime,          // Correctly formatted end time
-                    'className' => $slot->bookings()->exists() ? 'bg-danger' : 'bg-success',  // Red if booked, green if available
-                ];
+
+      // Initialize an empty array for calendar events and available event dates
+$calendarEvents = [];
+$availableDates = [];
+
+// Get the current date and time
+$now = Carbon::now();
+
+// Loop through each counsellor
+foreach ($counsellors as $counsellor) {
+    foreach ($counsellor->timeSlots as $slot) {
+        // Combine the date and time for start and end times
+        $startDateTime = Carbon::parse($slot->date)->format('Y-m-d') . 'T' . Carbon::parse($slot->time)->format('H:i:s');
+        $endDateTime = Carbon::parse($slot->date)->format('Y-m-d') . 'T' . Carbon::parse($slot->time)->addHour()->format('H:i:s');
+
+        // Only add future events (skip past events)
+        if (Carbon::parse($startDateTime)->greaterThanOrEqualTo($now)) {
+            $calendarEvents[] = [
+                'title' => $counsellor->name,  // Use the counsellor's name for the event title
+                'start' => $startDateTime,      // Correctly formatted start time
+                'end' => $endDateTime,          // Correctly formatted end time
+                'className' => $slot->bookings()->exists() ? 'bg-danger' : 'bg-success',  // Red if booked, green if available
+            ];
+
+            // If the slot is available (not booked), add the date to available dates
+            if (!$slot->bookings()->exists()) {
+                $availableDates[] = Carbon::parse($slot->date)->format('Y-m-d'); // Format the date as 'Y-m-d'
             }
         }
+    }
+}
 
-        // Pass counsellors, time slots, and the selected date to the view
-        return view('counsellors.index', [
-            'counsellors' => $counsellors,
-            'time_slots' => TimeSlots::all(),  // Fetch all time slots
-            'selectedDate' => $date,  // Pass the selected date to the view
-            'calendarEvents' => $calendarEvents,  // Pass the calendar events for FullCalendar
-        ]);
+// Remove duplicates from available dates
+$eventDates = array_unique($availableDates);
+
+// Pass counsellors, time slots, and the selected date to the view
+return view('counsellors.index', [
+    'counsellors' => $counsellors,
+    'time_slots' => TimeSlots::all(),  // Fetch all time slots
+    'selectedDate' => $date,  // Pass the selected date to the view
+    'calendarEvents' => $calendarEvents,  // Pass the calendar events for FullCalendar
+    'eventDates' => $eventDates, // Pass the available event dates dynamically
+]);
     }
 
 
