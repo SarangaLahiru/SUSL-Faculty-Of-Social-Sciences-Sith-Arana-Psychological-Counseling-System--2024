@@ -7,24 +7,6 @@
     <form action="{{ route('counsellorsShow.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        {{--  <!-- Profile Image -->
-        <div class="form-group">
-            <label for="profile_image">Profile Image</label>
-            <input type="file" name="profile_image" class="form-control" accept="image/*">
-            @error('profile_image')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>  --}}
-
-        {{--  <!-- Counsellor ID -->
-        <div class="form-group">
-            <label for="counsellor_id">Counsellor ID</label>
-            <input type="text" name="counsellor_id" class="form-control" required>
-            @error('counsellor_id')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>  --}}
-
         <!-- Full Name with Rate -->
         <div class="form-group">
             <label for="full_name_with_rate">Full Name with Rate</label>
@@ -34,8 +16,7 @@
             @enderror
         </div>
 
-
-        <!-- Username -->
+        <!-- NIC number -->
         <div class="form-group">
             <label for="username">NIC number</label>
             <input type="text" name="NIC" class="form-control" required>
@@ -43,36 +24,6 @@
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
-
-        {{--  <!-- Title -->
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" name="title" class="form-control" required>
-            @error('title')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>  --}}
-
-        {{--  <!-- Gender -->
-        <div class="form-group">
-            <label for="gender">Gender</label>
-            <select name="gender" class="form-control" required>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
-            @error('gender')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>  --}}
-
-        {{--  <!-- Mobile No -->
-        <div class="form-group">
-            <label for="mobile_no">Mobile No</label>
-            <input type="text" name="mobile_no" class="form-control" required>
-            @error('mobile_no')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>  --}}
 
         <!-- Email -->
         <div class="form-group">
@@ -83,52 +34,29 @@
             @enderror
         </div>
 
-
-        {{--  <!-- Password -->
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" class="form-control" required>
-            @error('password')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>  --}}
-
-        {{--  <!-- Intro -->
-        <div class="form-group">
-            <label for="intro">Intro</label>
-            <textarea name="intro" class="form-control" required></textarea>
-            @error('intro')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>  --}}
-
-        {{--  <!-- Bio -->
-        <div class="form-group">
-            <label for="bio">Bio</label>
-            <textarea name="bio" class="form-control" required></textarea>
-            @error('bio')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>  --}}
-
-        {{--  <!-- Time Slots Section -->
-        <div id="timeSlotsContainer">
-            <h3>Time Slots</h3>
+        <!-- Weekly Time Slots Section -->
+        <div id="weeklyTimeSlotsContainer">
+            <h3>Weekly Schedule</h3>
             <div class="timeSlot">
-                <label>Date:</label>
-                <input type="date" name="time_slots[0][date]" >
-                @error('time_slots.0.date')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
+                <label>Day of the Week:</label>
+                <select name="time_slots[0][day_of_week]" class="form-control" required>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select>
                 <label>Time:</label>
-                <input type="time" name="time_slots[0][time]" >
+                <input type="time" name="time_slots[0][time]" class="form-control" required>
                 @error('time_slots.0.time')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-        </div>  --}}
+        </div>
 
-        {{--  <button type="button" onclick="addTimeSlot()">Add Another Time Slot</button>  --}}
+        <button type="button" onclick="addDaySlot()">Add Another Day and Time Slot</button>
 
         <button type="submit" class="btn btn-primary mt-3">Save Counsellor</button>
     </form>
@@ -137,19 +65,26 @@
 <script>
     let timeSlotCount = 1;
 
-    function addTimeSlot() {
-        const container = document.getElementById('timeSlotsContainer');
+    function addDaySlot() {
+        const container = document.getElementById('weeklyTimeSlotsContainer');
         const newSlot = document.createElement('div');
         newSlot.classList.add('timeSlot');
         newSlot.innerHTML = `
-            <label>Date:</label>
-            <input type="date" name="time_slots[${timeSlotCount}][date]" >
+            <label>Day of the Week:</label>
+            <select name="time_slots[${timeSlotCount}][day_of_week]" class="form-control" required>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>
             <label>Time:</label>
-            <input type="time" name="time_slots[${timeSlotCount}][time]" >
+            <input type="time" name="time_slots[${timeSlotCount}][time]" class="form-control" required>
         `;
         container.appendChild(newSlot);
         timeSlotCount++;
     }
 </script>
-
 @endsection
