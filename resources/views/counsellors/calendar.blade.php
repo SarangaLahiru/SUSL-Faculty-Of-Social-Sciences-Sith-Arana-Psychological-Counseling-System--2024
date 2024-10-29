@@ -107,7 +107,7 @@
     });
 
   </script>
-  {{--  <style>
+  <style>
     body {
       margin: 0;
       padding: 0;
@@ -155,7 +155,7 @@
       margin: 40px auto;
       padding: 0 10px;
     }
-  </style>  --}}
+  </style>
 </head>
 
 <body>

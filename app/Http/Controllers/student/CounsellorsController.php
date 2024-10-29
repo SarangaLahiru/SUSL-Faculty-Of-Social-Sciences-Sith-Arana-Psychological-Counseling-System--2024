@@ -17,10 +17,11 @@ class CounsellorsController extends Controller
      */
     public function index(Request $request)
     {
+        // Retrieve query parameters for gender and date
         $gender = $request->query('gender');
         $date = $request->query('date');
 
-        // Initialize a query for counsellors
+        // Initialize a query for fetching counsellors
         $query = Counsellor::query();
 
         // Filter by gender if specified
@@ -30,41 +31,39 @@ class CounsellorsController extends Controller
 
         // Filter by date in the related 'timeSlots' model if specified
         if ($date) {
-    $query->whereHas('timeSlots', function ($q) use ($date) {
-        // Parse the date from the request and ensure it's in the proper format
-        $parsedDate = Carbon::createFromFormat('Y-m-d', $date); // Expecting date format as 'Y-m-d'
-        $now = Carbon::now(); // Get the current date and time
+            $query->whereHas('timeSlots', function ($q) use ($date) {
+                // Parse the date from the request
+                $parsedDate = Carbon::createFromFormat('Y-m-d', $date); // Expecting format 'Y-m-d'
+                $now = Carbon::now(); // Current date and time
 
-        // Check if the date is valid, then filter based on availability
-        $q->whereDate('date', $parsedDate)   // Match the provided date
-          ->whereDoesntHave('bookings')      // Ensure time slot is not booked
-          ->where(function($q) use ($now) {  // Additional filter for future slots
-              // Ensure that either the date is in the future, or if the date is today, that the time is in the future
-              $q->where('date', '>', $now->format('Y-m-d'))  // Check for future dates
-                ->orWhere(function($q) use ($now) {
-                    // If the date is today, check for future times
-                    $q->where('date', '=', $now->format('Y-m-d'))
-                      ->where('time', '>', $now->format('H:i:s'));
-                });
-          });
-    });
-}
+                // Filter by date and availability
+                $q->whereDate('date', $parsedDate)   // Match provided date
+                  ->whereDoesntHave('bookings')      // Ensure time slot is not booked
+                  ->where(function($q) use ($now) {  // Additional filter for future time slots
+                      $q->where('date', '>', $now->format('Y-m-d'))  // Future dates
+                        ->orWhere(function($q) use ($now) {
+                            // For today's date, filter for future times
+                            $q->whereDate('date', '=', $now->format('Y-m-d'))
+                              ->whereTime('time', '>', $now->format('H:i:s'));
+                        });
+                  });
+            });
+        }
 
         // Fetch paginated counsellors (3 per page)
         $counsellors = $query->paginate(3);
 
         // Find the next available time slot for each counsellor
         foreach ($counsellors as $counsellor) {
-            $now = now(); // Current time in the app's time zone (ensure this is configured correctly)
+            $now = now(); // Current time in the app's time zone
 
+            // Retrieve the next available time slot
             $nextAvailableSlot = $counsellor->timeSlots()
                 ->whereDoesntHave('bookings') // Ensure the time slot is not booked
                 ->where(function ($q) use ($now) {
-                    // Check for future dates
                     $q->where('date', '>', $now->toDateString()) // For future dates
                       ->orWhere(function ($q) use ($now) {
-                          // For today's date, only select time slots after the current time
-                          $q->whereDate('date', $now->toDateString())
+                          $q->whereDate('date', $now->toDateString()) // For today, filter future times
                             ->whereTime('time', '>', $now->toTimeString());
                       });
                 })
@@ -75,59 +74,54 @@ class CounsellorsController extends Controller
             // Format the next available time slot if it exists
             if ($nextAvailableSlot) {
                 $counsellor->nextAvailableSlot = [
-                    'date' => Carbon::parse($nextAvailableSlot->date)->format('M d, Y'), // Format date
-                    'time' => Carbon::parse($nextAvailableSlot->time)->format('h:i A'),  // Format time
+                    'date' => Carbon::parse($nextAvailableSlot->date)->format('M d, Y'),
+                    'time' => Carbon::parse($nextAvailableSlot->time)->format('h:i A'),
                 ];
             } else {
                 $counsellor->nextAvailableSlot = null; // No available slot found
             }
         }
 
-        // Prepare the calendar events for FullCalendar
+        // Initialize arrays for calendar events and available dates
+        $calendarEvents = [];
+        $availableDates = [];
+        $now = Carbon::now(); // Current date and time
 
+        // Create calendar events for each counsellor's time slots
+        foreach ($counsellors as $counsellor) {
+            foreach ($counsellor->timeSlots as $slot) {
+                // Construct start and end times for the event
+                $startDateTime = Carbon::parse($slot->date)->format('Y-m-d') . 'T' . Carbon::parse($slot->time)->format('H:i:s');
+                $endDateTime = Carbon::parse($slot->date)->format('Y-m-d') . 'T' . Carbon::parse($slot->time)->addHour()->format('H:i:s');
 
-      // Initialize an empty array for calendar events and available event dates
-$calendarEvents = [];
-$availableDates = [];
+                // Add only future events
+                if (Carbon::parse($startDateTime)->greaterThanOrEqualTo($now)) {
+                    $calendarEvents[] = [
+                        'title' => $counsellor->name,  // Counsellor's name as event title
+                        'start' => $startDateTime,     // Start time of the event
+                        'end' => $endDateTime,         // End time of the event
+                        'className' => $slot->bookings()->exists() ? 'bg-danger' : 'bg-success',  // Red if booked, green if available
+                    ];
 
-// Get the current date and time
-$now = Carbon::now();
-
-// Loop through each counsellor
-foreach ($counsellors as $counsellor) {
-    foreach ($counsellor->timeSlots as $slot) {
-        // Combine the date and time for start and end times
-        $startDateTime = Carbon::parse($slot->date)->format('Y-m-d') . 'T' . Carbon::parse($slot->time)->format('H:i:s');
-        $endDateTime = Carbon::parse($slot->date)->format('Y-m-d') . 'T' . Carbon::parse($slot->time)->addHour()->format('H:i:s');
-
-        // Only add future events (skip past events)
-        if (Carbon::parse($startDateTime)->greaterThanOrEqualTo($now)) {
-            $calendarEvents[] = [
-                'title' => $counsellor->name,  // Use the counsellor's name for the event title
-                'start' => $startDateTime,      // Correctly formatted start time
-                'end' => $endDateTime,          // Correctly formatted end time
-                'className' => $slot->bookings()->exists() ? 'bg-danger' : 'bg-success',  // Red if booked, green if available
-            ];
-
-            // If the slot is available (not booked), add the date to available dates
-            if (!$slot->bookings()->exists()) {
-                $availableDates[] = Carbon::parse($slot->date)->format('Y-m-d'); // Format the date as 'Y-m-d'
+                    // Add available dates for non-booked slots
+                    if (!$slot->bookings()->exists()) {
+                        $availableDates[] = Carbon::parse($slot->date)->format('Y-m-d');
+                    }
+                }
             }
         }
-    }
-}
 
-// Remove duplicates from available dates
-$eventDates = array_unique($availableDates);
+        // Remove duplicates from available dates
+        $eventDates = array_unique($availableDates);
 
-// Pass counsellors, time slots, and the selected date to the view
-return view('counsellors.index', [
-    'counsellors' => $counsellors,
-    'time_slots' => TimeSlots::all(),  // Fetch all time slots
-    'selectedDate' => $date,  // Pass the selected date to the view
-    'calendarEvents' => $calendarEvents,  // Pass the calendar events for FullCalendar
-    'eventDates' => $eventDates, // Pass the available event dates dynamically
-]);
+        // Pass data to the view
+        return view('counsellors.index', [
+            'counsellors' => $counsellors,
+            'time_slots' => TimeSlots::all(),     // Fetch all time slots
+            'selectedDate' => $date,              // Pass selected date to the view
+            'calendarEvents' => $calendarEvents,  // Pass calendar events for FullCalendar
+            'eventDates' => $eventDates,          // Pass available event dates
+        ]);
     }
 
 
