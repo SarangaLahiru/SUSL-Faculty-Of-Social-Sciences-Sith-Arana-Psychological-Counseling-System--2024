@@ -13,6 +13,23 @@ use App\Http\Controllers\student\BookingsController;
 use App\Http\Controllers\student\CounsellorsController;
 use App\Http\Controllers\student\HomeController;
 
+use Illuminate\Support\Facades\Http;
+// use Illuminate\Support\Facades\Route;
+
+Route::post('/send/message', function () {
+    // Sending the SMS using Laravel's Http client
+    $response = Http::post('https://api.dialog.lk/sms/send', [
+        'message' => 'Hello',
+        'destinationAddresses' => ['tel:0772879128'],
+        'password' => '10f867692dc1747eb88c254c1b2edccf',
+        'applicationId' => 'APP_066306',
+    ]);
+
+    return response()->json($response->json());
+});
+Route::get('/calendar', function () {
+    return view('counsellors.calendar');
+});
 // Home Routes
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/aboutus', [HomeController::class, 'aboutus'])->name('home.aboutus');

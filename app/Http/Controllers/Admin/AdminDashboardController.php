@@ -20,13 +20,17 @@ class AdminDashboardController extends Controller
     {
 
 
+// Fetch all bookings with counsellor and time slot details
+$bookings = BookingDetails::with(['counsellor', 'timeSlot'])->get();
 
+// Group bookings by counsellor's full name
+$bookingsByCounsellor = $bookings->groupBy(function ($booking) {
+    return $booking->counsellor->full_name_with_rate ?? 'Unknown Counsellor';
+});
 
-  // Fetch booking details with counsellor's name and time slot information
-  $bookings = BookingDetails::with(['counsellor', 'timeSlot'])->get();
+// Return the view with the grouped bookings
+return view('admin.pages.bookings', compact('bookingsByCounsellor'));
 
-
-        return view('admin.pages.bookings',compact('bookings')); // Create this view
     }
     public function counsellors()
     {

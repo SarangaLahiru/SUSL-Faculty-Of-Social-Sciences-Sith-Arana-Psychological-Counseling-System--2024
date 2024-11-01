@@ -56,7 +56,7 @@
 }
 
 .card {
-    border-radius: 50px;
+    border-radius: 5px;
 }
 
 .card-header {
@@ -70,7 +70,8 @@
 }
 
 .card-body {
-    background-color: #f5f3f0;
+    background-color: #f5f3f0;;
+    padding: 10px 20px;
 }
 
 .card-text .date h2 {
@@ -173,7 +174,7 @@
 .date-content {
      /* Light gradient */
      background-color: white;
-     border: 2px solid #730d95;
+     border: 2px solid #622864;;
     border-radius: 10px; /* Rounded corners */
     width: 100px;
     border: 2px solid transparent; /* For selection outline */
@@ -181,13 +182,13 @@
 }
 
 .date-content:hover {
-    border: 2px solid #730d95; /* Blue border on hover */
+    border: 2px solid #622864;; /* Blue border on hover */
 }
 
 /* Selected Date Style */
 input[type="radio"]:checked + .date-content {
-    border: 2px solid #771196; /* Blue border for selected */
-    background: #710d7c; /* Lighter background for selected */
+    border: 2px solid #622864;; /* Blue border for selected */
+    background: #622864;; /* Lighter background for selected */
 
 }
 input[type="radio"]:checked + .date-content .date-day{
@@ -201,6 +202,7 @@ input[type="radio"]:checked + .date-content .date-month{
 
 /* Additional styling for date text */
 .date-day {
+
     font-size: 2rem; /* Large day number */
     font-weight: bold; /* Bold day number */
     color: #6c757d; /* Darker color */
@@ -213,7 +215,7 @@ input[type="radio"]:checked + .date-content .date-month{
 
 /* Modal Header Gradient */
 .bg-gradient-primary {
-    background: linear-gradient(90deg, #632965, #bc3fc1); /* Gradient background */
+    background: linear-gradient(90deg, #622864, #bc3fc1); /* Gradient background */
 }
 
 /* Button Shadow Styles */
@@ -231,7 +233,9 @@ input[type="radio"]:checked + .date-content .date-month{
     font-size: 15px;
 }
 .btn{
-    background-color: #5f0777;
+    background-color: #622864;
+padding: 10px 0px;
+color: white;
     border: none;
-    font-size: 15px;
+    font-size: 16px;
 }

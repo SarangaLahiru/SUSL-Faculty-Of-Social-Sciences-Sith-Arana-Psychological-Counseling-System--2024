@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Counsellor;
 use App\Models\TimeSlots;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\CounsellorCredentials;
@@ -31,38 +32,59 @@ class CounsellorController extends Controller
 
 
       public function store(Request $request)
-{
+      {
+          // Validate the request data
+          $validatedData = $request->validate([
+              'full_name_with_rate' => 'required|string|max:255',
+              'email' => 'required|string|email|max:255|unique:counsellors',
+              'NIC' => 'required|string|min:6|unique:counsellors',
+              'time_slots.*.day_of_week' => 'required|string',
+              'time_slots.*.time' => 'required|date_format:H:i',
+          ]);
 
-         // Validate the request data
-    $validatedData = $request->validate([
-        'full_name_with_rate' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:counsellors',
-        'NIC' => 'required|string|min:6|unique:counsellors',
-    ]);
+          // Generate an 8-character random password
+          $generatedPassword = Str::random(8);
 
-    // Generate an 8-character random password
-    $generatedPassword = Str::random(8);
+          // Hash the generated password
+          $hashedPassword = Hash::make($generatedPassword);
 
-    // Hash the generated password
-    $hashedPassword = Hash::make($generatedPassword);
+          // Create the counsellor
+          $counsellor = Counsellor::create([
+              'full_name_with_rate' => $validatedData['full_name_with_rate'],
+              'email' => $validatedData['email'],
+              'NIC' => $validatedData['NIC'],
+              'password' => $hashedPassword,
+          ]);
 
-    // Create the counsellor
-    $counsellor = Counsellor::create([
-        'full_name_with_rate' => $validatedData['full_name_with_rate'],
-        'email' => $validatedData['email'],
-        'NIC' => $validatedData['NIC'],
-        'password' => $hashedPassword,
+          // Send email to the counsellor with their login credentials
+          Mail::to($validatedData['email'])->send(new CounsellorCredentials($counsellor->email, $generatedPassword));
 
-    ]);
+          // Add weekly recurring time slots for the counsellor
+          $weeksToGenerate = 50;  // Define how many weeks to generate the slots for
+          $startDate = Carbon::now();  // Starting from the current date
+          $endDate = $startDate->copy()->addWeeks($weeksToGenerate);
 
+          foreach ($request->time_slots as $slot) {
+              $dayOfWeek = $slot['day_of_week'];
+              $time = $slot['time'];
 
-    // Send email to the counsellor with their login credentials
-    Mail::to($validatedData['email'])->send(new CounsellorCredentials($counsellor->email, $generatedPassword));
+              // Generate recurring dates for each day of the week up to the defined weeks
+              $currentDate = $startDate->copy()->next($dayOfWeek);  // Start on the next occurrence of the day
 
+              while ($currentDate->lte($endDate)) {
+                  // Save each time slot as an individual record
+                  $counsellor->timeSlots()->create([
+                      'date' => $currentDate->format('Y-m-d'),
+                      'time' => $time,
+                  ]);
 
+                  // Move to the same day in the next week
+                  $currentDate->addWeek();
+              }
+          }
 
-    return redirect()->route('admin.counsellors')->with('success', 'Counsellor added successfully with time slots.');
-}
+          return redirect()->route('admin.counsellors')->with('success', 'Counsellor added successfully with weekly time slots.');
+      }
 
 
     public function edit(Request $request, $counsellor_id)
@@ -94,6 +116,7 @@ class CounsellorController extends Controller
              'password' => 'nullable|string|min:6', // You might want to add logic for updating the password
              'intro' => 'required|string',
              'bio' => 'required|string',
+             'post'=>'required|string',
          ]);
 
          // Update the counsellor's information
@@ -105,6 +128,10 @@ class CounsellorController extends Controller
          $counsellor->username = $request->username;
          $counsellor->intro = $request->intro;
          $counsellor->bio = $request->bio;
+         $counsellor->post = $request->post;
+         $counsellor->intro = $request->intro;
+
+         dd($request->post);
 
          // If the password is provided, hash it and update
          if ($request->filled('password')) {

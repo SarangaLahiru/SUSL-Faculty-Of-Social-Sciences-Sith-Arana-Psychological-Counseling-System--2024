@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative Calendar View</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f9f9f9;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .calendar-container {
+        width: 100%;
+        max-width: 350px;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        padding: 20px;
+    }
+
+    .calendar-header {
+        background-color: #a235b1;
+        color: #fff;
+        padding: 1rem;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.4rem;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .calendar-header i {
+        cursor: pointer;
+        color: #fff;
+        transition: color 0.3s ease;
+    }
+
+    .calendar-header i:hover {
+        color: #d1c4e9;
+    }
+
+    .calendar-body {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        padding: 1rem;
+    }
+
+    .day, .date {
+        text-align: center;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+    .day {
+        color: #9e9e9e;
+        text-transform: uppercase;
+    }
+
+    .date {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #333;
+        background-color: #e3f2fd;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 45px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .date.selected {
+        background-color: #a235b1;
+        color: #fff;
+        transform: scale(1.1);
+        box-shadow: 0px 5px 10px rgba(94, 53, 177, 0.3);
+    }
+
+    .date:hover {
+        background-color: #d1c4e9;
+        color: #a235b1;
+        transform: scale(1.05);
+    }
+
+    .date.previous-month,
+    .date.next-month {
+        color: #bdbdbd;
+    }
+</style>
+</head>
+<body>
+
+<div class="calendar-container">
+    <div class="calendar-header">
+        <i class="fas fa-chevron-left" onclick="changeMonth(-1)"></i>
+        <span id="monthYearDisplay">October 2024</span>
+        <i class="fas fa-chevron-right" onclick="changeMonth(1)"></i>
+    </div>
+    <div class="calendar-body">
+        <!-- Days of the Week -->
+        <div class="day">Su</div>
+        <div class="day">Mo</div>
+        <div class="day">Tu</div>
+        <div class="day">We</div>
+        <div class="day">Th</div>
+        <div class="day">Fr</div>
+        <div class="day">Sa</div>
+    </div>
+    <div class="calendar-body" id="datesContainer">
+        <!-- Dates will be generated here by JavaScript -->
+    </div>
+</div>
+
+<script>
+    const monthYearDisplay = document.getElementById("monthYearDisplay");
+    const datesContainer = document.getElementById("datesContainer");
+
+    let currentDate = new Date();
+
+    function generateCalendar() {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+
+        // Display current month and year
+        monthYearDisplay.innerText = `${currentDate.toLocaleString("default", { month: "long" })} ${year}`;
+
+        // Clear previous dates
+        datesContainer.innerHTML = "";
+
+        // Get first day of the month, last date of the current month, and last date of the previous month
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
+        const lastDateOfPrevMonth = new Date(year, month, 0).getDate();
+
+        // Display dates from the previous month (faded out)
+        for (let i = firstDayOfMonth - 1; i >= 0; i--) {
+            const prevMonthDateDiv = document.createElement("div");
+            prevMonthDateDiv.classList.add("date", "previous-month");
+            prevMonthDateDiv.innerText = lastDateOfPrevMonth - i;
+            datesContainer.appendChild(prevMonthDateDiv);
+        }
+
+        // Display dates of the current month
+        for (let day = 1; day <= lastDateOfMonth; day++) {
+            const dateDiv = document.createElement("div");
+            dateDiv.classList.add("date");
+            dateDiv.innerText = day;
+            dateDiv.addEventListener("click", () => selectDate(dateDiv));
+            datesContainer.appendChild(dateDiv);
+        }
+
+        // Fill in the remaining cells with dates from the next month (faded out)
+        const remainingDays = 42 - datesContainer.children.length;  // Ensures a 6-week view
+        for (let i = 1; i <= remainingDays; i++) {
+            const nextMonthDateDiv = document.createElement("div");
+            nextMonthDateDiv.classList.add("date", "next-month");
+            nextMonthDateDiv.innerText = i;
+            datesContainer.appendChild(nextMonthDateDiv);
+        }
+    }
+
+    function changeMonth(direction) {
+        currentDate.setMonth(currentDate.getMonth() + direction);
+        generateCalendar();
+    }
+
+    function selectDate(selectedDiv) {
+        document.querySelectorAll(".date").forEach(date => date.classList.remove("selected"));
+        selectedDiv.classList.add("selected");
+    }
+
+    generateCalendar();
+</script>
+
+</body>
+</html>
