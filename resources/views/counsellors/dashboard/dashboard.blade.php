@@ -92,7 +92,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-dark shadow">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Admin Dashboard</a>
+            <a class="navbar-brand" href="#">Counsellor Dashboard</a>
             <div>
                 <div class="dropdown">
                     <span class="me-2" style="color: #f1f1f1;">{{ Auth::guard('counsellor')->user()->NIC }}</span>

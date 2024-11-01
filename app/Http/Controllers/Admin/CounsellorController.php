@@ -60,7 +60,7 @@ class CounsellorController extends Controller
           Mail::to($validatedData['email'])->send(new CounsellorCredentials($counsellor->email, $generatedPassword));
 
           // Add weekly recurring time slots for the counsellor
-          $weeksToGenerate = 4;  // Define how many weeks to generate the slots for
+          $weeksToGenerate = 50;  // Define how many weeks to generate the slots for
           $startDate = Carbon::now();  // Starting from the current date
           $endDate = $startDate->copy()->addWeeks($weeksToGenerate);
 

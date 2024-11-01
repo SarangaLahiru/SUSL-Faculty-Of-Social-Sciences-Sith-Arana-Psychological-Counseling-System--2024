@@ -5,354 +5,462 @@
 @section('content')
 
 <style>
+    /* Body and general styling */
     body {
         margin: 0;
         padding: 0;
-        font-size: 12px;
+        font-size: 14px;
+        font-family: Arial, sans-serif;
+
+        color: #333;
     }
 
-    #top,
-    #calendar.fc-unthemed {
-        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    /* Main container for the two-column layout */
+    .container-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
     }
 
-    /* Custom styles for the "today" date */
-    .fc-today {
-        background-color: #ffeb3b; /* Highlight color */
-        color: #000; /* Text color */
-        font-weight: bold; /* Bold text */
-        border: 2px solid #ffc107; /* Border color */
+    /* Calendar container */
+    .calendar-container {
+        flex: 1;
+        max-width: 500px;
+        max-height: auto;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff47;
+        text-align: center;
+        margin-bottom: 20px;
+
     }
 
-    /* Button styles */
-    .fc-prev-button,
-    .fc-next-button {
-        background-color: white;
-        color: black; /* Text color */
-        border: none; /* Remove border */
-        border-radius: 5px; /* Rounded corners */
-        padding: 5px 10px; /* Padding */
-        cursor: pointer; /* Pointer cursor on hover */
+    /* Calendar header */
+    .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.5rem;
+        color: #fff;
+        background-color: #632965;
+        padding: 15px;
+        border-radius: 10px 10px 0 0;
     }
 
-    #top {
-        background: #eee;
-        border-bottom: 1px solid #ddd;
-        padding: 0 10px;
-        line-height: 40px;
-        font-size: 12px;
-        color: #000;
+    .calendar-header i {
+        cursor: pointer;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
     }
 
-    .filters {
-        padding: 20px 0;
+    .calendar-header i:hover {
+        color: #ffeb3b;
     }
 
-    #calendar {
-        max-width: 900px;
-        margin: 40px auto;
-        padding: 10px 10px;
+    /* Calendar days (weekdays) and dates */
+    .calendar-days, .calendar-dates {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        padding: 15px;
+        background-color: #f8f9fa8b;
+        border-radius: 0 0 10px 10px;
+    }
+    .title{
+        font-size: 20px;
+        width: 400px;
+        text-align: center;
+        padding: 10px 0px;
     }
 
-    /* Change header background color */
-    .fc-toolbar {
-        background-color: #632965; /* Change to your desired color */
-        color: white; /* Change text color */
-        padding: 10px 15px;
+    /* Day names */
+    .day {
+        font-weight: bold;
+        color: #666;
     }
 
-    /* Change the day cell background color */
-    .fc-day {
-        background-color: #f8f9fc; /* Change to your desired color */
+    /* General date styling */
+    .date {
+        padding: 10px;
+        border-radius: 8px;
+        transition: background-color 0.3s, transform 0.2s;
     }
 
-    /* Change the weekend day cell background color */
-    .fc-day-sat,
-    .fc-day-sun {
-        background-color: #ffe5e5; /* Change to your desired color */
+    /* Faded style for previous and next month's dates */
+    .date.previous-month, .date.next-month {
+        color: #d1d1d1;
+        background-color: #e9ecef;
     }
 
-    /* Change the event background color */
-    .fc-event {
-        background-color: #1cc88a; /* Change to your desired color */
-        border-color: #17a673; /* Change border color */
-        color: white; /* Change text color of events */
+    /* Styling for current month dates */
+    .date.current-month {
+        cursor: pointer;
+        color: #333;
+        background-color: #fff;
+    }
+
+    /* Hover effect for current month dates */
+    .date.current-month:hover {
+        background-color: #d1e7ff;
+        transform: scale(1.05);
+    }
+
+    /* Selected date style */
+    .selected {
+        background-color: #1cc88a !important;
+        color: #fff !important;
+        font-weight: bold;
+        box-shadow: 0px 4px 10px rgba(0, 128, 0, 0.2);
+    }
+
+    /* Highlighted available date style */
+    .highlighted-date {
+        background-color: #1cc8894b !important;
+        color: #eeffee !important;
+        font-weight: bold;
+        box-shadow: 0px 4px 10px rgba(141, 255, 158, 0.3);
+    }
+    .selected {
+        background-color: #1cc88a !important;
+        color: #fff !important;
+        font-weight: bold;
+        box-shadow: 0px 4px 10px rgba(0, 128, 0, 0.2);
+    }
+
+    /* Responsive styling */
+    @media (max-width: 768px) {
+        .calendar-container, .counsellors-container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
     }
 
 </style>
+{{--  <h2 class = "title m-auto w-20 ">sdfsdf</h2>  --}}
+<div class="container-row">
 
-<div class="containe ">
-    <div class="showcase text-center mt-5">
-        <h1>Book a session</h1>
-        <p>Book a session with our qualified Counsellors</p>
+    <!-- Calendar Section -->
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <i class="fas fa-chevron-left" onclick="changeMonth(-1)"></i>
+            <span id="monthYearDisplay">October 2024</span>
+            <i class="fas fa-chevron-right" onclick="changeMonth(1)"></i>
+        </div>
+        <div class="calendar-days">
+            <div class="day">Su</div>
+            <div class="day">Mo</div>
+            <div class="day">Tu</div>
+            <div class="day">We</div>
+            <div class="day">Th</div>
+            <div class="day">Fr</div>
+            <div class="day">Sa</div>
+        </div>
+        <div class="calendar-dates" id="datesContainer">
+            <!-- Dates will be populated by JavaScript -->
+        </div>
+        <hr>
+
+        {{-- Gender Filter --}}
+        <div class="gender-filter mt-4">
+            <h3 class="filter-title">Choose Gender</h3>
+            <ul class="gender-options d-flex flex-wrap justify-content-center">
+                @php
+                    $query = request()->query();
+                @endphp
+                <li class="gender-option m-2">
+                    @php $query['gender'] = 'male'; @endphp
+                    <a href="{{ route('counsellors.index', $query) }}" class="{{ request('gender') == 'male' ? 'active' : '' }}">
+                        <i class="fas fa-mars"></i> Male
+                    </a>
+                </li>
+                <li class="gender-option m-2">
+                    @php $query['gender'] = 'female'; @endphp
+                    <a href="{{ route('counsellors.index', $query) }}" class="{{ request('gender') == 'female' ? 'active' : '' }}">
+                        <i class="fas fa-venus"></i> Female
+                    </a>
+                </li>
+                <li class="gender-option m-2">
+                    @php unset($query['gender']); @endphp
+                    <a href="{{ route('counsellors.index', $query) }}" class="{{ !request('gender') ? 'active' : '' }}">
+                        <i class="fas fa-genderless"></i> Any
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 
-    <div class="box mt-5 main">
-        <div class="row">
-            {{-- Filters section --}}
-            <div class="col col-sm-12 col-lg-5 mb-8 col-md-12 p-5 filters">
-                <div class="shadow-lg " >
-                    {{--  <div id='calendar'></div>  --}}
+    <style>
+        /* Gender Filter Styling */
+        .gender-filter {
+            text-align: center;
+        }
 
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        {{-- Days filter --}}
-                        <div class="filters-body">
-                            <h3>Available dates</h3>
-                                <div id="datepicker" class="datepicker-inline shadow rounded-3"></div>
-                            {{-- Gender filter --}}
+        .filter-title {
+            font-size: 1.25rem;
+            color: #632965;
+            margin-bottom: 10px;
+        }
 
-                            <div class="gender-filter">
-                                <h3>Gender</h3>
-                                <ul class="list-unstyled d-flex">
-                                    @php
-                                        $query = request()->query(); // Capture existing query parameters
-                                    @endphp
-                                    <li class="m-2">
-                                        @php $query['gender'] = 'male'; @endphp
-                                        <a href="{{ route('counsellors.index', $query) }}" class="{{ request('gender') == 'male' ? 'active' : '' }}">Male</a>
-                                    </li>
-                                    <li class="m-2">
-                                        @php $query['gender'] = 'female'; @endphp
-                                        <a href="{{ route('counsellors.index', $query) }}" class="{{ request('gender') == 'female' ? 'active' : '' }}">Female</a>
-                                    </li>
-                                    <li class="m-2">
-                                        @php unset($query['gender']); @endphp
-                                        <a href="{{ route('counsellors.index', $query) }}" class="{{ !request('gender') ? 'active' : '' }}">Any</a>
-                                    </li>
-                                </ul>
+        .gender-options {
+            padding: 0;
+            list-style: none;
+        }
+
+        .gender-option a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 15px;
+            font-size: 1.5rem;
+            color: #632965;
+            background-color: #f8f9fa;
+            border: 1px solid #d1d1d1;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .gender-option a:hover {
+            background-color: #632965;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .gender-option a i {
+            margin-right: 8px;
+        }
+
+        /* Active styling for selected filter */
+        .gender-option a.active {
+            background-color: #632965;
+            color: #fff;
+            font-weight: bold;
+            border-color: #632965;
+        }
+    </style>
+
+
+    <!-- Counsellors Section -->
+    <style>
+        /* General container styling */
+        .counsellors-container {
+            padding: 20px;
+            border-radius: 40px;
+        }
+
+        /* Counsellor card styling */
+        .counsellor-card {
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            border-radius: 18px;
+
+        }
+
+        {{--  .counsellor-card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }  --}}
+
+        /* Counsellor image styling */
+        .counsellor-image {
+            width: 100%;
+            max-width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+
+
+
+        /* Layout adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .counsellors-container {
+                padding: 10px;
+            }
+
+            .counsellor-card {
+                margin-bottom: 20px;
+            }
+
+            .card-title {
+                font-size: 24px;
+            }
+
+            .card-subtitle {
+                font-size: 14px;
+            }
+
+            .card-text {
+                font-size: 14px;
+            }
+
+            .see-more-link {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .counsellor-image {
+                max-width: 100px;
+                margin-bottom: 10px;
+            }
+
+        }
+
+    </style>
+
+    <div class="counsellors-container col-12 col-lg-7 col-md-12 mb-4">
+        <div class="justify-content-center p-3 p-lg-5">
+            @if($counsellors->isEmpty())
+                <div class="text-center py-5">
+                    <div class="card shadow-lg border-0 mx-auto box1" style="max-width: 600px ;">
+                        <div class="card-body">
+                            <div class="icon-wrapper mb-3">
+                                <i class="fas fa-user-slash" style="font-size: 3rem; color: #d1d1d1;"></i>
                             </div>
+                            <h4 class="text-muted mb-3">No Counsellors Available</h4>
+                            <p class="text-muted">Please check back later for new availability.</p>
                         </div>
                     </div>
                 </div>
-            </div>
+            @else
+                @foreach ($counsellors as $counsellor)
+                    <div class="col-12 mb-4">
+                        <div class="card counsellor-card shadow ">
+                            <div class="row no-gutters align-items-center">
+                                <!-- Counsellor image column -->
+                                <div class="col-12 col-md-4 d-flex justify-content-center align-items-center py-3">
+                                    <img src="{{ $counsellor->profile_image
+                                        ? asset('storage/' . $counsellor->profile_image)
+                                        : ($counsellor->gender === 'male'
+                                            ? 'https://t4.ftcdn.net/jpg/02/44/43/69/360_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg'
+                                            : 'https://static.vecteezy.com/system/resources/previews/000/350/779/non_2x/vector-female-student-icon.jpg') }}"
+                                         class="counsellor-image "
+                                         alt="{{ $counsellor->full_name_with_rate }}">
+                                </div>
 
-            {{-- Counsellors list --}}
-            <div class="col col-sm-12 col-lg-7 col-md-12 mb-4">
-                <div class="justify-content-center p-3 p-lg-5">
-                    @foreach ($counsellors as $counsellor)
-                        <div class="col-12 col-md-12 mb-4 shadow rounded-2">
-                            <div class="card counsellor-card">
-                                <div class="row no-gutters">
-                                    <div class="col-12 col-md-4 d-flex justify-content-center align-items-center">
-                                        <img
-                                            src="{{ $counsellor->profile_image
-                                                ? asset('storage/' . $counsellor->profile_image)
-                                                : ($counsellor->gender === 'male'
-                                                    ? 'https://t4.ftcdn.net/jpg/02/44/43/69/360_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg'
-                                                    : 'https://static.vecteezy.com/system/resources/previews/000/350/779/non_2x/vector-female-student-icon.jpg') }}"
-                                            class="counsellor-image p-3 p-md-4 rounded img-fluid"
-                                        >
-                                    </div>
-                                    <div class="col-12 col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title" style="font-size: 28px">{{ $counsellor->full_name_with_rate }}</h5>
-                                            <p class="card-subtitle mb-2 text-muted" style="font-size: 16px">{{ $counsellor->title }}</p>
-                                            <hr>
-                                            <p class="card-text">{{ $counsellor->intro }}</p>
-                                            <a href="{{ route('counsellors.show', ['counsellor' => $counsellor->counsellor_id]) }}" class="see-more-link">See more about {{ $counsellor->full_name_with_rate }} ></a>
+                                <!-- Counsellor details column -->
+                                <div class="col-12 col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title font-weight-bold">{{ $counsellor->full_name_with_rate }}</h5>
+                                        <p class="card-subtitle text-muted">{{ $counsellor->title }}</p>
+                                        <hr>
+                                        <p class="card-text">{{ $counsellor->intro }}</p>
+                                        <a href="{{ route('counsellors.show', ['counsellor' => $counsellor->counsellor_id]) }}" class="see-more-link text-primary">
+                                            See more about {{ $counsellor->full_name_with_rate }} >
+                                        </a>
 
-                                            <div class="row mt-4 mt-md-5">
-                                                <div class="col-7">
-                                                    <p class="mb-2 text-muted" style="font-size: 14px;"><strong>Next available</strong></p>
-                                                    {{-- Show the next available time slot --}}
-                                                    @if ($counsellor->nextAvailableSlot)
-                                                        <p class="text-primary mb-3" style="font-size: 14px;">
-                                                            {{ $counsellor->nextAvailableSlot['date'] }} at {{ $counsellor->nextAvailableSlot['time'] }}
-                                                        </p>
-                                                    @else
-                                                        <p class="text-danger mb-3" style="font-size: 14px;">No available slots</p>
-                                                    @endif
-                                                </div>
-                                                <div class="col col-lg-5 mt-2">
-                                                    @if ($counsellor->nextAvailableSlot)
-                                                        <a href="{{ route('counsellors.show', ['counsellor' => $counsellor->counsellor_id, 'date' => \Carbon\Carbon::parse($counsellor->nextAvailableSlot['date'])->format('Y-m-d'), 'counsellor_id' => $counsellor->counsellor_id]) }}"
-                                                           class="btn-gradient-primary" {{ !$counsellor->nextAvailableSlot ? 'disabled' : '' }}>
-                                                            Book Now
-                                                        </a>
-                                                    @endif
-                                                </div>
+                                        <div class="row mt-4">
+                                            <div class="col-7">
+                                                <p class="text-muted mb-2"><strong>Next available</strong></p>
+                                                @if ($counsellor->nextAvailableSlot)
+                                                    <p class="text-success mb-3">
+                                                        {{ $counsellor->nextAvailableSlot['date'] }} at {{ $counsellor->nextAvailableSlot['time'] }}
+                                                    </p>
+                                                @else
+                                                    <p class="text-danger mb-3">No available slots</p>
+                                                @endif
                                             </div>
+                                            @php
+                                            // Check if 'date' is present in the request URL, otherwise use the next available slot date
+                                            $selectedDate = request('date') ?? \Carbon\Carbon::parse($counsellor->nextAvailableSlot['date'])->format('Y-m-d');
+                                        @endphp
+
+                                        <div class="col-5 text-right">
+                                            @if ($counsellor->nextAvailableSlot)
+                                                <a href="{{ route('counsellors.show', [
+                                                        'counsellor' => $counsellor->counsellor_id
+                                                    ]) }}?date={{ $selectedDate }}"
+                                                   class="btn btn-primary btn-sm px-5">
+                                                    Book Now
+                                                </a>
+                                            @endif
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-
-                    {{-- Pagination links --}}
-                    <div class="d-flex justify-content-center mt-5">
-                        {{ $counsellors->appends(request()->query())->links('pagination::bootstrap-4') }}
                     </div>
-                </div>
-            </div>
+                @endforeach
+            @endif
         </div>
     </div>
 </div>
 
-<style>
-    .selected-date {
-        background-color: #007bff !important;  /* Blue background for the selected date */
-        color: #fff !important;  /* White text for the selected date */
-    }
-    .highlighted-date {
-     background-color: #632965 !important; /* Yellow background */
-     border-color: #632965 !important;      /* Border for the highlighted cell */
- }
- .highlighted-date .fc-day-number {
-    color: white !important;  /* Red date number */
-    font-weight: bold;          /* Make the number bold */
-}
-.fc-day-number{
-    color: #632965;
-    font-size: 16px
-}
-.highlight-event a {
-    background-color: #f39c12 !important;  /* Orange color */
-    color: white !important;
-    border-radius: 50% !important;  /* Make the highlighted date circular */
-}
- </style>
-
-{{-- Scripts --}}
-<script src='packages/core/main.js'></script>
-<script src='packages/interaction/main.js'></script>
-<script src='packages/bootstrap/main.js'></script>
-<script src='packages/daygrid/main.js'></script>
-<script src='packages/timegrid/main.js'></script>
-<script src='packages/list/main.js'></script>
-<script src='js/theme-chooser.js'></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-{{--  <script>
-
-
-    $(document).ready(function() {
-        var calendarEl = document.getElementById('calendar');
-
-        // Extract the selected date from the query string (if available)
-        var selectedDate = new URLSearchParams(window.location.search).get('date');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list'],
-            themeSystem: 'bootstrap 4',
-            events: @json($calendarEvents),  // Event data from your backend
-
-            header: {
-                left: 'title',
-                center: 'prev,next ',
-                right: 'dayGridMonth,timeGridWeek'
-            },
-            weekNumbers: true,
-            navLinks: true,
-            eventLimit: true,
-
-            // Handle clicking on a date cell
-            dateClick: function(info) {
-                var clickedDate = info.dateStr;  // Get the clicked date in 'YYYY-MM-DD' format
-
-                // Redirect to the same page with the clicked date as a query parameter
-                window.location.href = '?date=' + clickedDate;
-            },
-
-            // After each calendar render, highlight the selected date (if any)
-            datesSet: function() {
-                highlightSelectedDate();
-            },
-
-            // Handle event clicks (if needed)
-            eventClick: function(info) {
-                info.jsEvent.preventDefault();  // Prevent default behavior
-
-                // Redirect with the event start date as the query parameter
-                var eventStart = info.event.start.toISOString().split('T')[0]; // 'YYYY-MM-DD' format
-                window.location.href = '?date=' + eventStart;
-            }
-        });
-
-        calendar.render();  // Render the calendar
-
-        // Function to highlight the selected date after render
-        function highlightSelectedDate() {
-            // Remove previous highlights first
-            $('.fc-day').removeClass('highlighted-date');
-
-            if (selectedDate) {
-                // Highlight the date cell using data-date attribute
-                var dateCell = $('[data-date="' + selectedDate + '"]');
-                if (dateCell.length) {
-                    dateCell.addClass('highlighted-date');
-                }
-            }
-        }
-
-        // Call highlight function on page load for selected date
-        highlightSelectedDate();
-    });
-
-</script>  --}}
-
 <script>
-    $(document).ready(function() {
-        var selectedDate = null;  // Variable to store selected date
-        var urlParams = new URLSearchParams(window.location.search);
-        var urlDate = urlParams.get('date'); // Get the date parameter from the URL
+    const monthYearDisplay = document.getElementById("monthYearDisplay");
+    const datesContainer = document.getElementById("datesContainer");
+    let currentDate = new Date();
 
-        // Define event dates in a moment-friendly format
-        var eventDate = <?php echo json_encode($eventDates); ?>;
+    const availableDates = @json($eventDates);
 
-        var eventDates = eventDate.map(date => moment(date).format('YYYY-MM-DD'));
+    // Parse the date from the URL, if present
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedDate = urlParams.get('date');  // e.g., "2024-11-01"
 
-        // Initialize the datepicker with custom logic to highlight event dates
-        $('#datepicker').datepicker({
-            format: "yyyy-mm-dd",  // Set the format to "YYYY-MM-DD"
-            todayHighlight: true,
-            beforeShowDay: function(date) {
-                var formattedDate = moment(date).format('YYYY-MM-DD');  // Convert date to "YYYY-MM-DD"
-                console.log(eventDates.indexOf(formattedDate));
-                // Check if the current date is in the eventDates array
-                if (eventDates.indexOf(formattedDate) !== -1) {
-                    return { classes: 'selected-date',
-                    tooltip: 'Selected date'};  // Return an array for event dates
-                }
+    function generateCalendar() {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
 
-                // Check if the current date is the selected date or from the URL
-                if (selectedDate === formattedDate || urlDate === formattedDate) {
-                    return [true, 'selected-date', 'Selected date'];  // Return an array for selected date
-                }
+        monthYearDisplay.innerText = `${currentDate.toLocaleString("default", { month: "long" })} ${year}`;
+        datesContainer.innerHTML = "";  // Clear previous dates
 
-                return [true, '', ''];  // Return default behavior for other dates
-            }
-        });
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
+        const lastDateOfPrevMonth = new Date(year, month, 0).getDate();
 
-        // Automatically select the date from the URL if it exists
-        if (urlDate) {
-            selectedDate = urlDate; // Set the selected date to the URL date
-            $('#datepicker').datepicker('setDate', selectedDate); // Set the datepicker to this date
-            $('#selected-date').text('Selected Date: ' + selectedDate); // Display selected date
+        // Dates from the previous month
+        for (let i = firstDayOfMonth - 1; i >= 0; i--) {
+            const prevMonthDateDiv = document.createElement("div");
+            prevMonthDateDiv.classList.add("date", "previous-month");
+            prevMonthDateDiv.innerText = lastDateOfPrevMonth - i;
+            datesContainer.appendChild(prevMonthDateDiv);
         }
 
-        // Add an event listener for when a date is selected
-        $('#datepicker').on('changeDate', function(e) {
-            selectedDate = e.format();  // Get the selected date in "YYYY-MM-DD" format
-            $('#selected-date').text('Selected Date: ' + selectedDate); // Display selected date
+        // Dates of the current month
+        for (let day = 1; day <= lastDateOfMonth; day++) {
+            const dateDiv = document.createElement("div");
+            dateDiv.classList.add("date", "current-month");
+            dateDiv.innerText = day;
 
-            // Update the URL with the selected date
-            var url = new URL(window.location.href);
-            var params = new URLSearchParams(url.search);
-            params.set('date', selectedDate); // Set the new date parameter
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            if (availableDates.includes(dateStr)) {
+                dateDiv.classList.add("highlighted-date");
+            }
 
-            // Maintain other query parameters
-            window.location.search = params.toString();
-        });
-    });
-    </script>
+            // Highlight the date if it matches the URL date parameter
+            if (dateStr === selectedDate) {
+                dateDiv.classList.add("selected");
+            }
+
+            dateDiv.addEventListener("click", () => selectDate(dateDiv, dateStr));
+            datesContainer.appendChild(dateDiv);
+        }
+
+        const remainingCells = 42 - datesContainer.children.length;
+        for (let i = 1; i <= remainingCells; i++) {
+            const nextMonthDateDiv = document.createElement("div");
+            nextMonthDateDiv.classList.add("date", "next-month");
+            nextMonthDateDiv.innerText = i;
+            datesContainer.appendChild(nextMonthDateDiv);
+        }
+    }
+
+    function changeMonth(direction) {
+        currentDate.setMonth(currentDate.getMonth() + direction);
+        generateCalendar();
+    }
+
+    function selectDate(selectedDiv, dateStr) {
+        document.querySelectorAll(".date").forEach(date => date.classList.remove("selected"));
+        selectedDiv.classList.add("selected");
+        window.location.href = `?date=${dateStr}`;
+    }
+
+    generateCalendar();
+</script>
 
 
-    @endsection
+@endsection

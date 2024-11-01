@@ -157,50 +157,172 @@
             </div>
         </div>
 
-        <!-- Date Selection Modal -->
-        <!-- Date Selection Modal -->
-<!-- Creative Date Selection Modal with Animated Tiles -->
+ <!-- Date Selection Modal -->
 <div class="modal fade" id="dateModal" tabindex="-1" aria-labelledby="dateModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content rounded-4 shadow-lg">
             <div class="modal-header bg-gradient-primary text-white">
-                <h5 class="modal-title d-flex align-items-center" id="dateModalLabel">
-                     Select a Date
-                </h5>
+                <h5 class="modal-title d-flex align-items-center" id="dateModalLabel">Select a Date</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="{{ route('counsellors.show', $counsellor->counsellor_id) }}" method="GET">
-                    <!-- Creative Date Tiles -->
                     <div class="form-group">
                         <label for="date" class="form-label mb-3">Available Dates</label>
-                        <div class="d-flex flex-wrap gap-3 justify-content-center"> <!-- Flexbox for tiles -->
-                            @foreach($availableDates as $date)
-                                <label class="date-tile" for="date-{{ $date }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to select {{ \Carbon\Carbon::parse($date)->format('F d, Y') }}">
-                                    <input type="radio" name="date" id="date-{{ $date }}" value="{{ $date }}" class="d-none" {{ $date == $selectedDate ? 'checked' : '' }}>
-                                    <div class="date-content text-center py-4 px-3 rounded">
 
-                                        <div class="mt-2">
-                                            <span class="date-day">{{ \Carbon\Carbon::parse($date)->format('d') }}</span> <br>
-                                            <span class="date-month">{{ \Carbon\Carbon::parse($date)->format('F') }}</span>
-                                        </div>
-                                    </div>
-                                </label>
-                            @endforeach
+                        <!-- Month Navigation with Styled Buttons -->
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <button type="button" id="prevMonth" class="btn btn-nav">&larr;</button>
+                            <h5 class="text-center month-display" id="monthYearDisplay"></h5>
+                            <button type="button" id="nextMonth" class="btn btn-nav">&rarr;</button>
                         </div>
+
+                        <!-- Calendar Grid for Available Dates -->
+                        <div class="calendar-grid d-flex flex-wrap gap-3 justify-content-center"></div>
                     </div>
                     <input type="hidden" name="counsellor_id" value="{{ $counsellor->counsellor_id }}">
-            </div>
-            <div class="modal-footer justify-content-between w-100">
+                    <input type="hidden" name="date" id="selectedDateInput">
 
-                <button type="submit" class="btn  w-100 align-items-center shadow-sm">
-                    Select Date
-                </button>
-            </div>
+                    <div class="modal-footer justify-content-between w-100">
+                        <button type="submit" class="btn btn-gradient-primary w-100 shadow-sm">Select Date</button>
+                    </div>
                 </form>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- CSS for Enhanced Styling -->
+<style>
+    /* Main Modal Enhancements */
+
+
+
+
+    /* Month Navigation Buttons */
+    .btn-nav {
+
+        color: #fff;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        border: none;
+        font-weight: bold;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+
+    /* Calendar Styling */
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+    }
+    .date-tile {
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+    .date-content {
+
+        border-radius: 12px;
+        padding: 25px 10px;
+        font-size: 2rem;
+        color: #333;
+        text-align: center;
+        box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+    }
+    .date-content:hover {
+        background: #e6f0ff;
+        box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.2);
+    }
+    .date-content.active {
+
+        color: #fff;
+        font-weight: bold;
+    }
+
+    /* Month Display Style */
+    .month-display {
+        font-size: 1.2rem;
+        color: #374151;
+        font-weight: 600;
+    }
+</style>
+
+<!-- JavaScript for Month Navigation and Date Selection -->
+
+<!-- JavaScript for Month Navigation and Date Selection -->
+<!-- JavaScript for Month Navigation and Date Selection with Weekday Display -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const availableDates = @json($availableDates);
+    const groupedDates = availableDates.reduce((acc, date) => {
+        const monthYear = new Date(date).toLocaleString('default', { month: 'long', year: 'numeric' });
+        acc[monthYear] = acc[monthYear] || [];
+        acc[monthYear].push(date);
+        return acc;
+    }, {});
+
+    let currentMonthIndex = 0;
+    const monthYearKeys = Object.keys(groupedDates);
+    const monthYearDisplay = document.getElementById('monthYearDisplay');
+    const calendarGrid = document.querySelector('.calendar-grid');
+    const selectedDateInput = document.getElementById('selectedDateInput');
+
+    function renderCalendar(monthYear) {
+        monthYearDisplay.textContent = monthYear;
+        calendarGrid.innerHTML = '';
+
+        groupedDates[monthYear].forEach(date => {
+            const dateObj = new Date(date);
+            const day = dateObj.getDate();
+            const weekday = dateObj.toLocaleString('default', { weekday: 'short' }); // Get short weekday name (e.g., "Mon")
+
+            const label = document.createElement('label');
+            label.className = 'date-tile';
+
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = 'date';
+            input.value = date;
+            input.classList.add('d-none');
+
+            const dateContent = document.createElement('div');
+            dateContent.className = 'date-content text-center';
+            dateContent.innerHTML = `<span class="weekday">${weekday}</span><br><strong>${day}</strong>`;
+            dateContent.onclick = function() {
+                document.querySelectorAll('.date-content').forEach(d => d.classList.remove('active'));
+                dateContent.classList.add('active');
+                input.checked = true;
+                selectedDateInput.value = date; // Set selected date
+            };
+
+            label.append(input, dateContent);
+            calendarGrid.append(label);
+        });
+    }
+
+    // Initial render for the first month
+    renderCalendar(monthYearKeys[currentMonthIndex]);
+
+    // Month navigation event listeners
+    document.getElementById('prevMonth').addEventListener('click', () => {
+        if (currentMonthIndex > 0) {
+            currentMonthIndex--;
+            renderCalendar(monthYearKeys[currentMonthIndex]);
+        }
+    });
+
+    document.getElementById('nextMonth').addEventListener('click', () => {
+        if (currentMonthIndex < monthYearKeys.length - 1) {
+            currentMonthIndex++;
+            renderCalendar(monthYearKeys[currentMonthIndex]);
+        }
+    });
+});
+</script>
 
         </div>
 
