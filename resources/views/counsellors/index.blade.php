@@ -145,9 +145,9 @@
     <!-- Calendar Section -->
     <div class="calendar-container">
         <div class="calendar-header">
-            <i class="fas fa-chevron-left" onclick="changeMonth(-1)"></i>
+            <i class="bi bi-chevron-left" onclick="changeMonth(-1)"></i>
             <span id="monthYearDisplay">October 2024</span>
-            <i class="fas fa-chevron-right" onclick="changeMonth(1)"></i>
+            <i class="bi bi-chevron-right" onclick="changeMonth(1)"></i>
         </div>
         <div class="calendar-days">
             <div class="day">Su</div>
@@ -173,19 +173,19 @@
                 <li class="gender-option m-2">
                     @php $query['gender'] = 'male'; @endphp
                     <a href="{{ route('counsellors.index', $query) }}" class="{{ request('gender') == 'male' ? 'active' : '' }}">
-                        <i class="fas fa-mars"></i> Male
+                        <i class="bi bi-mars"></i> Male
                     </a>
                 </li>
                 <li class="gender-option m-2">
                     @php $query['gender'] = 'female'; @endphp
                     <a href="{{ route('counsellors.index', $query) }}" class="{{ request('gender') == 'female' ? 'active' : '' }}">
-                        <i class="fas fa-venus"></i> Female
+                        <i class="bi bi-venus"></i> Female
                     </a>
                 </li>
                 <li class="gender-option m-2">
                     @php unset($query['gender']); @endphp
                     <a href="{{ route('counsellors.index', $query) }}" class="{{ !request('gender') ? 'active' : '' }}">
-                        <i class="fas fa-genderless"></i> Any
+                        <i class="bi bi-genderless"></i> Any
                     </a>
                 </li>
             </ul>
@@ -307,84 +307,94 @@
             }
 
         }
+        .box{
+            background-color: #ffde3b44;
+        }
 
     </style>
 
     <div class="counsellors-container col-12 col-lg-7 col-md-12 mb-4">
         <div class="justify-content-center p-3 p-lg-5">
             @if($counsellors->isEmpty())
-                <div class="text-center py-5">
-                    <div class="card shadow-lg border-0 mx-auto box1" style="max-width: 600px ;">
-                        <div class="card-body">
-                            <div class="icon-wrapper mb-3">
-                                <i class="fas fa-user-slash" style="font-size: 3rem; color: #d1d1d1;"></i>
-                            </div>
-                            <h4 class="text-muted mb-3">No Counsellors Available</h4>
-                            <p class="text-muted">Please check back later for new availability.</p>
+            <div class="text-center py-5">
+                <div class="card shadow-lg border-0 mx-auto box1" style="max-width: 600px;">
+                    <div class="card-body box">
+                        <div class="icon-wrapper mb-3">
+                            <i class="bi bi-exclamation-circle-fill" style="font-size: 3rem; color: #010101;"></i>
                         </div>
+                        <h4 class="text-muted mb-3">No Counsellors Available</h4>
+                        <p class="text-muted">Please check back later for new availability.</p>
                     </div>
                 </div>
-            @else
-                @foreach ($counsellors as $counsellor)
-                    <div class="col-12 mb-4">
-                        <div class="card counsellor-card shadow ">
-                            <div class="row no-gutters align-items-center">
-                                <!-- Counsellor image column -->
-                                <div class="col-12 col-md-4 d-flex justify-content-center align-items-center py-3">
-                                    <img src="{{ $counsellor->profile_image
-                                        ? asset('storage/' . $counsellor->profile_image)
-                                        : ($counsellor->gender === 'male'
-                                            ? 'https://t4.ftcdn.net/jpg/02/44/43/69/360_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg'
-                                            : 'https://static.vecteezy.com/system/resources/previews/000/350/779/non_2x/vector-female-student-icon.jpg') }}"
-                                         class="counsellor-image "
-                                         alt="{{ $counsellor->full_name_with_rate }}">
-                                </div>
+            </div>
+        @else
+            @foreach ($counsellors as $counsellor)
+                <div class="col-12 mb-4">
+                    <div class="card counsellor-card shadow">
+                        <div class="row no-gutters align-items-center">
+                            <!-- Counsellor image column -->
+                            <div class="col-12 col-md-4 d-flex justify-content-center align-items-center py-3">
+                                <img src="{{ $counsellor->profile_image
+                                    ? asset('storage/' . $counsellor->profile_image)
+                                    : ($counsellor->gender === 'male'
+                                        ? 'https://t4.ftcdn.net/jpg/02/44/43/69/360_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg'
+                                        : 'https://static.vecteezy.com/system/resources/previews/000/350/779/non_2x/vector-female-student-icon.jpg') }}"
+                                     class="counsellor-image"
+                                     alt="{{ $counsellor->full_name_with_rate }}">
+                            </div>
 
-                                <!-- Counsellor details column -->
-                                <div class="col-12 col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title font-weight-bold">{{ $counsellor->full_name_with_rate }}</h5>
-                                        <p class="card-subtitle text-muted">{{ $counsellor->title }}</p>
-                                        <hr>
-                                        <p class="card-text">{{ $counsellor->intro }}</p>
-                                        <a href="{{ route('counsellors.show', ['counsellor' => $counsellor->counsellor_id]) }}" class="see-more-link text-primary">
-                                            See more about {{ $counsellor->full_name_with_rate }} >
-                                        </a>
+                            <!-- Counsellor details column -->
+                            <div class="col-12 col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title font-weight-bold">{{ $counsellor->full_name_with_rate }}</h5>
+                                    <p class="card-subtitle text-muted">{{ $counsellor->title }}</p>
+                                    <hr>
+                                    <p class="card-text">{{ $counsellor->intro }}</p>
+                                    <a href="{{ route('counsellors.show', ['counsellor' => $counsellor->counsellor_id]) }}" class="see-more-link text-primary">
+                                        See more about {{ $counsellor->full_name_with_rate }} >
+                                    </a>
 
-                                        <div class="row mt-4">
-                                            <div class="col-7">
-                                                <p class="text-muted mb-2"><strong>Next available</strong></p>
-                                                @if ($counsellor->nextAvailableSlot)
-                                                    <p class="text-success mb-3">
-                                                        {{ $counsellor->nextAvailableSlot['date'] }} at {{ $counsellor->nextAvailableSlot['time'] }}
-                                                    </p>
-                                                @else
-                                                    <p class="text-danger mb-3">No available slots</p>
-                                                @endif
-                                            </div>
-                                            @php
-                                            // Check if 'date' is present in the request URL, otherwise use the next available slot date
-                                            $selectedDate = request('date') ?? \Carbon\Carbon::parse($counsellor->nextAvailableSlot['date'])->format('Y-m-d');
-                                        @endphp
-
-                                        <div class="col-5 text-right">
-                                            @if ($counsellor->nextAvailableSlot)
-                                                <a href="{{ route('counsellors.show', [
-                                                        'counsellor' => $counsellor->counsellor_id
-                                                    ]) }}?date={{ $selectedDate }}"
-                                                   class="btn btn-primary btn-sm px-5">
-                                                    Book Now
-                                                </a>
+                                    <div class="row mt-4">
+                                        <div class="col-7">
+                                            <p class="text-muted mb-2"><strong>Next available</strong></p>
+                                            @if (isset($counsellor->nextAvailableSlot['date']) && isset($counsellor->nextAvailableSlot['time']))
+                                                <p class="text-success mb-3">
+                                                    {{ $counsellor->nextAvailableSlot['date'] }} at {{ $counsellor->nextAvailableSlot['time'] }}
+                                                </p>
+                                            @else
+                                                <p class="text-danger mb-3">No available slots</p>
                                             @endif
                                         </div>
-                                        </div>
+
+                                        @php
+                                        // Check if 'date' is present in the request URL; otherwise, use the next available slot date.
+                                        $selectedDate = request('date')
+                                                        ?? (isset($counsellor->nextAvailableSlot['date'])
+                                                            ? \Carbon\Carbon::parse($counsellor->nextAvailableSlot['date'])->format('Y-m-d')
+                                                            : null);
+                                    @endphp
+
+                                    <div class="col-5 text-right">
+                                        @if ($counsellor->nextAvailableSlot)
+                                            <a href="{{ route('counsellors.show', ['counsellor' => $counsellor->counsellor_id]) }}?date={{ $selectedDate }}"
+                                               class="btn btn-primary btn-sm px-5">
+                                                Book Now
+                                            </a>
+                                        @endif
+                                    </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                @endforeach
-            @endif
+                </div>
+            @endforeach
+        @endif
+
+            <!-- Pagination Links -->
+            <div class="pagination-links">
+                {{ $counsellors->links() }}
+            </div>
         </div>
     </div>
 </div>

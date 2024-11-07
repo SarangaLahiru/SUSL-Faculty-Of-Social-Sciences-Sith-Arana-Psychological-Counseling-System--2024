@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\student;
 use App\Http\Controllers\Controller;
 use App\Mail\BookedTime;
+use App\Mail\BookingDeleted;
 use App\Models\BookingDetails;
 use App\Models\counsellor;
 use App\Models\TimeSlots;
@@ -158,15 +159,25 @@ class BookingsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        // Find the booking by ID
-        $booking = BookingDetails::findOrFail($id);
 
-        // Delete the booking
-        $booking->delete();
+     public function destroy($id)
+{
+    // Find the booking by ID
+    $booking = BookingDetails::findOrFail($id);
 
-        // Redirect back with a success message
-        return redirect()->back()->with('success', 'Booking deleted successfully.');
-    }
+    // Capture the email and other necessary info before deleting the booking
+    $userEmail = $booking->email; // Adjust based on your relations
+
+    // Delete the booking
+    $booking->delete();
+
+
+    // Send the email notification
+    Mail::to($userEmail)->send(new BookingDeleted($booking));
+
+
+
+    // Redirect back with a success message
+    return redirect()->back()->with('success', 'Booking deleted successfully, and email notification sent.');
+}
 }

@@ -4,36 +4,86 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <!-- Include Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+
 
 @section('content')
 
-    {{-- ======================hero section====================== --}}
-    <div class="outer-container hero-container">
-        <div class="main-container hero-content-container">
-            <div class="tags-container">
-                <p class="tags">10+ Specialist</p>
-                <p class="tags">50min sessions</p>
-                <p class="tags">Free of charge</p>
-            </div>
-            <div class="hero-desc-container">
-                <h1>Your Feeling Matter, <span class="text-gradient">Let's Talk</span></h1>
-                <p>Book a sesssion with a qualified Counsellor easily and quickly...</p>
-            </div>
-            <a href="{{ route('counsellors.index') }}"><button class="btn-gradient btn-cta">Book a Session</button></a>
+<style>
+    .slider{
+        position: absolute;
+        top: 80px;
+        z-index: -1000;
+    }
+    .box{
+        background-color: rgba(129, 9, 148, 0.221);
+    }
+    .box1{
+        background-color: rgba(255, 255, 255, 0.536);
+        padding: 15px 5px;
+        border-radius: 24px;
+    }
+    .box2{
+        z-index: 100;
+    }
+    .tags-container p{
+        background-color: rgba(29, 128, 221, 0.518);
+        color: white;
 
-        </div>
-    </div>
-    {{-- ======================hero section====================== --}}
+    }
+    @media (max-width: 480px) {
+        .slider{
+            display: none;
+        }
 
-    {{-- ================emergency call section================== --}}
-    <div class="outer-container emergency-call-container">
-        <div class="hero-img-container">
-            <img src="{{ asset('images/hero-1.png') }}" alt="">
-            <img src="{{ asset('images/hero-2.png') }}" alt="">
+    }
+    @media (max-width: 800px) {
+
+
+    }
+</style>
+
+
+    {{-- ======================hero section====================== --}}
+<div class="outer-container hero-container box">
+    <div class="main-container hero-content-container box1">
+        <div class="tags-container">
+            <p class="tags">10+ Specialist</p>
+            <p class="tags">50min sessions</p>
+            <p class="tags">Free of charge</p>
         </div>
-        <p class="main-container">For any urgent, please contact : +945783234 | +9458324321 | +9478843457</p>
+        <div class="hero-desc-container">
+            <h1>Your Feelings Matter, <span class="text-gradient">Let's Talk</span></h1>
+            <p>Book a session with a qualified Counsellor easily and quickly...</p>
+        </div>
+        <a href="{{ route('counsellors.index') }}"><button class="btn-gradient btn-cta">Book a Session</button></a>
     </div>
-    {{-- ================emergency call section================== --}}
+</div>
+
+{{-- ======================emergency call section====================== --}}
+<div class="outer-container emergency-call-container box2">
+    <div class="hero-img-container">
+        <img src="{{ asset('images/hero-1.png') }}" alt="Counsellor Image 1">
+        <img src="{{ asset('images/hero-2.png') }}" alt="Counsellor Image 2">
+    </div>
+    <p class="main-container">For any urgent needs, please contact: +945783234 | +9458324321 | +9478843457</p>
+</div>
+<div id="carouselExampleSlidesOnly" class="carousel slide slider" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="{{asset('images/slide_1.jpg')}}" alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="{{asset('images/slide_2.jpg')}}" alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="{{asset('images/slide_3.jpg')}}" alt="Third slide">
+    </div>
+  </div>
+</div>
+
+
 
     {{-- ===============quick appoinment section================= --}}
     <div class="outer-container">
@@ -142,5 +192,8 @@
         </div>
         {{-- ==============contact us section================ --}}
 
-
+<!-- Include jQuery, Popper.js, and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     @endsection

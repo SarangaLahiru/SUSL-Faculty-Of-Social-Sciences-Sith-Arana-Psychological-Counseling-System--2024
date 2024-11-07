@@ -36,37 +36,146 @@
 </head>
 
 <body>
+    <style>
+        /* General Styling */
+    /* General Styling */
 
+
+.main-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li a {
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+/* Highlight for active page */
+.nav-links li a.active {
+    color: #ffffff;/* Yellow color */
+    font-weight: bold;
+}
+
+.nav-links li a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #ffffff; /* Yellow underline */
+    transform: scaleX(1);
+    transition: transform 0.3s ease;
+}
+
+/* Underline animation for hover */
+.nav-links li a:not(.active):hover {
+    color: #ffffff;
+}
+
+.nav-links li a:not(.active):hover::after {
+    transform: scaleX(1);
+}
+
+/* Mobile Menu Styles */
+.logo img {
+    height: 80px; /* Adjust height as needed */
+    width: auto;
+}
+
+/* Loading Screen */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff; /* Background color for loading screen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Make sure it's above all other content */
+}
+
+.loading-logo {
+    height: 80px; /* Adjust size as needed */
+    width: auto;
+    animation: spin 1.5s linear infinite;
+}
+
+/* Spin Animation */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.header-container{
+    background-color: #622864;
+}
+
+
+
+
+    </style>
+
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <img src="{{ asset('images/logo.png') }}" alt="Loading..." class="loading-logo">
+    </div>
 
     <header class="header-container">
-        <div class="main-container nav-container ">
+        <div class="main-container nav-container">
             <nav class="navbar">
                 <div class="logo">
-                    <p>SITH ARANA</p>
+                    <a href="{{ route('home.index') }}">
+                        <img src="{{ asset('images/logo.png') }}" alt="SITH ARANA Logo" class="logo-image">
+                    </a>
                 </div>
-                <ul>
-                    <li><a href="{{ route('home.index') }}">Home</a></li>
-                    <li><a href="{{ route('counsellors.index') }}">Counsellors</a></li>
-                    <li><a href="{{ route('home.aboutus') }}">About Us</a></li>
-                    <li><a href="{{ route('home.contactus') }}">Contact Us</a></li>
+                <ul class="nav-links">
+                    <li><a href="{{ route('home.index') }}" style="color: #fff;" class="{{ Route::is('home.index') ? 'active' : '' }}">Home</a></li>
+                    <li><a href="{{ route('counsellors.index') }}" style="color: #fff;" class="{{ Route::is('counsellors.index') ? 'active' : '' }}">Counsellors</a></li>
+                    <li><a href="{{ route('home.aboutus') }}" style="color: #fff;" class="{{ Route::is('home.aboutus') ? 'active' : '' }}">About Us</a></li>
+                    <li><a href="{{ route('home.contactus') }}" style="color: #fff;" class="{{ Route::is('home.contactus') ? 'active' : '' }}">Contact Us</a></li>
                 </ul>
-                <div class="hamburger">
+                <div class="hamburger" onclick="toggleMenu()">
                     <span class="line"></span>
                     <span class="line"></span>
                     <span class="line"></span>
                 </div>
             </nav>
-            <div class="menubar">
+            <!-- Mobile Dropdown Menu -->
+            <div class="menubar" id="mobileMenu">
                 <ul>
-                    <li><a href="{{ route('home.index') }}">Home</a></li>
-                    <li><a href="{{ route('counsellors.index') }}">Counsellors</a></li>
-                    <li><a href="{{ route('home.aboutus') }}">About Us</a></li>
-                    <li><a href="{{ route('home.contactus') }}">Contact Us</a></li>
+                    <li><a href="{{ route('home.index') }}" class="{{ Route::is('home.index') ? 'active' : '' }}">Home</a></li>
+                    <li><a href="{{ route('counsellors.index') }}" class="{{ Route::is('counsellors.index') ? 'active' : '' }}">Counsellors</a></li>
+                    <li><a href="{{ route('home.aboutus') }}" class="{{ Route::is('home.aboutus') ? 'active' : '' }}">About Us</a></li>
+                    <li><a href="{{ route('home.contactus') }}" class="{{ Route::is('home.contactus') ? 'active' : '' }}">Contact Us</a></li>
                 </ul>
             </div>
         </div>
     </header>
-
 
     <div>@yield('content')</div>
 
@@ -102,6 +211,20 @@
 
     <script src="{{ asset('js/navbar.js') }}"></script>
     <script src="{{ asset('js/testimonial.js') }}"></script>
+    <script>
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => { loadingScreen.style.display = 'none'; }, 0); // Delay to allow fade-out
+        });
+    </script>
+    <script>
+        window.addEventListener('submit', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => { loadingScreen.style.display = 'none'; }, 500); // Delay to allow fade-out
+        });
+    </script>
 
 
 
