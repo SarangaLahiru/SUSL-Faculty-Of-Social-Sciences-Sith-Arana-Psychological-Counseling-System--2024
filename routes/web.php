@@ -34,6 +34,7 @@ Route::get('/calendar', function () {
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/aboutus', [HomeController::class, 'aboutus'])->name('home.aboutus');
 Route::get('/contactus', [HomeController::class, 'contactus'])->name('home.contactus');
+Route::get('/calendar', [HomeController::class, 'calendar'])->name('home.calendar');
 
 // Resource controller for counsellors.
 Route::resource('counsellors', CounsellorsController::class);

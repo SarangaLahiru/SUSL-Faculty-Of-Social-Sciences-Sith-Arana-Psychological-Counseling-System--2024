@@ -1,27 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enhanced Event Calendar</title>
+@extends('layout')
+
+@section('title', 'Sith Arana | Contact us')
+
+@section('content')
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
     /* General Styling */
-    body {
+    .box {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
         margin: 0;
-        background-color: #f3f4f8;
         font-family: 'Poppins', sans-serif;
+        font-size: 18px;
     }
 
     .calendar-container {
         width: 100%;
-        max-width: 850px;
-        background: #ffffff;
+        max-width: 1200px;
+        background: #ffffff79;
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         padding: 20px;
@@ -29,11 +29,11 @@
 
     /* Header Styling */
     .calendar-header {
-        background: linear-gradient(135deg, #6a1b9a, #b345a1);
+        background-color: #811786;
         color: #fff;
         padding: 1rem;
         font-weight: 600;
-        font-size: 1.4rem;
+        font-size: 2rem;
         text-align: center;
         display: flex;
         justify-content: space-between;
@@ -57,30 +57,29 @@
 
     .day {
         font-weight: 600;
-        color: #b0b0b0;
+        color: #bebebe;
         text-transform: uppercase;
         text-align: center;
-        font-size: 0.9rem;
+        font-size: 1.2rem;
     }
 
     .date {
         position: relative;
-        height: 100px;
+        height: 80px;
         border-radius: 15px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        background-color: #f7f8fc;
+        background-color: #ffffff;
         cursor: pointer;
         padding: 10px;
         transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .date.highlight {
-        background: linear-gradient(135deg, #a5d6a7, #66bb6a);
+        background-color: rgba(130, 220, 130, 0.662);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        border: 1px solid #66bb6a;
     }
 
     /* Avatar Stacking in Date Cell */
@@ -123,24 +122,26 @@
         animation: fadeIn 0.3s ease;
     }
 
-    /* Tooltip Card Styling */
-    .date:hover .profile-tooltip {
-        display: block;
-    }
-
+    /* Tooltip Styling */
     .profile-tooltip {
         display: none;
         position: absolute;
-        top: -140%;
-        left: 80%;
-        width: 300px;
+        top: -140px;
+        left: -80%;
+        {{--  transform: translateX(-50%);  --}}
+        width: 250px;
         background: #fff;
         border-radius: 15px;
-        padding: 20px;
+        padding: 10px;
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         text-align: left;
         font-size: 0.9rem;
-        animation: slideUp 0.3s ease;
+        animation: fadeIn 0.3s ease;
+        z-index: 10000;
+    }
+
+    .date:hover .profile-tooltip {
+        display: block;
         z-index: 10000;
     }
 
@@ -180,54 +181,36 @@
         from { opacity: 0; transform: scale(0.9); }
         to { opacity: 1; transform: scale(1); }
     }
-
-    @keyframes slideUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
 </style>
-</head>
-<body>
 
-<div class="calendar-container">
-    <div class="calendar-header">
-        <i class="fas fa-chevron-left" onclick="changeMonth(-1)"></i>
-        <span id="monthYearDisplay">November 2024</span>
-        <i class="fas fa-chevron-right" onclick="changeMonth(1)"></i>
-    </div>
-    <div class="calendar-body">
-        <!-- Days of the Week -->
-        <div class="day">Su</div>
-        <div class="day">Mo</div>
-        <div class="day">Tu</div>
-        <div class="day">We</div>
-        <div class="day">Th</div>
-        <div class="day">Fr</div>
-        <div class="day">Sa</div>
-    </div>
-    <div class="calendar-body" id="datesContainer">
-        <!-- Dates will be generated here by JavaScript -->
+<div class="box">
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <i class="bi bi-chevron-left" onclick="changeMonth(-1)"></i>
+            <span id="monthYearDisplay">November 2024</span>
+            <i class="bi bi-chevron-right" onclick="changeMonth(1)"></i>
+        </div>
+        <div class="calendar-body">
+            <div class="day">Su</div>
+            <div class="day">Mo</div>
+            <div class="day">Tu</div>
+            <div class="day">We</div>
+            <div class="day">Th</div>
+            <div class="day">Fr</div>
+            <div class="day">Sa</div>
+        </div>
+        <div class="calendar-body" id="datesContainer">
+            <!-- Dates will be generated here by JavaScript -->
+        </div>
     </div>
 </div>
 
 <script>
+    const eventsData = @json($eventsData);
     const monthYearDisplay = document.getElementById("monthYearDisplay");
     const datesContainer = document.getElementById("datesContainer");
 
     let currentDate = new Date();
-
-    // Sample data for events with multiple counselors per day
-    const eventsData = {
-        4: [
-            { name: "Alex", time: "10:00 AM", avatar: "https://via.placeholder.com/50" },
-            { name: "Lily", time: "2:00 PM", avatar: "https://via.placeholder.com/50" },
-            { name: "John", time: "4:00 PM", avatar: "https://via.placeholder.com/50" }
-        ],
-        15: [
-            { name: "Kate", time: "11:00 AM", avatar: "https://via.placeholder.com/50" },
-            { name: "Mia", time: "3:00 PM", avatar: "https://via.placeholder.com/50" }
-        ]
-    };
 
     function generateCalendar() {
         const year = currentDate.getFullYear();
@@ -249,7 +232,10 @@
             dateDiv.classList.add("date");
             dateDiv.innerHTML = `<span>${day}</span>`;
 
-            if (eventsData[day]) {
+            // Format the date to 'YYYY-MM-DD'
+            const dateKey = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+
+            if (eventsData[dateKey]) {
                 dateDiv.classList.add("highlight");
 
                 const avatarStack = document.createElement("div");
@@ -259,7 +245,7 @@
                 tooltipDiv.classList.add("profile-tooltip");
 
                 const maxAvatars = 3;
-                eventsData[day].forEach((event, index) => {
+                eventsData[dateKey].forEach((event, index) => {
                     if (index < maxAvatars) {
                         const avatarImg = document.createElement("img");
                         avatarImg.src = event.avatar;
@@ -268,7 +254,7 @@
                     } else if (index === maxAvatars) {
                         const moreAvatars = document.createElement("div");
                         moreAvatars.classList.add("more-avatars");
-                        moreAvatars.innerText = `+${eventsData[day].length - maxAvatars}`;
+                        moreAvatars.innerText = `+${eventsData[dateKey].length - maxAvatars}`;
                         avatarStack.appendChild(moreAvatars);
                     }
 
@@ -277,8 +263,8 @@
                     counselorInfo.innerHTML = `
                         <img src="${event.avatar}" alt="${event.name}">
                         <div>
-                            <div class="name"><i class="fas fa-user"></i> ${event.name}</div>
-                            <div class="time"><i class="fas fa-clock"></i> ${event.time}</div>
+                            <div class="name"><i class="bi bi-user"></i> ${event.name}</div>
+                            <div class="time"><i class="bi bi-clock"></i> ${event.time}</div>
                         </div>
                     `;
                     tooltipDiv.appendChild(counselorInfo);
@@ -298,7 +284,7 @@
     }
 
     generateCalendar();
+
 </script>
 
-</body>
-</html>
+@endsection

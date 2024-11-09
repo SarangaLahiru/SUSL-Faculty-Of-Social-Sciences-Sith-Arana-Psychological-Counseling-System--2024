@@ -59,7 +59,7 @@
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 30px;
 }
 
 .nav-links li a {
@@ -74,7 +74,7 @@
 
 /* Highlight for active page */
 .nav-links li a.active {
-    color: #ffffff;/* Yellow color */
+    color: #622864;/* Yellow color */
     font-weight: bold;
 }
 
@@ -85,14 +85,14 @@
     left: 0;
     width: 100%;
     height: 3px;
-    background-color: #ffffff; /* Yellow underline */
+    background-color:#622864; /* Yellow underline */
     transform: scaleX(1);
     transition: transform 0.3s ease;
 }
 
 /* Underline animation for hover */
 .nav-links li a:not(.active):hover {
-    color: #ffffff;
+    color: #622864;
 }
 
 .nav-links li a:not(.active):hover::after {
@@ -130,9 +130,9 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
-.header-container{
+{{--  .header-container{
     background-color: #622864;
-}
+}  --}}
 
 
 
@@ -154,10 +154,12 @@
                     </a>
                 </div>
                 <ul class="nav-links">
-                    <li><a href="{{ route('home.index') }}" style="color: #fff;" class="{{ Route::is('home.index') ? 'active' : '' }}">Home</a></li>
-                    <li><a href="{{ route('counsellors.index') }}" style="color: #fff;" class="{{ Route::is('counsellors.index') ? 'active' : '' }}">Counsellors</a></li>
-                    <li><a href="{{ route('home.aboutus') }}" style="color: #fff;" class="{{ Route::is('home.aboutus') ? 'active' : '' }}">About Us</a></li>
-                    <li><a href="{{ route('home.contactus') }}" style="color: #fff;" class="{{ Route::is('home.contactus') ? 'active' : '' }}">Contact Us</a></li>
+                    <li><a href="{{ route('home.index') }}"  class="{{ Route::is('home.index') ? 'active' : '' }}">Home</a></li>
+                    <li><a href="{{ route('counsellors.index') }}"  class="{{ Route::is('counsellors.index') ? 'active' : '' }}">Counsellors</a></li>
+                    <li><a href="{{ route('home.aboutus') }}" class="{{ Route::is('home.aboutus') ? 'active' : '' }}">About Us</a></li>
+                    <li><a href="{{ route('home.contactus') }}"  class="{{ Route::is('home.contactus') ? 'active' : '' }}">Contact Us</a></li>
+                    <li><a href="{{ route('home.calendar') }}"  class="{{ Route::is('home.calendar') ? 'active' : '' }}">Calendar</a></li>
+
                 </ul>
                 <div class="hamburger" onclick="toggleMenu()">
                     <span class="line"></span>
@@ -171,7 +173,7 @@
                     <li><a href="{{ route('home.index') }}" class="{{ Route::is('home.index') ? 'active' : '' }}">Home</a></li>
                     <li><a href="{{ route('counsellors.index') }}" class="{{ Route::is('counsellors.index') ? 'active' : '' }}">Counsellors</a></li>
                     <li><a href="{{ route('home.aboutus') }}" class="{{ Route::is('home.aboutus') ? 'active' : '' }}">About Us</a></li>
-                    <li><a href="{{ route('home.contactus') }}" class="{{ Route::is('home.contactus') ? 'active' : '' }}">Contact Us</a></li>
+                    <li><a href="{{ route('home.calendar') }}"  class="{{ Route::is('home.calendar') ? 'active' : '' }}">Calendar</a></li>
                 </ul>
             </div>
         </div>

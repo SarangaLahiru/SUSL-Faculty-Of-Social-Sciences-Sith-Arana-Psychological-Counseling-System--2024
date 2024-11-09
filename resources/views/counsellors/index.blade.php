@@ -27,7 +27,7 @@
     /* Calendar container */
     .calendar-container {
         flex: 1;
-        max-width: 500px;
+        max-width: 480px;
         max-height: auto;
         padding: 20px;
         border-radius: 15px;
@@ -66,7 +66,7 @@
         grid-template-columns: repeat(7, 1fr);
         gap: 8px;
         padding: 15px;
-        background-color: #f8f9fa8b;
+        background-color: #ffffff90;
         border-radius: 0 0 10px 10px;
     }
     .title{
@@ -137,13 +137,34 @@
             margin: 0 auto;
         }
     }
+    .title {
+    font-size: 30px;
+    background: linear-gradient(to right, #4d084f, #d084d0);
+    -webkit-background-clip: text;
+    color: transparent;
+}
 
+.dot {
+    height: 12px;
+    width: 12px;
+    background-color: #46b94a; /* Color representing availability */
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+}
+h2 {
+    font-size: 14px;
+    color: #333; /* Main heading color */
+}
 </style>
 {{--  <h2 class = "title m-auto w-20 ">sdfsdf</h2>  --}}
+<h2 class="title w-50 m-auto m-4">Booking a session</h2>
 <div class="container-row">
+
 
     <!-- Calendar Section -->
     <div class="calendar-container">
+        <h3 class="filter-title" style="font-size: 24px;">Choose Date</h3>
         <div class="calendar-header">
             <i class="bi bi-chevron-left" onclick="changeMonth(-1)"></i>
             <span id="monthYearDisplay">October 2024</span>
@@ -160,12 +181,16 @@
         </div>
         <div class="calendar-dates" id="datesContainer">
             <!-- Dates will be populated by JavaScript -->
+
         </div>
+        <h2>
+            <span class="dot"></span> Available Dates
+        </h2>
         <hr>
 
         {{-- Gender Filter --}}
         <div class="gender-filter mt-4">
-            <h3 class="filter-title">Choose Gender</h3>
+            <h3 style="font-size: 24px;" class="filter-title"  >Choose Gender</h3>
             <ul class="gender-options d-flex flex-wrap justify-content-center">
                 @php
                     $query = request()->query();
@@ -199,7 +224,7 @@
         }
 
         .filter-title {
-            font-size: 1.25rem;
+            font-size: 20px;
             color: #632965;
             margin-bottom: 10px;
         }
@@ -308,7 +333,13 @@
 
         }
         .box{
-            background-color: #ffde3b44;
+            background-color: #ffe66c44;
+        }
+
+        .pagination-links{
+            color: #632965;
+            width: fit-content;
+            margin: 0px auto;
         }
 
     </style>
@@ -393,11 +424,12 @@
 
             <!-- Pagination Links -->
             <div class="pagination-links">
-                {{ $counsellors->links() }}
+                {{ $counsellors->onEachSide(1)->links() }}
             </div>
         </div>
     </div>
 </div>
+
 
 <script>
     const monthYearDisplay = document.getElementById("monthYearDisplay");

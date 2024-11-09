@@ -70,6 +70,7 @@
     <p class="main-container">For any urgent needs, please contact: +945783234 | +9458324321 | +9478843457</p>
 </div>
 <div id="carouselExampleSlidesOnly" class="carousel slide slider" data-ride="carousel">
+
   <div class="carousel-inner">
     <div class="carousel-item active">
       <img class="d-block w-100" src="{{asset('images/slide_1.jpg')}}" alt="First slide">
@@ -81,6 +82,8 @@
       <img class="d-block w-100" src="{{asset('images/slide_3.jpg')}}" alt="Third slide">
     </div>
   </div>
+
+
 </div>
 
 

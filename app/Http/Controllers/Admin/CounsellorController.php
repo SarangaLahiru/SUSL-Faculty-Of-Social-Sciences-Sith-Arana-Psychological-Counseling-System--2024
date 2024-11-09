@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\CounsellorCredentials;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class CounsellorController extends Controller
 {
@@ -103,43 +104,57 @@ class CounsellorController extends Controller
 
 
      // Update the counsellor's details in the database
-     public function update(Request $request, Counsellor $counsellor)
+     public function update(Request $request, $id)
      {
-         // Validate the request data
-         $request->validate([
-             'full_name_with_rate' => 'required|string|max:255',
-             'title' => 'required|string|max:255',
-             'gender' => 'required|in:female,male',
-             'mobile_no' => 'required|string|max:15',
-             'email' => 'required|email|unique:counsellors,email,' . $counsellor->counsellor_id, // Use counsellor_id
-             'username' => 'required|string|unique:counsellors,username,' . $counsellor->counsellor_id, // Use counsellor_id
-             'password' => 'nullable|string|min:6', // You might want to add logic for updating the password
-             'intro' => 'required|string',
-             'bio' => 'required|string',
-             'post'=>'required|string',
-         ]);
 
-         // Update the counsellor's information
-         $counsellor->full_name_with_rate = $request->full_name_with_rate;
-         $counsellor->title = $request->title;
-         $counsellor->gender = $request->gender;
-         $counsellor->mobile_no = $request->mobile_no;
-         $counsellor->email = $request->email;
-         $counsellor->username = $request->username;
-         $counsellor->intro = $request->intro;
-         $counsellor->bio = $request->bio;
-         $counsellor->post = $request->post;
-         $counsellor->intro = $request->intro;
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email,' . $id,
+        'phone' => 'required|string|max:15',
+        'title' => 'nullable|string|max:100',
+        'gender' => 'nullable|in:male,female',
+        'bio' => 'nullable|string|max:1000',
+         'specializations.*' => 'nullable|string|max:100', // Validate each specialization
+        'languages.*' => 'nullable|string|max:100',
+        'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+         'post'=>'required|string',
+         'intro' => 'required|string|max:200',
+         'username' => 'required|string|max:100',
+    ]);
 
-         dd($request->post);
+    // Find the counsellor by ID
+    $counsellor = Counsellor::findOrFail($id);
 
-         // If the password is provided, hash it and update
-         if ($request->filled('password')) {
-             $counsellor->password = bcrypt($request->password);
-         }
+    // Update counsellor details
+    $counsellor->full_name_with_rate = $request->input('name');
+    $counsellor->email = $request->input('email');
+    $counsellor->mobile_no = $request->input('phone');
+    $counsellor->title = $request->input('title');
+    $counsellor->gender = $request->input('gender');
+    $counsellor->bio = $request->input('bio');
+    $counsellor->intro = $request->input('intro');
+    $counsellor->post = $request->input('post');
+    $counsellor->username = $request->input('username');
+    // Handle specializations
+    $counsellor->specializations = $request->input('specializations', []); // Assuming you have a column for this in your database
 
-         // Save the updated counsellor
-         $counsellor->save();
+    // Handle languages
+    $counsellor->languages = $request->input('languages', []);
+
+    // Handle profile image upload
+    if ($request->hasFile('profile_image')) {
+        // Delete the old profile image if it exists
+        if ($counsellor->profile_image) {
+            Storage::delete('public/' . $counsellor->profile_image);
+        }
+
+        // Store the new profile image
+        $imagePath = $request->file('profile_image')->store('profile_images', 'public');
+        $counsellor->profile_image = $imagePath;
+    }
+
+    // Save the updated counsellor data to the database
+    $counsellor->save();
 
          return redirect()->route('counsellorsShow.index')->with('success', 'Counsellor updated successfully.');
      }
