@@ -51,6 +51,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
 }
 
 
@@ -74,7 +75,7 @@
 
 /* Highlight for active page */
 .nav-links li a.active {
-    color: #622864;/* Yellow color */
+    color: #e5e5e5;/* Yellow color */
     font-weight: bold;
 }
 
@@ -85,14 +86,14 @@
     left: 0;
     width: 100%;
     height: 3px;
-    background-color:#622864; /* Yellow underline */
+    background-color:#e5e5e5; /* Yellow underline */
     transform: scaleX(1);
     transition: transform 0.3s ease;
 }
 
 /* Underline animation for hover */
 .nav-links li a:not(.active):hover {
-    color: #622864;
+    color: #e5e5e5;
 }
 
 .nav-links li a:not(.active):hover::after {
@@ -122,7 +123,7 @@
 .loading-logo {
     height: 80px; /* Adjust size as needed */
     width: auto;
-    animation: spin 1.5s linear infinite;
+    {{--  animation: spin 1.5s linear infinite;  --}}
 }
 
 /* Spin Animation */
@@ -130,9 +131,9 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
-{{--  .header-container{
-    background-color: #622864;
-}  --}}
+.header-container{
+    background-color: #7f3782;
+}
 
 
 
@@ -142,7 +143,7 @@
 
     <!-- Loading Screen -->
     <div id="loading-screen">
-        <img src="{{ asset('images/logo.png') }}" alt="Loading..." class="loading-logo">
+        <img src="{{ asset('images/logo1.gif') }}" alt="Loading..." class="loading-logo">
     </div>
 
     <header class="header-container">
@@ -150,15 +151,15 @@
             <nav class="navbar">
                 <div class="logo">
                     <a href="{{ route('home.index') }}">
-                        <img src="{{ asset('images/logo.png') }}" alt="SITH ARANA Logo" class="logo-image">
+                        <img src="{{ asset('images/logo.gif') }}" alt="SITH ARANA Logo" class="logo-image">
                     </a>
                 </div>
                 <ul class="nav-links">
-                    <li><a href="{{ route('home.index') }}"  class="{{ Route::is('home.index') ? 'active' : '' }}">Home</a></li>
-                    <li><a href="{{ route('counsellors.index') }}"  class="{{ Route::is('counsellors.index') ? 'active' : '' }}">Counsellors</a></li>
-                    <li><a href="{{ route('home.aboutus') }}" class="{{ Route::is('home.aboutus') ? 'active' : '' }}">About Us</a></li>
-                    <li><a href="{{ route('home.contactus') }}"  class="{{ Route::is('home.contactus') ? 'active' : '' }}">Contact Us</a></li>
-                    <li><a href="{{ route('home.calendar') }}"  class="{{ Route::is('home.calendar') ? 'active' : '' }}">Calendar</a></li>
+                    <li><a href="{{ route('home.index') }}" style="color: #e5e5e5" class="{{ Route::is('home.index') ? 'active' : '' }}">Home</a></li>
+                    <li><a href="{{ route('counsellors.index') }}" style="color: #e5e5e5"   class="{{ Route::is('counsellors.index') ? 'active' : '' }}">Counsellors</a></li>
+                    <li><a href="{{ route('home.aboutus') }}" style="color: #e5e5e5" class="{{ Route::is('home.aboutus') ? 'active' : '' }}">About Us</a></li>
+                    <li><a href="{{ route('home.contactus') }}" style="color: #e5e5e5"  class="{{ Route::is('home.contactus') ? 'active' : '' }}">Contact Us</a></li>
+                    <li><a href="{{ route('home.calendar') }}" style="color: #e5e5e5"  class="{{ Route::is('home.calendar') ? 'active' : '' }}">Calendar</a></li>
 
                 </ul>
                 <div class="hamburger" onclick="toggleMenu()">

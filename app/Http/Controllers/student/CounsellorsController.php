@@ -16,11 +16,13 @@ class CounsellorsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+
      public function index(Request $request)
      {
          // Retrieve query parameters for gender and date
          $gender = $request->query('gender');
          $date = $request->query('date');
+         $now = Carbon::now();
 
          // Fetch all unique available dates for events without applying filters
          $allTimeSlots = Counsellor::with('timeSlots')->get();
@@ -28,7 +30,8 @@ class CounsellorsController extends Controller
 
          foreach ($allTimeSlots as $counsellor) {
              foreach ($counsellor->timeSlots as $slot) {
-                 if (!$slot->bookings()->exists()) {
+                 // Only add future or current dates to availableDates
+                 if (!$slot->bookings()->exists() && Carbon::parse($slot->date)->greaterThanOrEqualTo($now->toDateString())) {
                      $availableDates[] = Carbon::parse($slot->date)->format('Y-m-d');
                  }
              }
@@ -47,8 +50,10 @@ class CounsellorsController extends Controller
 
          // Filter by date in the related 'timeSlots' model if specified
          if ($date) {
-             $query->whereHas('timeSlots', function ($q) use ($date) {
-                 $q->whereDate('date', $date)
+             $query->whereHas('timeSlots', function ($q) use ($date, $now) {
+                 // Only include future or current dates
+                 $q->whereDate('date', '>=', $now->toDateString())
+                   ->whereDate('date', $date)
                    ->whereDoesntHave('bookings');
              });
          }
@@ -58,7 +63,6 @@ class CounsellorsController extends Controller
 
          // Generate next available time slot for each counsellor
          foreach ($counsellors as $counsellor) {
-             $now = now();
              $nextAvailableSlot = $counsellor->timeSlots()
                  ->whereDoesntHave('bookings')
                  ->where(function ($q) use ($now) {
@@ -81,13 +85,13 @@ class CounsellorsController extends Controller
 
          // Prepare calendar events for displaying unbooked time slots only
          $calendarEvents = [];
-         $now = Carbon::now();
 
          foreach ($counsellors as $counsellor) {
              foreach ($counsellor->timeSlots as $slot) {
                  $startDateTime = Carbon::parse($slot->date)->format('Y-m-d') . 'T' . Carbon::parse($slot->time)->format('H:i:s');
                  $endDateTime = Carbon::parse($slot->date)->format('Y-m-d') . 'T' . Carbon::parse($slot->time)->addHour()->format('H:i:s');
 
+                 // Only include future or current dates and times
                  if (Carbon::parse($startDateTime)->greaterThanOrEqualTo($now) && !$slot->bookings()->exists()) {
                      $calendarEvents[] = [
                          'title' => $counsellor->full_name_with_rate,
@@ -177,6 +181,7 @@ if ($availableDates->isNotEmpty()) {
         ->orderBy('time', 'asc')
         ->get();
 }
+
 
 return view('counsellors.show', [
     'counsellor' => $counsellors[$index],

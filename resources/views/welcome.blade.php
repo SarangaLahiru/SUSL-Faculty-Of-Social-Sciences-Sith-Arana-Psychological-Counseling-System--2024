@@ -32,8 +32,10 @@
         color: white;
 
     }
-    @media (max-width: 480px) {
-        .slider{
+    @media (max-width: 1200px) {
+
+        .slider {
+
             display: none;
         }
 
@@ -89,7 +91,7 @@
 
 
     {{-- ===============quick appoinment section================= --}}
-    <div class="outer-container">
+    {{--  <div class="outer-container">
         <div class="main-container quick-appoinment-content-container">
 
             <div>
@@ -126,7 +128,7 @@
             </div>
 
         </div>
-    </div>
+    </div>  --}}
     {{-- ===============quick appoinment section================= --}}
 
     {{-- ==============about our platform section================ --}}
@@ -164,7 +166,7 @@
     {{-- ==============about our platform section================ --}}
 
     {{-- ==============testimonial section================ --}}
-    <div class="outer-container">
+    <div class="outer-container " style="margin: 100px 10px;">
         <div class="main-container testimonial-container">
             <h3 class="testimonial-title">What our students are saying...</h3>
             <div class="testimonial-slider" id="testimonial-slider">

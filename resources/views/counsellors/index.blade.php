@@ -341,8 +341,30 @@ h2 {
             width: fit-content;
             margin: 0px auto;
         }
+        #loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* ensure it overlays everything */
+}
+
+.loading-logo {
+    width: 100px;
+    height: auto;
+}
 
     </style>
+
+    <!-- Loading Screen -->
+<div id="loading-screen" style="display: none;">
+    <img src="{{ asset('images/logo1.gif') }}" alt="Loading..." class="loading-logo">
+</div>
 
     <div class="counsellors-container col-12 col-lg-7 col-md-12 mb-4">
         <div class="justify-content-center p-3 p-lg-5">
@@ -430,17 +452,23 @@ h2 {
     </div>
 </div>
 
-
 <script>
     const monthYearDisplay = document.getElementById("monthYearDisplay");
     const datesContainer = document.getElementById("datesContainer");
     let currentDate = new Date();
 
+    // Available dates passed from the server
     const availableDates = @json($eventDates);
 
     // Parse the date from the URL, if present
     const urlParams = new URLSearchParams(window.location.search);
     const selectedDate = urlParams.get('date');  // e.g., "2024-11-01"
+
+    // If a date is selected from URL, set currentDate to that month/year
+    if (selectedDate) {
+        const selectedDateObj = new Date(selectedDate);
+        currentDate = new Date(selectedDateObj.getFullYear(), selectedDateObj.getMonth(), 1);
+    }
 
     function generateCalendar() {
         const year = currentDate.getFullYear();
@@ -481,6 +509,7 @@ h2 {
             datesContainer.appendChild(dateDiv);
         }
 
+        // Dates of the next month
         const remainingCells = 42 - datesContainer.children.length;
         for (let i = 1; i <= remainingCells; i++) {
             const nextMonthDateDiv = document.createElement("div");
@@ -498,11 +527,17 @@ h2 {
     function selectDate(selectedDiv, dateStr) {
         document.querySelectorAll(".date").forEach(date => date.classList.remove("selected"));
         selectedDiv.classList.add("selected");
+
+        // Set currentDate to the selected date's month/year if it's different
+        const selectedDateObj = new Date(dateStr);
+        if (selectedDateObj.getMonth() !== currentDate.getMonth()) {
+            currentDate = new Date(selectedDateObj.getFullYear(), selectedDateObj.getMonth(), 1);
+        }
+
         window.location.href = `?date=${dateStr}`;
     }
 
     generateCalendar();
 </script>
-
 
 @endsection
