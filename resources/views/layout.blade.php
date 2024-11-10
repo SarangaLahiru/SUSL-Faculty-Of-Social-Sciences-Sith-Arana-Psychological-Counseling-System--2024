@@ -12,6 +12,7 @@
     <link href='packages/timegrid/main.css' rel='stylesheet' />
     <link href='packages/daygrid/main.css' rel='stylesheet' />
     <link href='packages/list/main.css' rel='stylesheet' />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
 
@@ -121,7 +122,7 @@
 }
 
 .loading-logo {
-    height: 80px; /* Adjust size as needed */
+    height: 200px; /* Adjust size as needed */
     width: auto;
     {{--  animation: spin 1.5s linear infinite;  --}}
 }
@@ -211,23 +212,27 @@
 
 
 
-
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="{{ asset('js/navbar.js') }}"></script>
     <script src="{{ asset('js/testimonial.js') }}"></script>
     <script>
+        window.addEventListener('beforeunload', function () {
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.style.display = 'flex';  // Show the loading screen on refresh
+            loadingScreen.style.opacity = '1';
+        });
+
+        // Hide loading screen after content loads
         window.addEventListener('load', function() {
             const loadingScreen = document.getElementById('loading-screen');
             loadingScreen.style.opacity = '0';
-            setTimeout(() => { loadingScreen.style.display = 'none'; }, 0); // Delay to allow fade-out
+            setTimeout(() => { loadingScreen.style.display = 'none'; }, 500); // Fade-out effect
         });
     </script>
     <script>
-        window.addEventListener('submit', function() {
-            const loadingScreen = document.getElementById('loading-screen');
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => { loadingScreen.style.display = 'none'; }, 500); // Delay to allow fade-out
-        });
-    </script>
+        AOS.init();
+      </script>
+
 
 
 

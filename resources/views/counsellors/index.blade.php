@@ -341,23 +341,6 @@ h2 {
             width: fit-content;
             margin: 0px auto;
         }
-        #loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8); /* semi-transparent background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* ensure it overlays everything */
-}
-
-.loading-logo {
-    width: 100px;
-    height: auto;
-}
 
     </style>
 
@@ -366,10 +349,10 @@ h2 {
     <img src="{{ asset('images/logo1.gif') }}" alt="Loading..." class="loading-logo">
 </div>
 
-    <div class="counsellors-container col-12 col-lg-7 col-md-12 mb-4">
-        <div class="justify-content-center p-3 p-lg-5">
+    <div class="counsellors-container col-12 col-lg-7 col-md-12 mb-4" data-aos="fade-up">
+        <div class="justify-content-center p-3 p-lg-5" >
             @if($counsellors->isEmpty())
-            <div class="text-center py-5">
+            <div class="text-center py-5" data-aos="fade-up">
                 <div class="card shadow-lg border-0 mx-auto box1" style="max-width: 600px;">
                     <div class="card-body box">
                         <div class="icon-wrapper mb-3">

@@ -4,13 +4,13 @@
 
 @section('content')
 <!-- About Us Header -->
-<section class="about-us-header" style="background-color: #F0F0F0; padding: 40px 0; text-align: center;">
+<section class="about-us-header" data-aos="fade-up" style="background-color: #F0F0F0; padding: 40px 0; text-align: center;">
     <h1 style="color: #4A4A4A; font-size: 36px;">About Sith Arana</h1>
     <p style="color: #6A6A6A; font-size: 18px;">Our mission is to support and improve mental health and well-being.</p>
 </section>
 
 <!-- Our Story Section -->
-<section class="our-story" style="padding: 60px 0; text-align: center;">
+<section class="our-story" data-aos="fade-up" style="padding: 60px 0; text-align: center;">
     <div class="container">
         <h2 style="color: #4A4A4A; font-size: 30px;">Our Story</h2>
         <p style="color: #6A6A6A; font-size: 16px; max-width: 800px; margin: 0 auto;">
@@ -20,7 +20,7 @@
 </section>
 
 <!-- Our Mission Section -->
-<section class="our-mission" style="background-color: #E5E5E5; padding: 60px 0; text-align: center;">
+<section class="our-mission" data-aos="fade-up" style="background-color: #E5E5E5; padding: 60px 0; text-align: center;">
     <div class="container">
         <h2 style="color: #4A4A4A; font-size: 30px;">Our Mission</h2>
         <p style="color: #6A6A6A; font-size: 16px; max-width: 800px; margin: 0 auto;">
@@ -30,7 +30,7 @@
 </section>
 
 <!-- Meet the Team Section -->
-<section class="meet-the-team" style="padding: 60px 0;">
+<section class="meet-the-team" data-aos="fade-up" style="padding: 60px 0;">
     <div class="container">
         <h2 style="color: #4A4A4A; font-size: 30px; text-align: center;">Meet Our Counselors</h2>
         <div class="team-grid" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">

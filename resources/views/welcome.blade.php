@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     <!-- Include Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 @section('content')
 
@@ -44,12 +45,18 @@
 
 
     }
+    .animated-heading {
+    display: none; /* Hide all headings initially */
+}
+
+
+
 </style>
 
 
     {{-- ======================hero section====================== --}}
 <div class="outer-container hero-container box">
-    <div class="main-container hero-content-container box1">
+    <div class="main-container hero-content-container box1" data-aos="fade-up">
         <div class="tags-container">
             <p class="tags">10+ Specialist</p>
             <p class="tags">50min sessions</p>
@@ -182,7 +189,7 @@
     <div class="outer-container">
         <div class="main-container contact-home-content-container">
             <div class="contact-title-wrapper">
-                <h2 class="section-title">Contact <span class="text-gradient">Us</span></h2>
+                <h2 class="section-title">Send  <span class="text-gradient">Your Feedback</span></h2>
                 <p class="section-sub-title">Send any thing you need us to hear</p>
             </div>
             <div class="contact-img-wrapper">
@@ -198,7 +205,13 @@
         {{-- ==============contact us section================ --}}
 
 <!-- Include jQuery, Popper.js, and Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></scrip>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     @endsection

@@ -149,6 +149,7 @@
         display: flex;
         align-items: center;
         margin-bottom: 10px;
+        font-size: 20px;
     }
 
     .profile-tooltip .counselor-info img {
@@ -183,7 +184,7 @@
     }
 </style>
 
-<div class="box">
+<div class="box"   data-aos="fade-up" >
     <div class="calendar-container">
         <div class="calendar-header">
             <i class="bi bi-chevron-left" onclick="changeMonth(-1)"></i>
@@ -265,6 +266,7 @@
                         <div>
                             <div class="name"><i class="bi bi-user"></i> ${event.name}</div>
                             <div class="time"><i class="bi bi-clock"></i> ${event.time}</div>
+                            <div class="time"><i class="bi bi-clock"></i> ${event.status}</div>
                         </div>
                     `;
                     tooltipDiv.appendChild(counselorInfo);
