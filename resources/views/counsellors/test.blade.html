@@ -1,305 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enhanced Event Calendar</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<style>
-    /* General Styling */
-    body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        background-color: #f3f4f8;
-        font-family: 'Poppins', sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Cancellation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border: 1px rgb(137, 137, 137) solid;
 
-    .calendar-container {
-        width: 100%;
-        max-width: 850px;
-        background: #ffffff;
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        padding: 20px;
-    }
-
-    /* Header Styling */
-    .calendar-header {
-        background: linear-gradient(135deg, #6a1b9a, #b345a1);
-        color: #fff;
-        padding: 1rem;
-        font-weight: 600;
-        font-size: 1.4rem;
-        text-align: center;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-radius: 10px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .calendar-header i {
-        cursor: pointer;
-        color: #fff;
-        font-size: 1.2rem;
-    }
-
-    .calendar-body {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 10px;
-        padding-top: 1rem;
-    }
-
-    .day {
-        font-weight: 600;
-        color: #b0b0b0;
-        text-transform: uppercase;
-        text-align: center;
-        font-size: 0.9rem;
-    }
-
-    .date {
-        position: relative;
-        height: 100px;
-        border-radius: 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        background-color: #f7f8fc;
-        cursor: pointer;
-        padding: 10px;
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .date.highlight {
-        background: linear-gradient(135deg, #a5d6a7, #66bb6a);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        border: 1px solid #66bb6a;
-    }
-
-    /* Avatar Stacking in Date Cell */
-    .avatar-stack {
-        display: flex;
-        align-items: center;
-        margin-top: 5px;
-        position: relative;
-    }
-
-    .avatar-stack img.avatar {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        border: 2px solid #fff;
-        margin-left: -10px;
-        transition: transform 0.3s;
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .avatar-stack img.avatar:hover {
-        transform: scale(1.2);
-        z-index: 2;
-        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .avatar-stack .more-avatars {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background-color: #9c27b0;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.8rem;
-        margin-left: -10px;
-        border: 2px solid #fff;
-        font-weight: 600;
-        animation: fadeIn 0.3s ease;
-    }
-
-    /* Tooltip Card Styling */
-    .date:hover .profile-tooltip {
-        display: block;
-
-    }
-
-    .profile-tooltip {
-        display: none;
-        position: absolute;
-        top: -140%;
-        left: 80%;
-        width: 300px;
-        background: #fff;
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-        text-align: left;
-        font-size: 0.9rem;
-        animation: slideUp 0.3s ease;
-        z-index: 10000;
-    }
-
-    .profile-tooltip .counselor-info {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .profile-tooltip .counselor-info img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        margin-right: 10px;
-        border: 2px solid #6a1b9a;
-    }
-
-    .profile-tooltip .name {
-        font-weight: 600;
-        font-size: 1rem;
-        color: #333;
-    }
-
-    .profile-tooltip .time {
-        color: #9c27b0;
-        font-size: 0.85rem;
-        margin-top: 3px;
-    }
-
-    .date:hover {
-        transform: scale(1.05);
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.9); }
-        to { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes slideUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
+        }
+        h1 {
+            font-size: 24px;
+            color: #fff;
+            text-align: center;
+            background-color: #811786;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        .content {
+            padding: 20px 0;
+            font-size: 16px;
+        }
+        .highlight {
+            color: #e63946;
+            font-weight: bold;
+        }
+        .footer {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            padding-top: 10px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #811786;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
+    <div class="email-container">
+        <h1>Booking Cancellation Notice</h1>
 
-<div class="calendar-container">
-    <div class="calendar-header">
-        <i class="fas fa-chevron-left" onclick="changeMonth(-1)"></i>
-        <span id="monthYearDisplay">November 2024</span>
-        <i class="fas fa-chevron-right" onclick="changeMonth(1)"></i>
+        <div class="content">
+            <p>Dear <span class="highlight">{{ $booking->name ?? 'Valued Guest' }}</span>,</p>
+
+            <p>We regret to inform you that your scheduled booking with our counsellor, <span class="highlight">{{ $booking->timeslot->counsellor->full_name_with_rate }}</span>, on <span class="highlight">{{ $booking->timeslot->date }}</span> at <span class="highlight">{{ $booking->timeslot->time }}</span> has been canceled.</p>
+
+            <p>We apologize for any inconvenience this may cause. Unfortunately, the counsellor is unavailable for the scheduled session. We understand this may disrupt your plans, and we’re here to help you reschedule at a time that’s convenient for you.</p>
+
+            <p>If you'd like to book another time, please click the button below to view available sessions:</p>
+
+            <p><a href="{{ url('/reschedule') }}" class="button">Reschedule Now</a></p>
+
+            <p>Thank you for choosing our services. We hope to assist you soon with a new appointment.</p>
+
+            <p>Warm regards,</p>
+            <p>The Counselling Team</p>
+        </div>
+
+        <div class="footer">
+            <p>If you have any questions, don’t hesitate to <a href="mailto:support@yourcompany.com">contact us</a>.</p>
+        </div>
     </div>
-    <div class="calendar-body">
-        <!-- Days of the Week -->
-        <div class="day">Su</div>
-        <div class="day">Mo</div>
-        <div class="day">Tu</div>
-        <div class="day">We</div>
-        <div class="day">Th</div>
-        <div class="day">Fr</div>
-        <div class="day">Sa</div>
-    </div>
-    <div class="calendar-body" id="datesContainer">
-        <!-- Dates will be generated here by JavaScript -->
-    </div>
-</div>
-
-<script>
-    const monthYearDisplay = document.getElementById("monthYearDisplay");
-    const datesContainer = document.getElementById("datesContainer");
-
-    let currentDate = new Date();
-
-    // Sample data for events with multiple counselors per day
-    const eventsData = {
-        4: [
-            { name: "Alex", time: "10:00 AM", avatar: "https://via.placeholder.com/50" },
-            { name: "Lily", time: "2:00 PM", avatar: "https://via.placeholder.com/50" },
-            { name: "John", time: "4:00 PM", avatar: "https://via.placeholder.com/50" }
-        ],
-        15: [
-            { name: "Kate", time: "11:00 AM", avatar: "https://via.placeholder.com/50" },
-            { name: "Mia", time: "3:00 PM", avatar: "https://via.placeholder.com/50" }
-        ]
-    };
-
-    function generateCalendar() {
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth();
-
-        monthYearDisplay.innerText = `${currentDate.toLocaleString("default", { month: "long" })} ${year}`;
-        datesContainer.innerHTML = "";
-
-        const firstDayOfMonth = new Date(year, month, 1).getDay();
-        const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
-
-        for (let i = 0; i < firstDayOfMonth; i++) {
-            const emptyDiv = document.createElement("div");
-            datesContainer.appendChild(emptyDiv);
-        }
-
-        for (let day = 1; day <= lastDateOfMonth; day++) {
-            const dateDiv = document.createElement("div");
-            dateDiv.classList.add("date");
-            dateDiv.innerHTML = `<span>${day}</span>`;
-
-            if (eventsData[day]) {
-                dateDiv.classList.add("highlight");
-
-                const avatarStack = document.createElement("div");
-                avatarStack.classList.add("avatar-stack");
-
-                const tooltipDiv = document.createElement("div");
-                tooltipDiv.classList.add("profile-tooltip");
-
-                const maxAvatars = 3;
-                eventsData[day].forEach((event, index) => {
-                    if (index < maxAvatars) {
-                        const avatarImg = document.createElement("img");
-                        avatarImg.src = event.avatar;
-                        avatarImg.classList.add("avatar");
-                        avatarStack.appendChild(avatarImg);
-                    } else if (index === maxAvatars) {
-                        const moreAvatars = document.createElement("div");
-                        moreAvatars.classList.add("more-avatars");
-                        moreAvatars.innerText = `+${eventsData[day].length - maxAvatars}`;
-                        avatarStack.appendChild(moreAvatars);
-                    }
-
-                    const counselorInfo = document.createElement("div");
-                    counselorInfo.classList.add("counselor-info");
-                    counselorInfo.innerHTML = `
-                        <img src="${event.avatar}" alt="${event.name}">
-                        <div>
-                            <div class="name"><i class="fas fa-user"></i> ${event.name}</div>
-                            <div class="time"><i class="fas fa-clock"></i> ${event.time}</div>
-                        </div>
-                    `;
-                    tooltipDiv.appendChild(counselorInfo);
-                });
-
-                dateDiv.appendChild(avatarStack);
-                dateDiv.appendChild(tooltipDiv);
-            }
-
-            datesContainer.appendChild(dateDiv);
-        }
-    }
-
-    function changeMonth(direction) {
-        currentDate.setMonth(currentDate.getMonth() + direction);
-        generateCalendar();
-    }
-
-    generateCalendar();
-</script>
-
 </body>
 </html>
