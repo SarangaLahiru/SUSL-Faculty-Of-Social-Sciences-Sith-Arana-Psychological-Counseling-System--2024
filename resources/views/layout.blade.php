@@ -216,18 +216,33 @@
     <script src="{{ asset('js/navbar.js') }}"></script>
     <script src="{{ asset('js/testimonial.js') }}"></script>
     <script>
-        window.addEventListener('beforeunload', function () {
-            const loadingScreen = document.getElementById('loading-screen');
-            loadingScreen.style.display = 'flex';  // Show the loading screen on refresh
-            loadingScreen.style.opacity = '1';
-        });
+        // Show loading screen on initial page load
+// Set a maximum display time for the loading screen
+const maxLoadingTime = 10000; // 10 seconds in milliseconds
 
-        // Hide loading screen after content loads
-        window.addEventListener('load', function() {
-            const loadingScreen = document.getElementById('loading-screen');
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => { loadingScreen.style.display = 'none'; }, 500); // Fade-out effect
-        });
+// Show loading screen on page refresh or close
+window.addEventListener('beforeunload', function () {
+    const loadingScreen = document.getElementById('loading-screen');
+    loadingScreen.style.display = 'flex';
+    loadingScreen.style.opacity = '1';
+});
+
+// Hide loading screen either after page loads or after max time
+window.addEventListener('load', function() {
+    const loadingScreen = document.getElementById('loading-screen');
+    // If the page loads within 10 seconds, hide the loading screen normally
+    setTimeout(() => {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => { loadingScreen.style.display = 'none'; }, 500); // Fade-out effect
+    }, 300); // Adjust this delay as needed
+});
+
+// Hide the loading screen after the maximum loading time (10 seconds) if it’s still visible
+setTimeout(() => {
+    const loadingScreen = document.getElementById('loading-screen');
+    loadingScreen.style.opacity = '0';
+    setTimeout(() => { loadingScreen.style.display = 'none'; }, 500); // Fade-out effect
+}, maxLoadingTime);
     </script>
     <script>
         AOS.init();

@@ -49,7 +49,7 @@
                 @csrf
 
                 <div class="col-md-12">
-                    <label for="name" class="form-label">Your Name (Optional)</label>
+                    <label for="name" class="form-label">Your Name (Required)</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Enter your name">
                     @error('name')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="col-md-12">
-                    <label for="registration_no" class="form-label">Registration Number (Optional)</label>
+                    <label for="registration_no" class="form-label">Registration Number (Required)</label>
                     <input type="text" class="form-control @error('registration_no') is-invalid @enderror" id="registration_no" name="registration_no" value="{{ old('registration_no') }}" placeholder="Enter your registration number">
                     @error('registration_no')
                         <div class="invalid-feedback">{{ $message }}</div>
