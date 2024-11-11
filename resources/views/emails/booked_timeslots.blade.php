@@ -15,10 +15,11 @@
         .container {
             max-width: 600px;
             margin: 30px auto;
-            background-color: #ffffff;
+            background-color: #f6f6f6;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px rgb(186, 186, 186) solid;
         }
         .header-bar {
             background-color: #74148c;
@@ -137,7 +138,7 @@
 
         <!-- Download Button -->
         <div class="footer">
-            <a href" class="download-button">Download Booking Details</a>
+            <a  class="download-button">Download Booking Details</a>
         </div>
 
         <div class="footer">

@@ -3,7 +3,7 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/invoice.css') }}">
 
-<div class="container mt-5" style="margin: 30px auto">
+<div class="container mt-5" style="margin: 30px auto" data-aos="zoom-in-up">
 
         <div class="success-msg">
             <div class="d-flex align-items-center justify-content-center">
@@ -38,10 +38,16 @@
                     </div>
 
 
+
+
                 </div>
                 <div class="download" style="margin: 50px auto">
-                    <a href="" class="btn-gradient">Download</a>
+                    <a href="{{ $pdfPath }}" download="booking_confirmation.pdf" class="btn-gradient">Download</a>
+                   </div>
+                <div class="download" style="margin: 50px auto">
+                    <a href="/" class="btn-gradient">Go To Home</a>
                 </div>
+
 
             </div>
 

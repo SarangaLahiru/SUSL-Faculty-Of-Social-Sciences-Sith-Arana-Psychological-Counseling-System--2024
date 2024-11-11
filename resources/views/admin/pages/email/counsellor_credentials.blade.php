@@ -58,7 +58,7 @@
         <p>We’re excited to welcome you to the counselling system. Your account has been created successfully, and you’re now just a step away from accessing personalized support.</p>
 
         <div class="account-details">
-            <p><span class="highlight">Username:</span> {{ $NIC }}</p>
+            {{--  <p><span class="highlight">Username:</span> {{ $NIC }}</p>    --}}
             <p><span class="highlight">Password:</span> {{ $password }}</p>
         </div>
 
