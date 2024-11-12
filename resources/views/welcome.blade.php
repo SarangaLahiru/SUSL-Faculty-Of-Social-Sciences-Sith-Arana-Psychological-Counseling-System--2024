@@ -48,6 +48,19 @@
     .animated-heading {
     display: none; /* Hide all headings initially */
 }
+.testimonial-text {
+    font-size: 2em;
+    margin: 20px 0;
+}
+
+.testimonial-name {
+    font-weight: bold;
+    color: #555;
+    text-align: right;
+    font-size: 1em;
+    margin-top: 10px;
+    font-size: 18px;
+}
 
 
 
@@ -174,15 +187,17 @@
 
     {{-- ==============testimonial section================ --}}
     <div class="outer-container " style="margin: 100px 10px;">
-        <div class="main-container testimonial-container">
-            <h3 class="testimonial-title">What our students are saying...</h3>
-            <div class="testimonial-slider" id="testimonial-slider">
-                <button class="prev" onclick="moveSlide(-1)"><img src="images/left-arrow.svg" alt="Previous"></button>
-                <div class="testimonial-content" id="testimonial-content"></div>
-                <button class="next" onclick="moveSlide(1)"><img src="images/right-arrow.svg" alt="Next"></button>
+    <div class="main-container testimonial-container">
+        <h3 class="testimonial-title">What our students are saying...</h3>
+        <div class="testimonial-slider" id="testimonial-slider">
+            <button class="prev" onclick="moveSlide(-1)"><img src="images/left-arrow.svg" alt="Previous"></button>
+            <div class="testimonial-content" id="testimonial-content">
+                <!-- Testimonials will be dynamically injected here -->
             </div>
+            <button class="next" onclick="moveSlide(1)"><img src="images/right-arrow.svg" alt="Next"></button>
         </div>
     </div>
+</div>
     {{-- ==============testimonial section================ --}}
 
     {{-- ==============contact us section================ --}}
@@ -195,15 +210,33 @@
             <div class="contact-img-wrapper">
                 <img src="{{ asset('images/contact-img.png') }}" alt="">
             </div>
-            <form action="#" class="contact-home-form">
-                <input type="text" placeholder="Your name(Optional)">
-                <input type="email" placeholder="Your email(Optional)">
-                <textarea name="message" id="message" cols="30" rows="10" placeholder="Type your message.."></textarea>
-                <button type="submit" class="btn-gradient btn-submit">Submit</button>
+            <form action="{{ route('feedback.store') }}" method="POST" class="contact-home-form">
+            @csrf
+    <input type="text" name="name" placeholder="Your name (Optional)">
+    <input type="email" name="email" placeholder="Your email (Optional)">
+    <textarea name="message" id="message" cols="30" rows="10" placeholder="Type your message.." required></textarea>
+    <button type="submit" class="btn-gradient btn-submit">Submit</button>
             </form>
         </div>
         {{-- ==============contact us section================ --}}
-
+<!-- Thank You Modal -->
+<div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 15px; overflow: hidden;">
+            <div class="modal-header text-center" style="background-color: #941b9a; color: white; display: flex; justify-content: center;">
+                <h5 class="modal-title w-100" id="thankYouModalLabel" style="font-weight: bold; font-size: 2em;">🎉 Thank You!</h5>
+            </div>
+            <div class="modal-body text-center" style="padding: 30px; font-size: 2em; color: #444;">
+                <p style="margin: 0; font-weight: 500;">
+                    Thank you for your feedback!<br>We appreciate your input and support.
+                </p>
+            </div>
+            <div class="modal-footer d-flex justify-content-center" style="border-top: none; padding-bottom: 30px;">
+                <button type="button" class="btn btn-primary px-4 py-2" style="background-color: #8d1b9a; border-color: #6a1b9a;" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Include jQuery, Popper.js, and Bootstrap JS -->
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -214,4 +247,39 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></scrip>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    @endsection
+
+@if(session('success'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var myModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
+            myModal.show();
+        });
+    </script>
+@endif
+<script>
+
+  const testimonials = @json($testimonials);
+
+    let currentSlide = 0;
+
+    function displayTestimonial(slideIndex) {
+        const testimonialContent = document.getElementById("testimonial-content");
+        const { message: text, name } = testimonials[slideIndex];
+        testimonialContent.innerHTML = `
+            <p class="testimonial-text">"${text}"</p>
+            <p class="testimonial-name">- ${name}</p>
+        `;
+    }
+
+    function moveSlide(step) {
+        currentSlide = (currentSlide + step + testimonials.length) % testimonials.length;
+        displayTestimonial(currentSlide);
+    }
+
+    // Initialize the first testimonial
+    displayTestimonial(currentSlide);
+
+    // Auto-slide every 5 seconds
+    setInterval(() => moveSlide(1), 5000);
+</script>
+   @endsection

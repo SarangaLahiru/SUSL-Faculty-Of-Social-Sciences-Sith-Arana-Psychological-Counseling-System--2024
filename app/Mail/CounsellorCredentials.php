@@ -22,7 +22,7 @@ class CounsellorCredentials extends Mailable
 
     public function build()
     {
-        return $this->subject('Your Counsellor Account Credentials')
+        return $this->subject('Welcome to Sitharana !')
                     ->view('admin.pages.email.counsellor_credentials');
     }
 }

@@ -15,7 +15,9 @@ use App\Http\Controllers\student\HomeController;
 
 use Illuminate\Support\Facades\Http;
 // use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FeedbackController;
 
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 Route::post('/send/message', function () {
     // Sending the SMS using Laravel's Http client
     $response = Http::post('https://api.dialog.lk/sms/send', [
@@ -40,7 +42,7 @@ Route::get('/calendar', [HomeController::class, 'calendar'])->name('home.calenda
 Route::resource('counsellors', CounsellorsController::class);
 Route::resource('counsellors.bookings', BookingsController::class);
 Route::get('/counsellors/{counsellor}/timeslots', [CounsellorsController::class, 'getAvailableTimeslots'])->name('counsellors.timeslots');
-
+Route::patch('/admin/feedback/{id}', [FeedbackController::class, 'update'])->name('feedback.update');
 // Counsellor Authentication Routes
 Route::prefix('counsellor')->group(function () {
 
@@ -96,6 +98,7 @@ Route::prefix('admin')->group(function () {
 
         // Bookings management
         Route::get('/bookings', [AdminDashboardController::class, 'bookings'])->name('admin.bookings');
+        Route::get('/feedback', [AdminDashboardController::class, 'feedback'])->name('admin.feedback');
 
         // Admin logout route
         Route::post('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\BookingDetails;
 use App\Models\Counsellor;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller
@@ -37,6 +38,14 @@ return view('admin.pages.bookings', compact('bookingsByCounsellor'));
         $counsellors = Counsellor::all();
         return view('admin.pages.counsellors', compact('counsellors'));
     }
+
+    public function feedback()
+    {
+        $feedbacks = Feedback::all();
+        // return view('admin.feedback.index', compact('feedbacks'));
+        return view('admin.pages.feedback', compact('feedbacks'));
+    }
+
 
 
     public function destroy($id)

@@ -1,84 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Cancellation</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            line-height: 1.6;
-            padding: 0;
-            margin: 0;
-        }
-        .email-container {
-            max-width: 600px;
-            margin: 30px auto;
-            padding: 20px;
-            background-color: #f7f7f7;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking Confirmation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
+    <style>
+        .proton-body {
+            display: block;
+            padding: 0px;
+            margin: 0px;
         }
-        h1 {
-            font-size: 24px;
-            color: #fff;
-            text-align: center;
-            background-color: #811786;
-            padding: 10px 15px;
-            border-radius: 8px;
+
+        .proton-wrapper {
+            width: 100%;
+            display: block;
+            overflow: hidden;
+            box-sizing: border-box;
+            color: #222;
+            background: #f2f2fd;
+            font-size: 18px;
+            font-weight: normal;
+            font-family: 'Baloo 2', 'Open Sans', 'Roboto', 'Segoe UI', 'Helvetica Neue', Helvetica, Tahoma, Arial, monospace, sans-serif;
         }
-        .content {
-            padding: 20px 0;
-            font-size: 16px;
+
+        .proton-table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 0px;
+            width: 640px;
+            max-width: 90%;
+            margin: 100px auto;
+            box-shadow: 0px 20px 48px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
         }
-        .highlight {
-            color: #e63946;
+
+        .proton-table tr {
+            background: #ffffff;
+        }
+
+        .proton-table td,
+        .proton-table th {
+            border: 0px;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        .proton-table tr td {
+            padding: 0px 40px;
+            box-sizing: border-box;
+        }
+
+        .proton-margin {
+            float: left;
+            width: 100%;
+            overflow: hidden;
+            height: 40px;
+            padding-bottom: 0px;
+            box-sizing: border-box;
+        }
+
+        .proton-div {
+            float: left;
+            width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .proton-table h1,
+        .proton-table h2,
+        .proton-table h3,
+        .proton-table h4 {
+            float: left;
+            width: 100%;
+            margin: 0px 0px 20px 0px !important;
+            padding: 0px;
+        }
+
+        .proton-table h1 {
+            font-size: 33px;
+        }
+
+        .proton-table h2 {
+            font-size: 26px;
+        }
+
+        .proton-table h3 {
+            font-size: 23px;
+        }
+
+        .proton-table p {
+            float: left;
+            width: 100%;
+            font-size: 18px;
+            margin: 0px 0px 20px 0px !important;
+        }
+
+        .proton-table h4 {
+            font-size: 20px;
+        }
+
+        .proton-table a {
+            color: #6d49fc;
             font-weight: bold;
         }
-        .footer {
-            font-size: 14px;
-            color: #666;
-            text-align: center;
-            padding-top: 10px;
+
+        .proton-table a:hover {
+            color: #55cc55;
         }
-        .button {
+
+        .proton-table a:active {
+            color: #ff6600;
+        }
+
+        .proton-table a:visited {
+            color: #ff00ff;
+        }
+
+        .proton-table a.proton-link {
             display: inline-block;
-            padding: 10px 20px;
-            background-color: #811786;
-            color: #fff;
+            width: auto !important;
+            outline: none !important;
+            text-decoration: none !important;
+        }
+
+        .proton-table img,
+        .proton-table a img {
+            display: block;
+            max-width: 100%;
+            margin-bottom: 20px;
+            border: 0px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .proton-table a.proton-button {
+            display: inline-block;
+            font-weight: bold;
+            font-size: 17px;
+            padding: 15px 40px;
+            margin: 20px 0px;
+            color: #ffffff !important;
+            background: #8e33b0 !important;
+            border-radius: 10px;
             text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
+            outline: none;
+        }
+
+        .proton-table a.proton-button:hover {
+            color: #ffffff !important;
+            background: #55cc55 !important;
+        }
+
+        .proton-code {
+            float: left;
+            width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: 15px 40px;
+            margin: 20px 0px;
+            border: 1px dashed #f349fcaa;
+            background: #6d49fc11;
+            color: #ae34b7;
+            font-weight: 700;
+            font-size: 23px;
+        }
+
+        .proton-flex {
+            float: left;
+            width: 100%;
+            text-align: center;
+        }
+
+        .proton-divider {
+            float: left;
+            width: 100%;
+            overflow: hidden;
+            margin: 20px 0px;
+            border-top: 2px solid #f2f2fd;
+        }
+    </style>
+
+    <style>
+        /* your style here */
+        .proton-flex img {
+            margin: 10px;
+            max-width: 15%;
+            width: 40px;
         }
     </style>
 </head>
+
 <body>
-    <div class="email-container">
-        <h1>Booking Cancellation Notice</h1>
+    <div class="proton-wrapper">
+        <table class="proton-table">
+            <tbody>
+                <tr>
+                    <td>
+                        <center>
+                            <img  src= "https://firebasestorage.googleapis.com/v0/b/portf-cef98.appspot.com/o/logo2.png?alt=media&token=0e3d15c1-6500-4c42-a3ee-6b5527b4b76c"  alt="Sitharana Logo"  />
+                        </center>
+                        <hr>
+                    </td>
+                </tr>
 
-        <div class="content">
-            <p>Dear <span class="highlight">{{ $booking->name ?? 'Valued Guest' }}</span>,</p>
+                <tr>
+                    <td>
+                        <h2>Session Cancellation Notice</h2>
+                        <p>Dear <span class="highlight">{{ $userName ?? 'Valued Client' }}</span>,</p>
 
-            <p>We regret to inform you that your scheduled booking with our counsellor, <span class="highlight">{{ $booking->timeslot->counsellor->full_name_with_rate }}</span>, on <span class="highlight">{{ $booking->timeslot->date }}</span> at <span class="highlight">{{ $booking->timeslot->time }}</span> has been canceled.</p>
+            <p>We regret to inform you that your scheduled session with <strong>{{$bookingTime }}   on {{ $bookingDate }}  </strong>  has been canceled due to the counselor’s unavailability.</p>
 
-            <p>We apologize for any inconvenience this may cause. Unfortunately, the counsellor is unavailable for the scheduled session. We understand this may disrupt your plans, and we’re here to help you reschedule at a time that’s convenient for you.</p>
+            <p>We apologize for any inconvenience this may cause. We understand that this might disrupt your plans, and we’re committed to helping you reschedule at a time that suits you.</p>
 
-            <p>If you'd like to book another time, please click the button below to view available sessions:</p>
+            <p>If you’d like to reschedule your session, please click the button below to view available times:</p>
 
-            <p><a href="{{ url('/reschedule') }}" class="button">Reschedule Now</a></p>
+            <center>
+                <a href="{{ url('counsellors') }}" class="proton-button">reshedule</a>
+            </center>
+            <p>Thank you for your understanding and patience. If you have any questions or need further assistance, please don’t hesitate to contact us.</p>
 
-            <p>Thank you for choosing our services. We hope to assist you soon with a new appointment.</p>
 
-            <p>Warm regards,</p>
-            <p>The Counselling Team</p>
-        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h3>Best Regards,</h3>
+                        <p>Sitharana Counseling Center<br>Sabaragamuwa University of Sri Lanka</p>
+                    </td>
+                </tr>
 
-        <div class="footer">
-            <p>If you have any questions, don’t hesitate to <a href="mailto:support@yourcompany.com">contact us</a>.</p>
-        </div>
+                <tr>
+                    <td>
+                        <div class="proton-divider"></div>
+                        <p class="footer">© 2024 Sitharana Psychological Counseling Center, SUSL</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

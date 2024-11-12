@@ -127,6 +127,11 @@
                                 <i class="fas fa-calendar-check"></i> Bookings
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('admin/feedback') ? 'active' : '' }}" href="/admin/feedback">
+                                <i class="fas fa-calendar-check"></i> feedback
+                            </a>
+                        </li>
                         {{--  <li class="nav-item">
                             <a class="nav-link {{ request()->is('admin/reports') ? 'active' : '' }}" href="/admin/reports">
                                 <i class="fas fa-chart-line"></i> Reports

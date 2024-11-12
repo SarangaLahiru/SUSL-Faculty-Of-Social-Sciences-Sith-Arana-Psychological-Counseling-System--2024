@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\student;
 use App\Http\Controllers\Controller;
 use App\Models\counsellor;
+use App\Models\Feedback;
 use App\Models\TimeSlots;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -11,11 +12,8 @@ use Carbon\Carbon;
 class HomeController extends Controller
 {
     public function index(){
-
-        $counsellors = counsellor::all();
-        return view('welcome',[
-            'counsellors' => $counsellors,
-        ]);
+        $testimonials = Feedback::where('is_published', true)->get();
+    return view('welcome', compact('testimonials'));
     }
 
     public function aboutus(){

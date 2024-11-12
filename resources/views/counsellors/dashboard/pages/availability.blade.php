@@ -35,6 +35,7 @@
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <div>
                                     {{ \Carbon\Carbon::parse($slot['date'])->format('Y-m-d') }}
+                                 {{ \Carbon\Carbon::parse($slot['time'])->format('h:i A') }}
                                     <span class="{{ $slot['isBooked'] ? 'text-danger' : 'text-success' }}">
                                         {{ $slot['isBooked'] ? 'Booked' : 'Available' }}
                                     </span>
@@ -50,6 +51,8 @@
                         @endforeach
                     </ul>
                 </div>
+
+
             </div>
         @empty
             <div class="col-12">

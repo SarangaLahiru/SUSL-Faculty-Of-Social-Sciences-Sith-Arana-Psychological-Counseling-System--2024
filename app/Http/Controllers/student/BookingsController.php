@@ -9,6 +9,7 @@ use App\Models\BookingDetails;
 use App\Models\counsellor;
 use App\Models\TimeSlots;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Database\DBAL\TimestampType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -111,9 +112,11 @@ class BookingsController extends Controller
             'formDetails' => $formDetails,
             'counsellor' => $counsellor,
             'timeslot' => $specificTimeSlot,
-            'location' => 'Location Details Here'
+            'bookingDate' => Carbon::now()->format('F d, Y'), // Current date
+            'bookingTime' => Carbon::now()->format('h:i A'),
+            'bookingID' => $bookingRecord->booking_id,
+            'location' => 'Sitharana Counseling Center, SUSL'
         ]);
-
         $pdfPath = storage_path('app/public/booking_confirmation.pdf');
         $pdf->save($pdfPath);
 
@@ -190,9 +193,12 @@ class BookingsController extends Controller
     // Delete the booking
     $booking->delete();
 
+    $counsellor = Counsellor::where('counsellor_id', $booking->counsellor_id)->first();
+
+    $TimeSlot = TimeSlots::where('timeslot_id',$booking->timeslot_id)->first();
 
     // Send the email notification
-    Mail::to($userEmail)->send(new BookingDeleted($booking));
+    Mail::to($userEmail)->send(new BookingDeleted($booking,$counsellor  ,  $TimeSlot));
 
 
 

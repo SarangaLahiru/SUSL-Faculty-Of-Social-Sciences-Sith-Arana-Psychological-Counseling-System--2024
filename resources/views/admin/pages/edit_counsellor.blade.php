@@ -4,7 +4,7 @@
 <div class="container">
     <h1 class="my-4">Edit Counsellor </h1>
 
-     <form action="{{ route('counsellorsShow.update', $counsellor->counsellor_id) }}" method="POST">
+     <form action="{{ route('counsellorsShow.update', $counsellor->counsellor_id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -148,7 +148,7 @@
         <!-- Profile Image Upload -->
         <div class="mb-3">
             <label for="profile_image" class="form-label">Profile Image</label>
-            <input type="file" class="form-control @error('profile_image') is-invalid @enderror" id="profile_image" name="profile_image">
+            <input type="file" class="form-control @error('profile_image') is-invalid @enderror" id="profile_image" name="profile_image" accept="image/*">
             @error('profile_image')
                 <div class="invalid-feedback">
                     {{ $message }}
