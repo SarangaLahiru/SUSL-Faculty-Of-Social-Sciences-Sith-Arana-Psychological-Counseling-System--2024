@@ -208,31 +208,24 @@
 
                 <tr>
                     <td>
-                        <h2>New Session Booked!</h2>
-                        <p>Dear {{ $counsellor->full_name_with_rate }},</p>
-                        <p>You have a new session scheduled. Here are the details of the booking:</p>
+                        <h2>Booked Successfully!</h2>
+                        <p>Dear {{ $formDetails->name ?? 'N/A'  }},</p>
+                        <p>Thank you for booking a session with us! Your session with <strong>{{ $counsellor->full_name_with_rate }}</strong> has been confirmed. Below are the details of your appointment:</p>
 
                         <div class="proton-code">
-                            <p><strong>Client Name:</strong> {{ $formDetails['name'] ?? 'N/A' }}</p>
-                            <p><strong>Email:</strong> {{ $formDetails['email'] ?? 'N/A' }}</p>
-                            <p><strong>Phone:</strong> {{ $formDetails['mobile_no'] ?? 'N/A' }}</p>
-                            <p><strong>Faculty:</strong> {{ $formDetails['faculty'] ?? 'N/A' }}</p>
-                            <hr>
                             <p><strong>Session Date:</strong> {{ $timeslot->date }}</p>
                             <p><strong>Time:</strong> {{ date('h:i A', strtotime($timeslot->time)) }}</p>
                             <p><strong>Venue:</strong> Sitharana Counseling Center, Faculty of Social Sciences & Languages, SUSL</p>
                         </div>
 
-                        <p>Please prepare any relevant materials or resources for this session. You may view further details or manage your appointments in your calendar.</p>
+                        <p>Please find the attached documents for additional information. Remember to bring any necessary identification or materials as indicated in your documents.</p>
 
                         <center>
-                            <a href="{{ url('counsellor/dashboard') }}" class="proton-button">View All Sessions</a>
-                            <a href="{{ url('counsellor/session/confirm/' . $bookingDetails->booking_id) }}" class="proton-confirm" style="background-color: rgb(50, 231, 0)">Confirm Booking</a>
-                            <a href="{{ url('counsellor/session/delete/' . $bookingDetails->booking_id) }}" class="proton-button" style="background-color: rgb(231, 0, 0)">Cancel Booking</a>
-                            <a href="{{ url('counsellor/dashboard') }}" class="proton-button">View All Sessions</a>
+                            <a href="{{ url('/calendar') }}" class="proton-button">View Your Booking</a>
                         </center>
                     </td>
                 </tr>
+
                 <tr>
                     <td>
                         <h3>Best Regards,</h3>

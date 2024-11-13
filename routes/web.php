@@ -16,6 +16,7 @@ use App\Http\Controllers\student\HomeController;
 use Illuminate\Support\Facades\Http;
 // use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\SessionController;
 
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 Route::post('/send/message', function () {
@@ -122,3 +123,9 @@ Route::prefix('admin')->group(function () {
      Route::get('/password/reset/{token}', [AdminResetPasswordController::class, 'showResetForm'])->name('admin.password.reset');
      Route::post('/password/reset', [AdminResetPasswordController::class, 'reset'])->name('admin.password.update');
 });
+
+
+Route::get('/counsellor/session/delete/{timeslot}', [SessionController::class, 'deleteSession'])
+    ->name('session.delete');
+    Route::get('/counsellor/session/confirm/{timeslot}', [SessionController::class, 'confirmSession'])
+    ->name('session.confirm');

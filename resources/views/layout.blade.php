@@ -134,6 +134,7 @@
 }
 .header-container{
     background-color: #7f3782;
+    box-shadow: 0px 0px 10px black;
 }
 
 
@@ -152,15 +153,16 @@
             <nav class="navbar">
                 <div class="logo">
                     <a href="{{ route('home.index') }}">
-                        <img src="{{ asset('images/logo.gif') }}" alt="SITH ARANA Logo" class="logo-image">
+                        <img src="{{ asset('images/logos.png') }}" alt="SITH ARANA Logo" class="logo-image">
                     </a>
                 </div>
                 <ul class="nav-links">
                     <li><a href="{{ route('home.index') }}" style="color: #e5e5e5" class="{{ Route::is('home.index') ? 'active' : '' }}">Home</a></li>
                     <li><a href="{{ route('counsellors.index') }}" style="color: #e5e5e5"   class="{{ Route::is('counsellors.index') ? 'active' : '' }}">Counsellors</a></li>
                     <li><a href="{{ route('home.aboutus') }}" style="color: #e5e5e5" class="{{ Route::is('home.aboutus') ? 'active' : '' }}">About Us</a></li>
-                    <li><a href="{{ route('home.contactus') }}" style="color: #e5e5e5"  class="{{ Route::is('home.contactus') ? 'active' : '' }}">Contact Us</a></li>
                     <li><a href="{{ route('home.calendar') }}" style="color: #e5e5e5"  class="{{ Route::is('home.calendar') ? 'active' : '' }}">Calendar</a></li>
+
+                    <li><a href="{{ route('home.contactus') }}" style="color: #e5e5e5"  class="{{ Route::is('home.contactus') ? 'active' : '' }}">Contact Us</a></li>
 
                 </ul>
                 <div class="hamburger" onclick="toggleMenu()">

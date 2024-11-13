@@ -124,7 +124,7 @@ class BookingsController extends Controller
         Mail::to($formDetails['email'])->send(new BookedTime($formDetails, $counsellor, $specificTimeSlot, $pdf));
 
         // Send email notification to the counsellor with PDF attachment
-        Mail::to($counsellor->email)->send(new CounsellorNotification($formDetails, $counsellor, $specificTimeSlot));
+        Mail::to($counsellor->email)->send(new CounsellorNotification($formDetails, $counsellor, $specificTimeSlot,$bookingRecord));
 
 
 

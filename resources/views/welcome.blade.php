@@ -18,18 +18,23 @@
         z-index: -1000;
     }
     .box{
-        background-color: rgba(129, 9, 148, 0.221);
+        background: linear-gradient(to top left, rgba(4, 4, 4, 0.349),rgba(255, 255, 255, 0))
+
+
+
     }
     .box1{
-        background-color: rgba(255, 255, 255, 0.536);
+        background-color: rgba(255, 255, 255, 0.467);
         padding: 15px 5px;
         border-radius: 24px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.379);
+
     }
     .box2{
         z-index: 100;
     }
     .tags-container p{
-        background-color: rgba(29, 128, 221, 0.518);
+        background-color: rgba(29, 128, 221, 0.681);
         color: white;
 
     }
@@ -64,6 +69,10 @@
 
 
 
+
+
+
+
 </style>
 
 
@@ -79,6 +88,7 @@
             <h1>Your Feelings Matter, <span class="text-gradient">Let's Talk</span></h1>
             <p>Book a session with a qualified Counsellor easily and quickly...</p>
         </div>
+
         <a href="{{ route('counsellors.index') }}"><button class="btn-gradient btn-cta">Book a Session</button></a>
     </div>
 </div>
@@ -95,14 +105,14 @@
 
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img class="d-block w-100" src="{{asset('images/slide_1.jpg')}}" alt="First slide">
+      <img class="d-block w-100" src="{{asset('images/slide_2.jpg')}}" alt="First slide">
     </div>
-    <div class="carousel-item">
+    {{--  <div class="carousel-item">
       <img class="d-block w-100" src="{{asset('images/slide_2.jpg')}}" alt="Second slide">
     </div>
     <div class="carousel-item">
       <img class="d-block w-100" src="{{asset('images/slide_3.jpg')}}" alt="Third slide">
-    </div>
+    </div>  --}}
   </div>
 
 

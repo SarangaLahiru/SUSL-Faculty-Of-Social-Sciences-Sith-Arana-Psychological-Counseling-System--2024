@@ -19,11 +19,13 @@ class CounsellorNotification extends Mailable
     public $formDetails;
     public $counsellor;
     public $specificTimeSlot;
-    public function __construct($formDetails, $counsellor, $specificTimeSlot)
+    public $bookingRecord;
+    public function __construct($formDetails, $counsellor, $specificTimeSlot, $bookingRecord)
 {
     $this->formDetails = $formDetails;
     $this->counsellor = $counsellor;
     $this->specificTimeSlot = $specificTimeSlot;
+    $this->bookingRecord=$bookingRecord;
 }
 
 public function build()
@@ -32,7 +34,8 @@ public function build()
                 ->with([
                     'formDetails' => $this->formDetails,
                     'counsellor' => $this->counsellor,
-                    'timeslot' => $this->specificTimeSlot
+                    'timeslot' => $this->specificTimeSlot,
+                    'bookingDetails'=>$this->bookingRecord
                 ]);
 }
 }
