@@ -74,6 +74,7 @@ class BookingsController extends Controller
             'email' => 'required|email',
             'faculty' => 'required',
             'name' => 'nullable|string|max:255',
+            'gender'=>'required',
             'registration_no' => 'nullable|string|max:20',
             'message' => 'nullable|string|max:1000',
         ], [
@@ -90,6 +91,7 @@ class BookingsController extends Controller
             'email' => $validatedData['email'],
             'faculty' => $validatedData['faculty'],
             'name' => $validatedData['name'] ?? null,
+            'gender'=>$validatedData['gender'] ??null,
             'registration_no' => $validatedData['registration_no'] ?? null,
             'message' => $validatedData['message'] ?? null,
         ];
@@ -102,6 +104,7 @@ class BookingsController extends Controller
         $bookingRecord->email = $formDetails['email'];
         $bookingRecord->faculty = $formDetails['faculty'];
         $bookingRecord->name = $formDetails['name'];
+        $bookingRecord->gender=$formDetails['gender'];
         $bookingRecord->registration_no = $formDetails['registration_no'];
         $bookingRecord->message = $formDetails['message'];
 

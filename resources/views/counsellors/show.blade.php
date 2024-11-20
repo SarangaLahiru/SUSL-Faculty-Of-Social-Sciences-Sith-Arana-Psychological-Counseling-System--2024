@@ -136,16 +136,17 @@
                                 @else
                                     @foreach ($timeslots->chunk(2) as $timeslotChunk)
                                         <div class="row mb-2">
-                                            @foreach ($timeslotChunk as $timeslot)
-                                                <div class="col-6">
-                                                    <a href="#"
-                                                       class="timeslot {{ session('selected_timeslot') == $timeslot->timeslot_id ? 'highlight' : '' }}"
-                                                       data-timeslot-id="{{ $timeslot->timeslot_id }}"
-                                                       onclick="selectTimeslot(this)">
-                                                        {{ date('h:i A', strtotime($timeslot->time)) }}
-                                                    </a>
-                                                </div>
-                                            @endforeach
+                                            @foreach ($timeslots as $timeslot)
+    <div class="col-6" >
+        <a href="#" style="font-size: 17px; padding:10px 2px;"
+           class="timeslot {{ session('selected_timeslot') == $timeslot->timeslot_id ? 'highlight' : '' }}"
+           data-timeslot-id="{{ $timeslot->timeslot_id }}"
+           onclick="selectTimeslot(this)">
+           {{ date('h:i A', strtotime($timeslot->time)) }} -
+           {{ date('h:i A', strtotime($timeslot->time . ' + ' . $timeslot->duration . ' minutes')) }}
+        </a>
+    </div>
+@endforeach
                                         </div>
                                     @endforeach
                                 @endif

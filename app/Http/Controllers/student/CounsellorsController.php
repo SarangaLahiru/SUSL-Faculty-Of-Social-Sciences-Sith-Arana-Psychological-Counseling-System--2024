@@ -177,7 +177,7 @@ if ($availableDates->isNotEmpty()) {
                 $query->where('time_slots.time', '>', $currentTime);
             }
         })
-        ->select('time_slots.timeslot_id', 'time_slots.counsellor_id', 'time_slots.date', 'time_slots.time', 'time_slots.created_at', 'time_slots.updated_at')
+        ->select('time_slots.timeslot_id', 'time_slots.counsellor_id', 'time_slots.date', 'time_slots.time', 'time_slots.created_at', 'time_slots.updated_at','time_slots.duration')
         ->orderBy('time', 'asc')
         ->get();
 }

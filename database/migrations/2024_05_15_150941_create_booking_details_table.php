@@ -26,6 +26,7 @@ class CreateBookingDetailsTable extends Migration
         $table->string('mobile_no');
         $table->string('email');
         $table->string('faculty');
+        $table->string('gender');
         $table->string('name')->nullable();
         $table->string('registration_no')->nullable();
         $table->text('message')->nullable();

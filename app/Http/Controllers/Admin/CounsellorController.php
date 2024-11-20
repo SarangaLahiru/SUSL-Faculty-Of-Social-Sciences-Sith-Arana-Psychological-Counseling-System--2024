@@ -41,6 +41,7 @@ class CounsellorController extends Controller
               'NIC' => 'required|string|min:6|unique:counsellors',
               'time_slots.*.day_of_week' => 'required|string',
               'time_slots.*.time' => 'required|date_format:H:i',
+              'time_slots.*.duration' => 'required|integer|min:15|max:120',
           ]);
 
           // Generate an 8-character random password
@@ -61,22 +62,24 @@ class CounsellorController extends Controller
           Mail::to($validatedData['email'])->send(new CounsellorCredentials($counsellor->email, $generatedPassword));
 
           // Add weekly recurring time slots for the counsellor
-          $weeksToGenerate = 50;  // Define how many weeks to generate the slots for
-          $startDate = Carbon::now();  // Starting from the current date
+          $weeksToGenerate = 50; // Define how many weeks to generate the slots for
+          $startDate = Carbon::now(); // Starting from the current date
           $endDate = $startDate->copy()->addWeeks($weeksToGenerate);
 
           foreach ($request->time_slots as $slot) {
               $dayOfWeek = $slot['day_of_week'];
               $time = $slot['time'];
+              $duration = $slot['duration'];
 
               // Generate recurring dates for each day of the week up to the defined weeks
-              $currentDate = $startDate->copy()->next($dayOfWeek);  // Start on the next occurrence of the day
+              $currentDate = $startDate->copy()->next($dayOfWeek); // Start on the next occurrence of the day
 
               while ($currentDate->lte($endDate)) {
                   // Save each time slot as an individual record
                   $counsellor->timeSlots()->create([
                       'date' => $currentDate->format('Y-m-d'),
                       'time' => $time,
+                      'duration' => $duration,
                   ]);
 
                   // Move to the same day in the next week
@@ -86,6 +89,7 @@ class CounsellorController extends Controller
 
           return redirect()->route('admin.counsellors')->with('success', 'Counsellor added successfully with weekly time slots.');
       }
+
 
 
     public function edit(Request $request, $counsellor_id)

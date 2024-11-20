@@ -19,6 +19,7 @@ class CreateTimeSlotsTable extends Migration
             $table->foreign('counsellor_id')->references('counsellor_id')->on('counsellors')->onDelete('cascade');
             $table->date('date');
             $table->time('time');
+            $table->integer('duration')->default(30);
             $table->timestamps();
         });
     }

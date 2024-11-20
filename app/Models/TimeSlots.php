@@ -14,6 +14,7 @@ class TimeSlots extends Model
         'counsellor_id',
         'date',
         'time',
+        'duration'
 
     ];
     protected $casts = [

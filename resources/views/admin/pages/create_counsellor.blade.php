@@ -18,7 +18,7 @@
 
         <!-- NIC number -->
         <div class="form-group">
-            <label for="username">NIC number</label>
+            <label for="NIC">NIC number</label>
             <input type="text" name="NIC" class="form-control" required>
             @error('NIC')
                 <div class="text-danger">{{ $message }}</div>
@@ -50,9 +50,8 @@
                 </select>
                 <label>Time:</label>
                 <input type="time" name="time_slots[0][time]" class="form-control" required>
-                @error('time_slots.0.time')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
+                <label>Duration (minutes):</label>
+                <input type="number" name="time_slots[0][duration]" class="form-control" min="15" max="120" step="15" value="30" required>
             </div>
         </div>
 
@@ -82,6 +81,8 @@
             </select>
             <label>Time:</label>
             <input type="time" name="time_slots[${timeSlotCount}][time]" class="form-control" required>
+            <label>Duration (minutes):</label>
+            <input type="number" name="time_slots[${timeSlotCount}][duration]" class="form-control" min="15" max="120" step="15" value="30" required>
         `;
         container.appendChild(newSlot);
         timeSlotCount++;
