@@ -17,7 +17,7 @@
     --bg-purple: #622864;
     --bg-yellow: #f6991a;
     --bg-tags: #84a1e51c;
-    --gradient-primary: linear-gradient(90deg, #632965, #bc3fc1);
+    --gradient-primary: linear-gradient(90deg, #9d3aa1, #d967df);
     --gradient-secondary: linear-gradient(90deg, #bc3fc1, #632965);
     --white: #fff;
     --text-primary: #262526;
@@ -69,17 +69,21 @@ body {
     background: var(--gradient-primary);
     color: transparent;
     background-clip: text;
+    font-weight: 700;
 }
 
 .btn-gradient {
-    border-radius: 1rem;
+    border-radius: 9rem;
     border: none;
     background: var(--gradient-primary);
     box-shadow: 0px 16px 32px 0px rgba(250, 167, 252, 0.7);
-    padding: 0.8em 1.6em;
+    padding: 0.5em 1.6em;
     color: var(--white);
     transition: all 1s ease-in-out;
     cursor: pointer;
+    font-size: 22px;
+    margin-top: -20px;
+
 }
 .btn-gradient-primary {
     border-radius: 6px;

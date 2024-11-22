@@ -18,8 +18,9 @@
         z-index: -1000;
     }
     .box{
-        background: linear-gradient(to top left, rgba(4, 4, 4, 0.349),rgba(255, 255, 255, 0))
-
+        /*background: linear-gradient(to top left, rgba(4, 4, 4, 0.8), rgb(11, 11, 11,0.8));*/
+        position: relative;
+        z-index: 10;
 
 
     }
@@ -31,7 +32,7 @@
 
     }
     .box2{
-        z-index: 100;
+        z-index: 1;
     }
     .tags-container p{
         background-color: rgba(29, 128, 221, 0.681);
@@ -66,32 +67,48 @@
     margin-top: 10px;
     font-size: 18px;
 }
-
-
-
-
-
-
+/*.btn-mn{*/
+/*    position:relative;*/
+/*    z-index: 100;*/
+/*}*/
 
 </style>
 
 
     {{-- ======================hero section====================== --}}
 <div class="outer-container hero-container box">
-    <div class="main-container hero-content-container box1" data-aos="fade-up">
-        <div class="tags-container">
-            <p class="tags">10+ Specialist</p>
-            <p class="tags">50min sessions</p>
-            <p class="tags">Free of charge</p>
-        </div>
+    <div class="main-container hero-content-container" data-aos="fade-up">
+
         <div class="hero-desc-container">
-            <h1>Your Feelings Matter, <span class="text-gradient">Let's Talk</span></h1>
-            <p>Book a session with a qualified Counsellor easily and quickly...</p>
+            <h1 style="color: #ffffff">Your Feelings Matter <br><span class="text-gradient">Let's Talk</span></h1>
+            <p  style="color: white; font-weight: normal; font-size: large">Book a session with a qualified Counsellor easily and quickly...</p>
+        </div>
+{{--        <div class="tags-container">--}}
+{{--            <p class="tags">10+ Specialist</p>--}}
+{{--            <p class="tags">50min sessions</p>--}}
+{{--            <p class="tags">Free of charge</p>--}}
+{{--        </div>--}}
+        <div class="d-flex justify-content-around align-items-center text-light py-5" style="background: transparent; transform: scale(1.4);">
+            <div class="text-center">
+                <h4 class="mb-1">20M+</h4>
+                <p class="mb-0">Active Users</p>
+            </div>
+            <div class="border-start border-light mx-4" style="height: 40px;"></div>
+            <div class="text-center">
+                <h4 class="mb-1">85%</h4>
+                <p class="mb-0">Revenue</p>
+            </div>
+            <div class="border-start border-light mx-4" style="height: 40px;"></div>
+            <div class="text-center">
+                <h4 class="mb-1">$10M+</h4>
+                <p class="mb-0">Revenue</p>
+            </div>
         </div>
 
-        <a href="{{ route('counsellors.index') }}"><button class="btn-gradient btn-cta">Book a Session</button></a>
+        <a href="{{ route('counsellors.index') }}"><button class="btn-gradient btn-cta btn-mn">Book a Session</button></a>
     </div>
 </div>
+
 
 {{-- ======================emergency call section====================== --}}
 <div class="outer-container emergency-call-container box2">
@@ -103,19 +120,11 @@
 </div>
 <div id="carouselExampleSlidesOnly" class="carousel slide slider" data-ride="carousel">
 
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100" src="{{asset('images/slide_2.jpg')}}" alt="First slide">
+    <div class="carousel-inner" style="background-color: rgba(0, 0, 0, 0.5);">
+        <div class="carousel-item active">
+            <img class="d-block w-100" src="{{asset('images/slide_2_dark.jpg')}}" alt="First slide">
+        </div>
     </div>
-    {{--  <div class="carousel-item">
-      <img class="d-block w-100" src="{{asset('images/slide_2.jpg')}}" alt="Second slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="{{asset('images/slide_3.jpg')}}" alt="Third slide">
-    </div>  --}}
-  </div>
-
-
 </div>
 
 
@@ -254,7 +263,7 @@
   AOS.init();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></scrip>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
