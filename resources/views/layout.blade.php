@@ -49,11 +49,15 @@
 }
 
 .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
+    background-color: #7f3782; /* Your chosen navbar color */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: top 0.3s ease-in-out;
 }
+
 
 
 
@@ -211,6 +215,25 @@
             </nav>
         </div>
     </footer>
+    <script>
+        let lastScrollTop = 0; 
+let navbar = document.querySelector('.navbar');
+
+window.addEventListener('scroll', function () {
+    let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (currentScroll > lastScrollTop) {
+        // Scroll Down - Hide Navbar
+        navbar.style.top = "-100px"; // Move navbar off-screen
+    } else {
+        // Scroll Up - Show Navbar
+        navbar.style.top = "0"; // Reset navbar to top position
+    }
+
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+});
+
+        </script>
 
 
 

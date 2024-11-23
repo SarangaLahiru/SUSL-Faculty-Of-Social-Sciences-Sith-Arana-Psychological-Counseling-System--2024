@@ -77,6 +77,7 @@
 @endsection
 
 <style>
+
     .container {
         background-color: white;
         border-radius: 0.5rem;
