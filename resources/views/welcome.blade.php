@@ -14,7 +14,8 @@
 <style>
     .slider{
         position: absolute;
-        top: 80px;
+        top: 89px;
+        width: 100%
         z-index: -1000;
     }
     .box{
@@ -90,18 +91,18 @@
 {{--        </div>--}}
         <div class="d-flex justify-content-around align-items-center text-light py-5" style="background: transparent; transform: scale(1.4);">
             <div class="text-center">
-                <h4 class="mb-1">20M+</h4>
-                <p class="mb-0">Active Users</p>
+                <h4 class="mb-1">10+</h4>
+                <p class="mb-0">Specialist</p>
             </div>
             <div class="border-start border-light mx-4" style="height: 40px;"></div>
             <div class="text-center">
-                <h4 class="mb-1">85%</h4>
-                <p class="mb-0">Revenue</p>
+                <h4 class="mb-1">50min</h4>
+                <p class="mb-0">sessions</p>
             </div>
             <div class="border-start border-light mx-4" style="height: 40px;"></div>
             <div class="text-center">
-                <h4 class="mb-1">$10M+</h4>
-                <p class="mb-0">Revenue</p>
+                <h4 class="mb-1">Free</h4>
+                <p class="mb-0">of charge</p>
             </div>
         </div>
 

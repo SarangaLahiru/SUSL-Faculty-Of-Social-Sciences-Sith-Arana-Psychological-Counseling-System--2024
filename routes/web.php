@@ -75,6 +75,7 @@ Route::prefix('counsellor')->group(function () {
         Route::post('counsellor/availability/store', [CounsellorAuthController::class, 'store'])->name('counsellors.availability.store');
 
     });
+    Route::post('/bookings/{id}/status', [CounsellorAuthController::class, 'markAsDone'])->name('bookings.status');
 
     // Password reset routes (should be inside the counsellor prefix group)
     Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('counsellor.password.request');

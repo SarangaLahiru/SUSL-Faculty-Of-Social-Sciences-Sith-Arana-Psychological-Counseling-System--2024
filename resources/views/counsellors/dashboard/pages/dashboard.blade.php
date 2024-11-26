@@ -52,6 +52,20 @@
                                 <i class="fas fa-trash"></i>
                             </button>
                         </form>
+                        @if($booking->status !== 'done')
+                        <form action="{{ route('bookings.status', $booking->booking_id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-success"
+                                    onclick="return confirm('Are you sure you want to mark this booking as done?');"
+                                    data-bs-toggle="tooltip" title="Mark as Done">
+                                <i class="bi bi-check-circle-fill me-1"></i> Mark as Done
+                            </button>
+                        </form>
+                    @else
+                        <button class="btn btn-sm btn-secondary" disabled>
+                            <i class="bi bi-check-circle me-1"></i> Already Done
+                        </button>
+                    @endif
                     </div>
                 </li>
             @endforeach

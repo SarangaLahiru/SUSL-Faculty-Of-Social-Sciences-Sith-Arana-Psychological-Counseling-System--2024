@@ -35,13 +35,16 @@
                                             </a>  --}}
 
                                             <!-- Delete Button -->
-                                            <form action="" method="POST" onsubmit="return confirm('Are you sure you want to delete this booking?');" style="display:inline;">
+                                            {{--  <form action="" method="POST" onsubmit="return confirm('Are you sure you want to delete this booking?');" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-outline-danger btn-sm" style="font-size: 24px;">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
-                                            </form>
+                                            </form>  --}}
+
+                                                <button class="btn btn-outline-secondary btn-sm"  style="font-size: 24px;">{{ $booking->status }}</button>
+
                                         </td>
                                     </tr>
                                 @endforeach

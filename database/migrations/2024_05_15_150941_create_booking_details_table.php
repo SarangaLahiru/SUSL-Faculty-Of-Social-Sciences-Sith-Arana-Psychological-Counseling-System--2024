@@ -30,6 +30,7 @@ class CreateBookingDetailsTable extends Migration
         $table->string('name')->nullable();
         $table->string('registration_no')->nullable();
         $table->text('message')->nullable();
+        $table->text('status')->default('pending');
 
         $table->timestamps(); // created_at and updated_at columns
     });

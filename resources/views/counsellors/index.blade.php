@@ -158,7 +158,8 @@ h2 {
 }
 </style>
 {{--  <h2 class = "title m-auto w-20 ">sdfsdf</h2>  --}}
-<h2 class="title w-50 m-auto m-4">Booking a session</h2>
+<div >
+    <h2 class="title w-50 m-auto m-4">Booking a session</h2>
 <div class="container-row">
 
 
@@ -433,6 +434,7 @@ h2 {
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <script>

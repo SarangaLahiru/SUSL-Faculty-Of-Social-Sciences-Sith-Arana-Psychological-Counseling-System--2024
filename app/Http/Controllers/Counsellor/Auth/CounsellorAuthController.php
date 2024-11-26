@@ -31,6 +31,18 @@ class CounsellorAuthController extends Controller
      // Pass the bookings to the dashboard view
      return view('counsellors.dashboard.pages.dashboard', compact('bookings','counsellor'));
 }
+public function markAsDone($id)
+{
+    // Find the booking by ID
+    $booking = BookingDetails::findOrFail($id);
+
+    // Update the status to "done"
+    $booking->status = 'done';
+    $booking->save();
+
+    // Redirect back with a success message
+    return redirect()->back()->with('success', 'Booking marked as done successfully.');
+}
 public function profile()
 {
      // Get the currently authenticated counsellor

@@ -207,7 +207,7 @@
         </div>
     </header>
 
-    <div>@yield('content')</div>
+    <div style="margin-top: 100px;">@yield('content')</div>
 
 
     <footer class="footer-container">
@@ -235,7 +235,7 @@
             </nav>
         </div>
     </footer>
-    
+
     <script>
         let lastScrollTop = 0;
         let navbar = document.querySelector('.navbar');
@@ -243,12 +243,14 @@
         window.addEventListener('scroll', function() {
             let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
-            if (currentScroll > lastScrollTop) {
-                // Scroll Down - Hide Navbar
-                navbar.style.top = "-100px"; // Move navbar off-screen
-            } else {
-                // Scroll Up - Show Navbar
-                navbar.style.top = "0"; // Reset navbar to top position
+            if (currentScroll > 100) { // Trigger only after scrollY > 100
+                if (currentScroll > lastScrollTop) {
+                    // Scroll Down - Hide Navbar
+                    navbar.style.top = "-100px"; // Move navbar off-screen
+                } else {
+                    // Scroll Up - Show Navbar
+                    navbar.style.top = "0"; // Reset navbar to top position
+                }
             }
 
             lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
