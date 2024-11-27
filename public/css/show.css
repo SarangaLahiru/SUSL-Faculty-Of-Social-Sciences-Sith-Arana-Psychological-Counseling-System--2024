@@ -1,12 +1,32 @@
+
+
 .container {
     margin-top: 40px;
 }
+
+.booking-timeslots-container .timeslot {
+    display: inline-block;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ccc;
+    margin: 5px;
+}
+
+.booking-timeslots-container .highlight {
+    background-color: #0d6efd;
+    color: white;
+}
+
 
 .profile-pic img {
     width: 300px;
     height: 300px;
     object-fit: cover;
 }
+
 
 .contact-details h1 {
     font-size: 28px;
@@ -36,7 +56,7 @@
 }
 
 .card {
-    border-radius: 50px;
+    border-radius: 5px;
 }
 
 .card-header {
@@ -50,7 +70,8 @@
 }
 
 .card-body {
-    background-color: #f5f3f0;
+    background-color: #f5f3f0;;
+    padding: 10px 20px;
 }
 
 .card-text .date h2 {
@@ -76,6 +97,10 @@
     padding: 10px 15px;
     border: 1px rgb(168, 168, 168) solid;
     border-radius: 12px;
+}
+.card-text .booking-timeslots-container .highlight{
+    background-color: #622864;
+    color: white;
 }
 
 
@@ -127,4 +152,90 @@
 
 .review-form button {
     font-size: 18px;
+}
+
+/* Modal Styles */
+.modal-content {
+    background-color: #e4e4e4; /* White background */
+}
+
+/* Date Tile Styles */
+.date-tile {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.date-tile:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+/* Date Content Styles */
+.date-content {
+     /* Light gradient */
+     background-color: white;
+     border: 2px solid #622864;;
+    border-radius: 10px; /* Rounded corners */
+    width: 100px;
+    border: 2px solid transparent; /* For selection outline */
+    transition: border 0.3s ease; /* Transition for border */
+}
+
+.date-content:hover {
+    border: 2px solid #622864;; /* Blue border on hover */
+}
+
+/* Selected Date Style */
+input[type="radio"]:checked + .date-content {
+    border: 2px solid #622864;; /* Blue border for selected */
+    background: #622864;; /* Lighter background for selected */
+
+}
+input[type="radio"]:checked + .date-content .date-day{
+color: white;
+
+}
+input[type="radio"]:checked + .date-content .date-month{
+    color: white;
+
+    }
+
+/* Additional styling for date text */
+.date-day {
+
+    font-size: 2rem; /* Large day number */
+    font-weight: bold; /* Bold day number */
+    color: #6c757d; /* Darker color */
+}
+
+.date-month {
+    font-size: 1.2rem; /* Smaller month name */
+    color: #6c757d; /* Darker color */
+}
+
+/* Modal Header Gradient */
+.bg-gradient-primary {
+    background: linear-gradient(90deg, #622864, #bc3fc1); /* Gradient background */
+}
+
+/* Button Shadow Styles */
+.btn {
+    transition: box-shadow 0.3s ease; /* Smooth shadow transition */
+}
+
+.btn:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+}
+#dateModalLabel{
+    font-size: 20px;
+}
+.form-label{
+    font-size: 15px;
+}
+.btn{
+    background-color: #622864;
+padding: 10px 0px;
+color: white;
+    border: none;
+    font-size: 16px;
 }

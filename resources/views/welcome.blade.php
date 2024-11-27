@@ -4,39 +4,134 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <!-- Include Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 @section('content')
 
-    {{-- ======================hero section====================== --}}
-    <div class="outer-container hero-container">
-        <div class="main-container hero-content-container">
-            <div class="tags-container">
-                <p class="tags">10+ Specialist</p>
-                <p class="tags">50min sessions</p>
-                <p class="tags">Free of charge</p>
-            </div>
-            <div class="hero-desc-container">
-                <h1>Your Feeling Matter, <span class="text-gradient">Let's Talk</span></h1>
-                <p>Book a sesssion with a qualified Counsellor easily and quickly...</p>
-            </div>
-            <a href="{{ route('counsellors.index') }}"><button class="btn-gradient btn-cta">Book a Session</button></a>
+<style>
+    .slider{
+        position: absolute;
+        top: 89px;
+        width: 100%
+        z-index: -1000;
+    }
+    .box{
+        /*background: linear-gradient(to top left, rgba(4, 4, 4, 0.8), rgb(11, 11, 11,0.8));*/
+        position: relative;
+        z-index: 10;
 
+
+    }
+    .box1{
+        background-color: rgba(255, 255, 255, 0.467);
+        padding: 15px 5px;
+        border-radius: 24px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.379);
+
+    }
+    .box2{
+        z-index: 1;
+    }
+    .tags-container p{
+        background-color: rgba(29, 128, 221, 0.681);
+        color: white;
+
+    }
+    @media (max-width: 1200px) {
+
+        .slider {
+
+            display: none;
+        }
+
+    }
+    @media (max-width: 800px) {
+
+
+    }
+    .animated-heading {
+    display: none; /* Hide all headings initially */
+}
+.testimonial-text {
+    font-size: 2em;
+    margin: 20px 0;
+}
+
+.testimonial-name {
+    font-weight: bold;
+    color: #555;
+    text-align: right;
+    font-size: 1em;
+    margin-top: 10px;
+    font-size: 18px;
+}
+/*.btn-mn{*/
+/*    position:relative;*/
+/*    z-index: 100;*/
+/*}*/
+
+</style>
+
+
+    {{-- ======================hero section====================== --}}
+<div class="outer-container hero-container box">
+    <div class="main-container hero-content-container" data-aos="fade-up">
+
+        <div class="hero-desc-container">
+            <h1 style="color: #ffffff">Your Feelings Matter <br><span class="text-gradient">Let's Talk</span></h1>
+            <p  style="color: white; font-weight: normal; font-size: large">Book a session with a qualified Counsellor easily and quickly...</p>
+        </div>
+{{--        <div class="tags-container">--}}
+{{--            <p class="tags">10+ Specialist</p>--}}
+{{--            <p class="tags">50min sessions</p>--}}
+{{--            <p class="tags">Free of charge</p>--}}
+{{--        </div>--}}
+        <div class="d-flex justify-content-around align-items-center text-light py-5" style="background: transparent; transform: scale(1.4);">
+            <div class="text-center">
+                <h4 class="mb-1">10+</h4>
+                <p class="mb-0">Specialist</p>
+            </div>
+            <div class="border-start border-light mx-4" style="height: 40px;"></div>
+            <div class="text-center">
+                <h4 class="mb-1">50min</h4>
+                <p class="mb-0">sessions</p>
+            </div>
+            <div class="border-start border-light mx-4" style="height: 40px;"></div>
+            <div class="text-center">
+                <h4 class="mb-1">Free</h4>
+                <p class="mb-0">of charge</p>
+            </div>
+        </div>
+
+        <a href="{{ route('counsellors.index') }}"><button class="btn-gradient btn-cta btn-mn">Book a Session</button></a>
+    </div>
+</div>
+
+
+{{-- ======================emergency call section====================== --}}
+<div class="outer-container emergency-call-container box2">
+    <div class="hero-img-container">
+        <img src="{{ asset('images/hero-1.png') }}" alt="Counsellor Image 1">
+        <img src="{{ asset('images/hero-2.png') }}" alt="Counsellor Image 2">
+    </div>
+    <p class="main-container">For any urgent needs, please contact: +945783234 | +9458324321 | +9478843457</p>
+</div>
+<div id="carouselExampleSlidesOnly" class="carousel slide slider" data-ride="carousel">
+
+    <div class="carousel-inner" style="background-color: rgba(0, 0, 0, 0.5);">
+        <div class="carousel-item active">
+            <img class="d-block w-100" src="{{asset('images/slide_2_dark.jpg')}}" alt="First slide">
         </div>
     </div>
-    {{-- ======================hero section====================== --}}
+</div>
 
-    {{-- ================emergency call section================== --}}
-    <div class="outer-container emergency-call-container">
-        <div class="hero-img-container">
-            <img src="{{ asset('images/hero-1.png') }}" alt="">
-            <img src="{{ asset('images/hero-2.png') }}" alt="">
-        </div>
-        <p class="main-container">For any urgent, please contact : +945783234 | +9458324321 | +9478843457</p>
-    </div>
-    {{-- ================emergency call section================== --}}
+
 
     {{-- ===============quick appoinment section================= --}}
-    <div class="outer-container">
+    {{--  <div class="outer-container">
         <div class="main-container quick-appoinment-content-container">
 
             <div>
@@ -73,7 +168,7 @@
             </div>
 
         </div>
-    </div>
+    </div>  --}}
     {{-- ===============quick appoinment section================= --}}
 
     {{-- ==============about our platform section================ --}}
@@ -111,36 +206,100 @@
     {{-- ==============about our platform section================ --}}
 
     {{-- ==============testimonial section================ --}}
-    <div class="outer-container">
-        <div class="main-container testimonial-container">
-            <h3 class="testimonial-title">What our students are saying...</h3>
-            <div class="testimonial-slider" id="testimonial-slider">
-                <button class="prev" onclick="moveSlide(-1)"><img src="images/left-arrow.svg" alt="Previous"></button>
-                <div class="testimonial-content" id="testimonial-content"></div>
-                <button class="next" onclick="moveSlide(1)"><img src="images/right-arrow.svg" alt="Next"></button>
+    <div class="outer-container " style="margin: 100px 10px;">
+    <div class="main-container testimonial-container">
+        <h3 class="testimonial-title">What our students are saying...</h3>
+        <div class="testimonial-slider" id="testimonial-slider">
+            <button class="prev" onclick="moveSlide(-1)"><img src="images/left-arrow.svg" alt="Previous"></button>
+            <div class="testimonial-content" id="testimonial-content">
+                <!-- Testimonials will be dynamically injected here -->
             </div>
+            <button class="next" onclick="moveSlide(1)"><img src="images/right-arrow.svg" alt="Next"></button>
         </div>
     </div>
+</div>
     {{-- ==============testimonial section================ --}}
 
     {{-- ==============contact us section================ --}}
     <div class="outer-container">
         <div class="main-container contact-home-content-container">
             <div class="contact-title-wrapper">
-                <h2 class="section-title">Contact <span class="text-gradient">Us</span></h2>
+                <h2 class="section-title">Send  <span class="text-gradient">Your Feedback</span></h2>
                 <p class="section-sub-title">Send any thing you need us to hear</p>
             </div>
             <div class="contact-img-wrapper">
                 <img src="{{ asset('images/contact-img.png') }}" alt="">
             </div>
-            <form action="#" class="contact-home-form">
-                <input type="text" placeholder="Your name(Optional)">
-                <input type="email" placeholder="Your email(Optional)">
-                <textarea name="message" id="message" cols="30" rows="10" placeholder="Type your message.."></textarea>
-                <button type="submit" class="btn-gradient btn-submit">Submit</button>
+            <form action="{{ route('feedback.store') }}" method="POST" class="contact-home-form">
+            @csrf
+    <input type="text" name="name" placeholder="Your name (Optional)">
+    <input type="email" name="email" placeholder="Your email (Optional)">
+    <textarea name="message" id="message" cols="30" rows="10" placeholder="Type your message.." required></textarea>
+    <button type="submit" class="btn-gradient btn-submit">Submit</button>
             </form>
         </div>
         {{-- ==============contact us section================ --}}
+<!-- Thank You Modal -->
+<div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 15px; overflow: hidden;">
+            <div class="modal-header text-center" style="background-color: #941b9a; color: white; display: flex; justify-content: center;">
+                <h5 class="modal-title w-100" id="thankYouModalLabel" style="font-weight: bold; font-size: 2em;">🎉 Thank You!</h5>
+            </div>
+            <div class="modal-body text-center" style="padding: 30px; font-size: 2em; color: #444;">
+                <p style="margin: 0; font-weight: 500;">
+                    Thank you for your feedback!<br>We appreciate your input and support.
+                </p>
+            </div>
+            <div class="modal-footer d-flex justify-content-center" style="border-top: none; padding-bottom: 30px;">
+                <button type="button" class="btn btn-primary px-4 py-2" style="background-color: #8d1b9a; border-color: #6a1b9a;" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Include jQuery, Popper.js, and Bootstrap JS -->
 
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    @endsection
+@if(session('success'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var myModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
+            myModal.show();
+        });
+    </script>
+@endif
+<script>
+
+  const testimonials = @json($testimonials);
+
+    let currentSlide = 0;
+
+    function displayTestimonial(slideIndex) {
+        const testimonialContent = document.getElementById("testimonial-content");
+        const { message: text, name } = testimonials[slideIndex];
+        testimonialContent.innerHTML = `
+            <p class="testimonial-text">"${text}"</p>
+            <p class="testimonial-name">- ${name}</p>
+        `;
+    }
+
+    function moveSlide(step) {
+        currentSlide = (currentSlide + step + testimonials.length) % testimonials.length;
+        displayTestimonial(currentSlide);
+    }
+
+    // Initialize the first testimonial
+    displayTestimonial(currentSlide);
+
+    // Auto-slide every 5 seconds
+    setInterval(() => moveSlide(1), 5000);
+</script>
+   @endsection

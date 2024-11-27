@@ -3,7 +3,7 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/invoice.css') }}">
 
-<div class="container mt-5">
+<div class="container mt-5" style="margin: 30px auto" data-aos="zoom-in-up">
 
         <div class="success-msg">
             <div class="d-flex align-items-center justify-content-center">
@@ -11,9 +11,10 @@
                 <strong>You have successfully booked your session</strong>
             </div>
         </div>
+
         <div class="card">
             <div class=" text-white text-center p-2 mb-3 card-body-title card-header">
-                <h5>Invoice number: <span>{{ $bookingdetail['booking_id'] }}</span></h5>
+                <h5>Invoice number: <span>{{ $bookingDetail['booking_id'] }}</span></h5>
             </div>
             <div class="card-body">
                 <div class="mb-4">
@@ -36,12 +37,20 @@
                         <h6><i class="fas fa-phone mr-2"></i>+9475965738</h6>
                     </div>
 
+
+
+
+                </div>
+                <div class="download" style="margin: 50px auto">
+                    <a href="{{ $pdfPath }}" download="booking_confirmation.pdf" class="btn-gradient">Download</a>
+                   </div>
+                <div class="download" style="margin: 50px auto">
+                    <a href="/" class="btn-gradient">Go To Home</a>
                 </div>
 
+
             </div>
-            <div class="download">
-                <a href="" class="btn-gradient">Download</a>
-            </div>
+
         </div>
 
 

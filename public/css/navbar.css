@@ -27,7 +27,7 @@
     display: flex;
     justify-content: space-between;
     gap: 4px;
-    width: min(48rem, 100%);
+    width: min(60rem, 100%);
     margin-top: 6px;
     /*custom*/
 }

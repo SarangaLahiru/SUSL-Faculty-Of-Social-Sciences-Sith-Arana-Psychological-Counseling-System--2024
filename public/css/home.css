@@ -36,6 +36,7 @@
     flex-direction: column;
     align-items: center;
     gap: 1.2rem;
+    margin-top: 1em;
 }
 
 .hero-desc-container h1 {
@@ -131,6 +132,11 @@
     .hero-img-container {
         gap: 0.6rem;
     }
+
+    .box{
+        background-color: #0f172a;
+    }
+
 }
 
 @media (max-width: 480px) {
@@ -140,6 +146,10 @@
 
     .hero-img-container {
         display: none;
+    }
+
+    .box{
+        background-color: #0f172a;
     }
 }
 

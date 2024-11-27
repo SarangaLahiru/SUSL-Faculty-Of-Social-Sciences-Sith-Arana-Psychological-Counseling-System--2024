@@ -14,12 +14,12 @@ class CreateTimeSlotsTable extends Migration
     public function up()
     {
         Schema::create('time_slots', function (Blueprint $table) {
-            $table->unsignedBigInteger('timeslot_id');
-            $table->primary('timeslot_id');
+            $table->id('timeslot_id');
             $table->unsignedBigInteger('counsellor_id');
-            $table->foreign('counsellor_id')->references('counsellor_id')->on('counsellors');
-            $table->date('date')->default('2024-01-01');
+            $table->foreign('counsellor_id')->references('counsellor_id')->on('counsellors')->onDelete('cascade');
+            $table->date('date');
             $table->time('time');
+            $table->integer('duration')->default(30);
             $table->timestamps();
         });
     }

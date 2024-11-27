@@ -50,7 +50,7 @@
 .see-more-link {
     color: #7c317e;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
 
 }
 
@@ -79,6 +79,7 @@
     width: 235px;
     height: 235px;
     object-fit: cover;
+    border-radius: 24px;
 }
 
 .card-title {
@@ -136,3 +137,4 @@
 
 
 }
+
