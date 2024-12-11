@@ -20,11 +20,13 @@ class BookingConfirmationMail extends Mailable
     public $formDetails;
     public $counsellor;
     public $specificTimeSlot;
-    public function __construct($formDetails, $counsellor, $specificTimeSlot)
+    public $pdf;
+    public function __construct($formDetails, $counsellor, $specificTimeSlot,$pdf)
 {
     $this->formDetails = $formDetails;
     $this->counsellor = $counsellor;
     $this->specificTimeSlot = $specificTimeSlot;
+    $this->pdf = $pdf;
 }
 
 
@@ -41,6 +43,9 @@ class BookingConfirmationMail extends Mailable
                         'formDetails' => $this->formDetails,
                         'counsellor' => $this->counsellor,
                         'timeslot' => $this->specificTimeSlot
-                    ]);
+                    ])
+                     ->attachData($this->pdf->output(), 'booking_confirmation.pdf', [
+                 'mime' => 'application/pdf',
+             ]);
     }
 }

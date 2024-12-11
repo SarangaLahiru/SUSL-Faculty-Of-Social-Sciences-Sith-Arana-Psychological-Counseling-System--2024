@@ -7,7 +7,7 @@
 
 
 
-<div class="container mt-5">
+<div class="container mt-5 " style="padding: 100px 0px;">
     <div class="row">
         <!-- Counsellor Details -->
         <div class="col-12 col-sm-8">
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <!-- Contact Details -->
-                <div class="col-sm-9">
+                <div class="col-sm-5">
                     <div class="contact-details">
                         <div class="name-and-position-wrapper mb-3">
                             <h1>{{ $counsellor->full_name_with_rate }}</h1>
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-4 languages">
+                <div class="col-4  languages">
                     <h2>Languages Spoke</h2>
                     <ul>
                         @if($counsellor->languages && count($counsellor->languages) > 0)
@@ -57,7 +57,7 @@
                         @endif
                     </ul>
                 </div>
-                <div class="col-4 languages">
+                <div class="col-4  languages">
                     <h2>Specialisation</h2>
 
                 <ul>
@@ -72,6 +72,9 @@
                 </ul>
                 </div>
             </div>
+
+{{--
+
             <div class="row mt-4">
                 <div class="col-sm-12 reviews">
                     <h2>Verified Reviews</h2>
@@ -109,7 +112,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div>  --}}
         </div>
 
         <!-- Booking Timeslots -->

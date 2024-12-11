@@ -9,8 +9,12 @@ use App\Mail\BookingDeleted;
 use App\Models\BookingDetails;
 use App\Models\Counsellor;
 use App\Models\TimeSlots;
+
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+
+use Carbon\Carbon;
 
 class SessionController extends Controller
 {
@@ -27,13 +31,28 @@ class SessionController extends Controller
 
         $TimeSlot = TimeSlots::where('timeslot_id',$booking->timeslot_id)->first();
 
+          // Generate PDF from view
+          $pdf = Pdf::loadView('pdf.booking_confirmation', [
+            'formDetails' => $booking,
+            'counsellor' => $counsellor,
+            'timeslot' => $TimeSlot,
+            'bookingDate' => Carbon::now()->format('F d, Y'), // Current date
+            'bookingTime' => Carbon::now()->format('h:i A'),
+            'bookingID' => $booking->booking_id,
+            'location' => 'Sitharana Counseling Center, SUSL'
+        ]);
+        $pdfPath = storage_path('app/public/booking_confirmation.pdf');
+        $pdf->save($pdfPath);
+
+
+
         // Delete the booking
-        Mail::to($userEmail)->send(new BookingConfirmationMail($booking, $counsellor, $TimeSlot));
+        Mail::to($userEmail)->send(new BookingConfirmationMail($booking, $counsellor, $TimeSlot,$pdf));
 
 
 
         return redirect()->route('home.index')
-            ->with('success', 'Session confirmed successfully.');
+            ->with('confirm', 'Session confirmed successfully.');
     }
 
     // Cancel session
@@ -62,6 +81,6 @@ class SessionController extends Controller
 
 
         return redirect()->route('home.index')
-            ->with('success', 'Session canceled successfully.');
+            ->with('reject', 'Session canceled successfully.');
     }
 }

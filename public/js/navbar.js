@@ -1,8 +1,17 @@
 const mobileNav = document.querySelector(".hamburger");
-const navbar = document.querySelector(".menubar");
+const navbar1 = document.querySelector(".menubar");
+console.log ("fsdf")
 
 const toggleNav = () => {
-    navbar.classList.toggle("active");
+    navbar1.classList.toggle("active");
     mobileNav.classList.toggle("hamburger-active");
+    console.log("fsd")
 };
 mobileNav.addEventListener("click", () => toggleNav());
+
+
+
+
+
+
+

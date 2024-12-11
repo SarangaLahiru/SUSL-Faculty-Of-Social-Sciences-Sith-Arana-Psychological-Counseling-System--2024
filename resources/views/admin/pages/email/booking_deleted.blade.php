@@ -218,7 +218,7 @@
             <p>If you’d like to reschedule your session, please click the button below to view available times:</p>
 
             <center>
-                <a href="{{ url('counsellors') }}" class="proton-button">reshedule</a>
+                <a href="{{ url('counsellors') }}" class="proton-button">Reshedule</a>
             </center>
             <p>Thank you for your understanding and patience. If you have any questions or need further assistance, please don’t hesitate to contact us.</p>
 

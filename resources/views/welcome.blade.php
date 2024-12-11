@@ -267,6 +267,10 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
 
 @if(session('success'))
     <script>
@@ -276,6 +280,31 @@
         });
     </script>
 @endif
+
+@if (session('confirm'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Session Confirmed!',
+        text: 'You have successfully confirmed the session for the client.',
+        showConfirmButton: true,
+        timer: 10000 // Auto close after 10 seconds
+    });
+</script>
+@endif
+
+@if (session('reject'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Session Rejected!',
+        text: 'You have successfully rejected the session request from the client.',
+        showConfirmButton: true,
+        timer: 10000 // Auto close after 10 seconds
+    });
+</script>
+@endif
+
 <script>
 
   const testimonials = @json($testimonials);

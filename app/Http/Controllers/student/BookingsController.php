@@ -72,28 +72,32 @@ class BookingsController extends Controller
         $validatedData = $request->validate([
             'mobile-no' => 'required|digits_between:10,15',
             'email' => 'required|email',
-            'faculty' => 'required',
+            'NIC'=>'nullable',
             'name' => 'nullable|string|max:255',
             'gender'=>'required',
-            'registration_no' => 'nullable|string|max:20',
             'message' => 'nullable|string|max:1000',
+            'category'=>'required',
+            'year'=>'nullable ',
+            'faculty'=>'nullable',
         ], [
             'mobile-no.required' => 'Please provide your mobile number.',
             'mobile-no.digits_between' => 'Mobile number must be between 10 and 15 digits.',
             'email.required' => 'Your email is required.',
             'email.email' => 'Please enter a valid email address.',
-            'faculty.required' => 'Please select your faculty.',
         ]);
 
         // Prepare form details for email or future use
         $formDetails = [
             'mobile_no' => $validatedData['mobile-no'],
             'email' => $validatedData['email'],
-            'faculty' => $validatedData['faculty'],
+            'faculty' => $validatedData['faculty'] ?? null,
             'name' => $validatedData['name'] ?? null,
             'gender'=>$validatedData['gender'] ??null,
             'registration_no' => $validatedData['registration_no'] ?? null,
             'message' => $validatedData['message'] ?? null,
+            'NIC'=>$validatedData['NIC'] ?? null,
+            'category'=>$validatedData['category'] ?? null,
+            'year'=>$validatedData['year'] ?? null,
         ];
 
         // Create a new booking record
@@ -107,6 +111,9 @@ class BookingsController extends Controller
         $bookingRecord->gender=$formDetails['gender'];
         $bookingRecord->registration_no = $formDetails['registration_no'];
         $bookingRecord->message = $formDetails['message'];
+        $bookingRecord->NIC=$formDetails['NIC'];
+        $bookingRecord->category=$formDetails['category'];
+        $bookingRecord->year=$formDetails['year'];
 
         $bookingRecord->save();
 
