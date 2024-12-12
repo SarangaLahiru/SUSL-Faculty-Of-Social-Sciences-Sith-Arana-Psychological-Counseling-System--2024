@@ -51,7 +51,7 @@ class SessionController extends Controller
 
 
 
-        return redirect()->route('home.index')
+        return redirect()->route('counsellor.loginForm')
             ->with('confirm', 'Session confirmed successfully.');
     }
 
@@ -80,7 +80,7 @@ class SessionController extends Controller
         Mail::to($userEmail)->send(new BookingDeleted($booking,$counsellor  ,  $TimeSlot));
 
 
-        return redirect()->route('home.index')
+        return redirect()->route('counsellor.loginForm')
             ->with('reject', 'Session canceled successfully.');
     }
 }

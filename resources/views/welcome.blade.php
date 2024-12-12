@@ -252,12 +252,13 @@
                 </p>
             </div>
             <div class="modal-footer d-flex justify-content-center" style="border-top: none; padding-bottom: 30px;">
-                <button type="button" class="btn btn-primary px-4 py-2" style="background-color: #8d1b9a; border-color: #6a1b9a;" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary px-4 py-2" id="close1" style="background-color: #8d1b9a; border-color: #6a1b9a;" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 <!-- Include jQuery, Popper.js, and Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
@@ -272,14 +273,21 @@
 
 
 
-@if(session('success'))
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var myModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
-            myModal.show();
-        });
-    </script>
-@endif
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const myModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
+    @if(session('success'))
+        myModal.show();
+    @endif
+
+    document.getElementById('close1').addEventListener('click', function () {
+        myModal.hide();
+        console.log("Modal closed.");
+    });
+});
+
+
+</script>
 
 @if (session('confirm'))
 <script>

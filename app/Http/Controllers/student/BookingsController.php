@@ -117,21 +117,21 @@ class BookingsController extends Controller
 
         $bookingRecord->save();
 
-        // Generate PDF from view
-        $pdf = Pdf::loadView('pdf.booking_confirmation', [
-            'formDetails' => $formDetails,
-            'counsellor' => $counsellor,
-            'timeslot' => $specificTimeSlot,
-            'bookingDate' => Carbon::now()->format('F d, Y'), // Current date
-            'bookingTime' => Carbon::now()->format('h:i A'),
-            'bookingID' => $bookingRecord->booking_id,
-            'location' => 'Sitharana Counseling Center, SUSL'
-        ]);
-        $pdfPath = storage_path('app/public/booking_confirmation.pdf');
-        $pdf->save($pdfPath);
+        // // Generate PDF from view
+        // $pdf = Pdf::loadView('pdf.booking_confirmation', [
+        //     'formDetails' => $formDetails,
+        //     'counsellor' => $counsellor,
+        //     'timeslot' => $specificTimeSlot,
+        //     'bookingDate' => Carbon::now()->format('F d, Y'), // Current date
+        //     'bookingTime' => Carbon::now()->format('h:i A'),
+        //     'bookingID' => $bookingRecord->booking_id,
+        //     'location' => 'Sitharana Counseling Center, SUSL'
+        // ]);
+        // $pdfPath = storage_path('app/public/booking_confirmation.pdf');
+        // $pdf->save($pdfPath);
 
-        // Send email confirmation to the client with PDF attachment
-        Mail::to($formDetails['email'])->send(new BookedTime($formDetails, $counsellor, $specificTimeSlot, $pdf));
+        // // Send email confirmation to the client with PDF attachment
+        Mail::to($formDetails['email'])->send(new BookedTime($formDetails, $counsellor, $specificTimeSlot));
 
         // Send email notification to the counsellor with PDF attachment
         Mail::to($counsellor->email)->send(new CounsellorNotification($formDetails, $counsellor, $specificTimeSlot,$bookingRecord));
