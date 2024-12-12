@@ -96,7 +96,16 @@
             <div>
                 <div class="dropdown">
                     <span class="me-2" style="color: #f1f1f1;">{{ Auth::guard('counsellor')->user()->NIC }}</span>
-                    <img src="https://via.placeholder.com/40" class="rounded-circle dropdown-toggle" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false" alt="Avatar">
+                    <img src="{{ asset('storage/' . Auth::guard('counsellor')->user()->profile_image) }}"
+                    class="rounded-circle dropdown-toggle"
+                    id="avatarDropdown"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    width="50px"
+
+                    height="50px"
+
+                    alt="Avatar">
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="avatarDropdown">
                         <li><a class="dropdown-item" href="{{ route('counsellor.password.request') }}">Reset Password</a></li>
                         <li>

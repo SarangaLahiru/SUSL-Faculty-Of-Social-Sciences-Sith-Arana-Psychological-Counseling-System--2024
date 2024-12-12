@@ -58,9 +58,7 @@ body {
 .btn:hover{
     background-color: #bc3fc1;
 }
-.btn:active{
-    background-color: #262526;
-}
+
 
 .main-container {
     width: min(160rem, 90%);
@@ -126,6 +124,11 @@ body {
 .section-sub-title {
     font-size: 2.4rem;
     text-align: center;
+}
+
+.btn:active{
+    background-color: #fb0afb;
+
 }
 
 @media screen and (max-width: 768px) {

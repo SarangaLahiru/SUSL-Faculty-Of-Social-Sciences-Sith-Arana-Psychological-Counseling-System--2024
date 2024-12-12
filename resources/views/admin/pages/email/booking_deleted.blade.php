@@ -222,6 +222,9 @@
             </center>
             <p>Thank you for your understanding and patience. If you have any questions or need further assistance, please don’t hesitate to contact us.</p>
 
+            <p>Contact Us : 077123123123</p>
+            <p>Email : example@gmail.com</p>
+
 
                     </td>
                 </tr>

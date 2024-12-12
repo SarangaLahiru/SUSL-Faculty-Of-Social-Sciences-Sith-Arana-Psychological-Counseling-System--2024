@@ -4,9 +4,14 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center my-4">
         <h1 class="fw-bold">Counsellors</h1>
+        <a href="/download-analysis-pdf" class="btn btn-outline-primary d-flex align-items-center">
+            <i class="fas fa-plus-circle me-2"></i> Generate Report
+        </a>
         <a href="{{ route('counsellorsShow.create') }}" class="btn btn-outline-primary d-flex align-items-center">
             <i class="fas fa-plus-circle me-2"></i> Add New
         </a>
+
+
     </div>
 
     <div class="list-group shadow-sm ">

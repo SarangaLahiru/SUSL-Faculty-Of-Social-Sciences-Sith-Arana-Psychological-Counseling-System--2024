@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Http;
 // use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\BookingAnalysisController;
 
+Route::get('/download-analysis-pdf', [BookingAnalysisController::class, 'generateAnalysisPDF']);
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 Route::post('/send/message', function () {
     // Sending the SMS using Laravel's Http client
