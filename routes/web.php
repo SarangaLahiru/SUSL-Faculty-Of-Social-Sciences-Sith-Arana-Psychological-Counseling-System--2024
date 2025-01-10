@@ -82,11 +82,6 @@ Route::prefix('counsellor')->group(function () {
     Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('counsellor.password.update');
 
-    //delete all time slots
-    Route::post('/counsellor/delete-time-slots', [CounsellorController::class, 'deleteAllTimeSlots'])->name('counsellor.deleteTimeSlots');
-    Route::get('/counsellor/delete-time-slots', [CounsellorController::class, 'deleteTimeSlotsView'])->name('counsellor.deleteTimeSlotsView');
-    Route::post('/counsellor/add-time-slots', [CounsellorController::class, 'addTimeSlots'])->name('counsellor.addTimeSlots');
-
 });
 
 // Admin Routes
@@ -124,6 +119,18 @@ Route::prefix('admin')->group(function () {
     Route::get('/password/reset/{token}', [AdminResetPasswordController::class, 'showResetForm'])->name('admin.password.reset');
     Route::post('/password/reset', [AdminResetPasswordController::class, 'reset'])->name('admin.password.update');
 });
+
+Route::middleware(['auth:admin,counsellor'])->group(function () {
+    Route::prefix('counsellor')->group(function () {
+        // Delete all time slots
+        Route::post('/delete-time-slots', [CounsellorController::class, 'deleteAllTimeSlots'])->name('counsellor.deleteTimeSlots');
+        // View delete time slots page
+        Route::get('/delete-time-slots', [CounsellorController::class, 'deleteTimeSlotsView'])->name('counsellor.deleteTimeSlotsView');
+        // Add new time slots
+        Route::post('/add-time-slots', [CounsellorController::class, 'addTimeSlots'])->name('counsellor.addTimeSlots');
+    });
+});
+
 
 
 Route::get('/counsellor/session/delete/{timeslot}', [SessionController::class, 'deleteSession'])
