@@ -152,7 +152,6 @@
                             Profile
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('counsellor/availability') ? 'active' : '' }}"
                            href="/counsellor/availability">
@@ -161,7 +160,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('counsellor/delete-time-slots') ? 'active' : '' }}"
-                           href="{{ route('counsellor.deleteTimeSlotsView') }}">
+                           href="/counsellor/delete-time-slots">
                             Delete Time Slots
                         </a>
                     </li>
