@@ -70,14 +70,24 @@
     <form action="{{ route('counsellors.availability.store') }}" method="POST">
         @csrf
         <div id="time-slots-container">
-            <div class="form-group">
-                <label for="date">Date:</label>
-                <input type="date" name="date[]" id="date" class="form-control" required>
-            </div>
+            <div class="time-slot">
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" name="date[]" class="form-control" required>
+                </div>
 
-            <div class="form-group">
-                <label for="time">Time:</label>
-                <input type="time" name="time[]" id="time" class="form-control" required>
+                <div class="form-group">
+                    <label for="time">Time:</label>
+                    <input type="time" name="time[]" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="duration">Duration (in minutes):</label>
+                    <input type="number" name="duration[]" class="form-control" min="1" placeholder="Enter duration" required>
+                </div>
+
+                <!-- Button to remove this time slot -->
+                <button type="button" class="btn btn-danger remove-time-slot mt-2">Remove</button>
             </div>
         </div>
 
@@ -99,7 +109,7 @@
         </div>
     @endif
 
-    <script>
+    {{--  <script>
         // JavaScript to dynamically add more time slot inputs
         document.getElementById('add-time-slot').addEventListener('click', function() {
             let container = document.getElementById('time-slots-container');
@@ -113,6 +123,42 @@
             timeGroup.classList.add('form-group');
             timeGroup.innerHTML = '<label for="time">Time:</label><input type="time" name="time[]" class="form-control" required>';
             container.appendChild(timeGroup);
+        });
+    </script>  --}}
+
+    <script>
+        document.getElementById('add-time-slot').addEventListener('click', function () {
+            // Get the container for time slots
+            const container = document.getElementById('time-slots-container');
+
+            // Create a new time slot div
+            const newTimeSlot = document.createElement('div');
+            newTimeSlot.classList.add('time-slot');
+            newTimeSlot.innerHTML = `
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" name="date[]" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Time:</label>
+                    <input type="time" name="time[]" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="duration">Duration (in minutes):</label>
+                    <input type="number" name="duration[]" class="form-control" min="1" placeholder="Enter duration" required>
+                </div>
+                <button type="button" class="btn btn-danger remove-time-slot mt-2">Remove</button>
+            `;
+
+            // Append the new time slot to the container
+            container.appendChild(newTimeSlot);
+        });
+
+        // Delegate click event to remove time slots dynamically
+        document.getElementById('time-slots-container').addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('remove-time-slot')) {
+                e.target.parentElement.remove();
+            }
         });
     </script>
 

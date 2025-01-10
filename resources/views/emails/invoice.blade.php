@@ -31,19 +31,19 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-3 dis">
                     <div class="text-center">
-                        <h6><i class="far fa-envelope mr-2"></i>infocounsellor@gmail.com</h6>
+                        <h6><i class="bi bi-envelope mr-2"></i>infocounsellor@gmail.com</h6>
                     </div>
                     <div class="text-center">
-                        <h6><i class="fas fa-phone mr-2"></i>+9475965738</h6>
+                        <h6><i class="bi bi-phone mr-2"></i>+9475965738</h6>
                     </div>
 
 
 
 
                 </div>
-                <div class="download" style="margin: 50px auto">
+                {{--  <div class="download" style="margin: 50px auto">
                     <a href="{{ $pdfPath }}" download="booking_confirmation.pdf" class="btn-gradient">Download</a>
-                   </div>
+                   </div>  --}}
                 <div class="download" style="margin: 50px auto">
                     <a href="/" class="btn-gradient">Go To Home</a>
                 </div>

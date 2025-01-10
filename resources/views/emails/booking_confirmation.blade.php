@@ -208,9 +208,9 @@
 
                 <tr>
                     <td>
-                        <h2>Booked Successfully!</h2>
-                        <p>Dear {{ $formDetails->name ?? 'N/A'  }},</p>
-                        <p>Thank you for booking a session with us! Your session with <strong>{{ $counsellor->full_name_with_rate }}</strong> has been confirmed. Below are the details of your appointment:</p>
+                        <h2>Booking Confirmed!</h2>
+                        <p>Dear {{ $formDetails->name ?? 'N/A' }},</p>
+                        <p>We are pleased to inform you that your session with <strong>{{ $counsellor->full_name_with_rate }}</strong> has been confirmed by the counselor. Below are the details of your appointment:</p>
 
                         <div class="proton-code">
                             <p><strong>Session Date:</strong> {{ $timeslot->date }}</p>
@@ -218,7 +218,8 @@
                             <p><strong>Venue:</strong> Sitharana Counseling Center, Faculty of Social Sciences & Languages, SUSL</p>
                         </div>
 
-                        <p>Please find the attached documents for additional information. Remember to bring any necessary identification or materials as indicated in your documents.</p>
+                        <p>Please find the attached documents for additional information. Make sure to bring any necessary identification or materials as indicated in your documents.</p>
+                        <p>If you have any questions or need to reschedule, feel free to contact us at your earliest convenience.</p>
 
                         <center>
                             <a href="{{ url('/calendar') }}" class="proton-button">View Your Booking</a>

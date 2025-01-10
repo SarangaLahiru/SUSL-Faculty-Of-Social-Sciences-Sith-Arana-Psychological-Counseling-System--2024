@@ -185,7 +185,7 @@
                             class="{{ Route::is('home.contactus') ? 'active' : '' }}">Contact Us</a></li>
 
                 </ul>
-                <div class="hamburger" onclick="toggleMenu()">
+                <div class="hamburger">
                     <span class="line"></span>
                     <span class="line"></span>
                     <span class="line"></span>

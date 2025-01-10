@@ -115,11 +115,84 @@
                 </form>
             </div>
 
+            <!-- Session Confirmed Modal -->
+            <div class="modal fade" id="sessionConfirmedModal" tabindex="-1" aria-labelledby="sessionConfirmedModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" style="border-radius: 15px; overflow: hidden;">
+                        <div class="modal-header text-center" style="background-color: #28a745; color: white; display: flex; justify-content: center;">
+                            <h5 class="modal-title w-100" id="sessionConfirmedModalLabel" style="font-weight: bold; font-size: 2em;">✅ Session Confirmed!</h5>
+                        </div>
+                        <div class="modal-body text-center" style="padding: 30px; font-size: 2em; color: #444;">
+                            <p style="margin: 0; font-weight: 500;">
+                                You have successfully confirmed the session for the client.
+                            </p>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center" style="border-top: none; padding-bottom: 30px;">
+                            <button type="button" class="btn btn-primary px-4 py-2" id="closeConfirm" style="background-color: #218838;" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session Rejected Modal -->
+            <div class="modal fade" id="sessionRejectedModal" tabindex="-1" aria-labelledby="sessionRejectedModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" style="border-radius: 15px; overflow: hidden;">
+                        <div class="modal-header text-center" style="background-color: #dc3545; color: white; display: flex; justify-content: center;">
+                            <h5 class="modal-title w-100" id="sessionRejectedModalLabel" style="font-weight: bold; font-size: 2em;">❌ Session Rejected!</h5>
+                        </div>
+                        <div class="modal-body text-center" style="padding: 30px; font-size: 2em; color: #444;">
+                            <p style="margin: 0; font-weight: 500;">
+                                You have successfully rejected the session request from the client.
+                            </p>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center" style="border-top: none; padding-bottom: 30px;">
+                            <button type="button" class="btn btn-primary px-4 py-2" id="closeReject" style="background-color: #c82333;" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Initialize modals
+        const confirmedModal = new bootstrap.Modal(document.getElementById('sessionConfirmedModal'));
+        const rejectedModal = new bootstrap.Modal(document.getElementById('sessionRejectedModal'));
+
+        // Show modals based on session
+        @if(session('confirm'))
+            confirmedModal.show();
+        @endif
+
+
+
+        @if(session('reject'))
+            rejectedModal.show();
+        @endif
+
+
+
+        // Close button event listeners (optional)
+        document.getElementById('closeConfirm')?.addEventListener('click', function () {
+            confirmedModal.hide();
+            console.log("Confirmed modal closed.");
+        });
+
+        document.getElementById('closeReject')?.addEventListener('click', function () {
+            rejectedModal.hide();
+            console.log("Rejected modal closed.");
+        });
+    });
+
+</script>
+
 
 </body>
 </html>

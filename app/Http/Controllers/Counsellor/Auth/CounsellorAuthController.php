@@ -184,17 +184,19 @@ public function update(Request $request, $id)
 public function store(Request $request)
 {
     // Validate the request
-    $request->validate([
+    $validatedData = $request->validate([
         'date.*' => 'required|date',
         'time.*' => 'required|date_format:H:i',
+        'duration.*' => 'required|integer|min:1', // Ensure duration is provided and valid
     ]);
 
     $counsellorId = Auth::guard('counsellor')->user()->counsellor_id;
 
-    // Loop through the date and time arrays
-    for ($i = 0; $i < count($request->date); $i++) {
-        $date = $request->date[$i];
-        $time = $request->time[$i];
+    // Loop through the date, time, and duration arrays
+    for ($i = 0; $i < count($validatedData['date']); $i++) {
+        $date = $validatedData['date'][$i];
+        $time = $validatedData['time'][$i];
+        $duration = $validatedData['duration'][$i];
 
         // Check if the slot already exists for the counsellor
         $existingSlot = TimeSlots::where('counsellor_id', $counsellorId)
@@ -203,7 +205,7 @@ public function store(Request $request)
                         ->first();
 
         if ($existingSlot) {
-            return redirect()->back()->with('error', 'One or more time slots already exist.');
+            return redirect()->back()->with('error', 'Time slot for ' . $date . ' at ' . $time . ' already exists.');
         }
 
         // Store the new time slot
@@ -211,7 +213,8 @@ public function store(Request $request)
             'counsellor_id' => $counsellorId,
             'date' => $date,
             'time' => $time,
-            'isBooked' => false, // Initially, the slot is available
+            'duration' => $duration,
+            'isBooked' => false, // Default value for availability
         ]);
     }
 
