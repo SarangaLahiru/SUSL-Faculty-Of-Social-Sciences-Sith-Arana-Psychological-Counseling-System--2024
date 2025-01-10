@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\Counsellor\Auth\ForgotPasswordController;
 use App\Http\Controllers\Counsellor\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +13,7 @@ use App\Http\Controllers\student\CounsellorsController;
 use App\Http\Controllers\student\HomeController;
 
 use Illuminate\Support\Facades\Http;
+
 // use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\SessionController;
@@ -71,9 +71,6 @@ Route::prefix('counsellor')->group(function () {
         Route::delete('/counsellors/availability/delete/{id}', [CounsellorsController::class, 'deleteTimeSlot'])->name('counsellors.availability.delete');
 
 
-
-
-
         Route::post('counsellor/availability/store', [CounsellorAuthController::class, 'store'])->name('counsellors.availability.store');
 
     });
@@ -84,6 +81,12 @@ Route::prefix('counsellor')->group(function () {
     Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('counsellor.password.email');
     Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('counsellor.password.update');
+
+    //delete all time slots
+    Route::post('/counsellor/delete-time-slots', [CounsellorController::class, 'deleteAllTimeSlots'])->name('counsellor.deleteTimeSlots');
+    Route::get('/counsellor/delete-time-slots', [CounsellorController::class, 'deleteTimeSlotsView'])->name('counsellor.deleteTimeSlotsView');
+    Route::post('/counsellor/add-time-slots', [CounsellorController::class, 'addTimeSlots'])->name('counsellor.addTimeSlots');
+
 });
 
 // Admin Routes
@@ -113,22 +116,17 @@ Route::prefix('admin')->group(function () {
         Route::resource('counsellorsShow', CounsellorController::class);
 
 
-
-
         Route::delete('/admin/bookings/{id}', [AdminDashboardController::class, 'destroy'])->name('admin.bookings.destroy');
 
 
-
-
-
     });
-     // Password Reset Routes
-     Route::get('/password/reset/{token}', [AdminResetPasswordController::class, 'showResetForm'])->name('admin.password.reset');
-     Route::post('/password/reset', [AdminResetPasswordController::class, 'reset'])->name('admin.password.update');
+    // Password Reset Routes
+    Route::get('/password/reset/{token}', [AdminResetPasswordController::class, 'showResetForm'])->name('admin.password.reset');
+    Route::post('/password/reset', [AdminResetPasswordController::class, 'reset'])->name('admin.password.update');
 });
 
 
 Route::get('/counsellor/session/delete/{timeslot}', [SessionController::class, 'deleteSession'])
     ->name('session.delete');
-    Route::get('/counsellor/session/confirm/{timeslot}', [SessionController::class, 'confirmSession'])
+Route::get('/counsellor/session/confirm/{timeslot}', [SessionController::class, 'confirmSession'])
     ->name('session.confirm');

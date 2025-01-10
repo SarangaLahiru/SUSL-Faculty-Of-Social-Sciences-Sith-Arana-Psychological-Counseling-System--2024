@@ -173,5 +173,70 @@ class CounsellorController extends Controller
         return redirect()->route('admin.counsellors')->with('success', 'Counsellor deleted successfully.');
     }
 
+    public function deleteTimeSlotsView()
+    {
+        return view('counsellors.dashboard.pages.delete_time_slots');
+    }
+
+    public function deleteAllTimeSlots()
+    {
+        $counsellor = auth()->guard('counsellor')->user();
+
+        if (!$counsellor) {
+            return redirect()->route('counsellor.dashboard')->with('error', 'Unauthorized access.');
+        }
+
+        // Delete all time slots associated with the logged-in counsellor
+        $counsellor->timeSlots()->delete();
+
+        return redirect()->route('counsellor.dashboard')->with('success', 'All time slots deleted successfully.');
+    }
+
+    public function addTimeSlots(Request $request)
+    {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'weeks' => 'required|integer|min:1|max:52',
+            'time_slots.*.day_of_week' => 'required|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
+            'time_slots.*.time' => 'required|date_format:H:i',
+            'time_slots.*.duration' => 'required|integer|min:15|max:120',
+        ]);
+
+        $counsellor = auth()->guard('counsellor')->user();
+
+        if (!$counsellor) {
+            return redirect()->route('counsellor.dashboard')->with('error', 'Unauthorized access.');
+        }
+
+        // Generate weekly recurring time slots
+        $weeksToGenerate = $validatedData['weeks']; // Number of weeks
+        $startDate = Carbon::now(); // Start from the current date
+        $endDate = $startDate->copy()->addWeeks($weeksToGenerate);
+
+        foreach ($request->time_slots as $slot) {
+            $dayOfWeek = $slot['day_of_week'];
+            $time = $slot['time'];
+            $duration = $slot['duration'];
+
+            // Generate recurring dates for each day of the week
+            $currentDate = $startDate->copy()->next($dayOfWeek); // Start on the next occurrence of the day
+
+            while ($currentDate->lte($endDate)) {
+                // Save each time slot
+                $counsellor->timeSlots()->create([
+                    'date' => $currentDate->format('Y-m-d'),
+                    'time' => $time,
+                    'duration' => $duration,
+                ]);
+
+                // Move to the same day in the next week
+                $currentDate->addWeek();
+            }
+        }
+
+        return redirect()->route('counsellor.deleteTimeSlotsView')->with('success', 'New time slots added successfully.');
+    }
+
+
 
 }
