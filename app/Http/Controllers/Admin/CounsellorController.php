@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Counsellor;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\CounsellorCredentials;
@@ -237,6 +238,81 @@ class CounsellorController extends Controller
         return redirect()->route('counsellor.deleteTimeSlotsView')->with('success', 'New time slots added successfully.');
     }
 
+    public function adminDeleteTimeSlotsView($counsellor_id)
+    {
+        $counsellor = Counsellor::find($counsellor_id);
 
+        if (!$counsellor) {
+            return redirect()->route('admin.counsellors')->with('error', 'Counsellor not found.');
+        }
+
+        return view('admin.pages.delete_time_slots', compact('counsellor'));
+    }
+
+    public function adminDeleteAllTimeSlots($counsellor_id)
+    {
+        $admin = auth()->guard('admin')->user();
+
+        if (!$admin) {
+            return redirect()->route('home.index')->with('error', 'Unauthorized access.');
+        }
+
+        // Find the counselor by ID and delete their time slots
+        $counsellor = Counsellor::find($counsellor_id);
+        if (!$counsellor) {
+            return redirect()->route('admin.counsellors')->with('error', 'Counsellor not found.');
+        }
+
+        $counsellor->timeSlots()->delete();
+
+        return redirect()->route('admin.counsellors')->with('success', 'All time slots deleted successfully.');
+    }
+
+    public function adminAddTimeSlots(Request $request, $counsellor_id)
+    {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'weeks' => 'required|integer|min:1|max:52',
+            'time_slots.*.day_of_week' => 'required|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
+            'time_slots.*.time' => 'required|date_format:H:i',
+            'time_slots.*.duration' => 'required|integer|min:15|max:120',
+        ]);
+
+        // Retrieve the counsellor by ID
+        $counsellor = Counsellor::find($counsellor_id);
+
+        if (!$counsellor) {
+            return redirect()->route('admin.dashboard')->with('error', 'Counsellor not found.');
+        }
+
+        // Generate weekly recurring time slots
+        $weeksToGenerate = $validatedData['weeks']; // Number of weeks
+        $startDate = Carbon::now(); // Start from the current date
+        $endDate = $startDate->copy()->addWeeks($weeksToGenerate);
+
+        foreach ($validatedData['time_slots'] as $slot) {
+            $dayOfWeek = $slot['day_of_week'];
+            $time = $slot['time'];
+            $duration = $slot['duration'];
+
+            // Generate recurring dates for each day of the week
+            $currentDate = $startDate->copy()->next(Carbon::parse($dayOfWeek)->dayOfWeek); // Get the next occurrence of the day
+
+            while ($currentDate->lte($endDate)) {
+                // Save each time slot
+                $counsellor->timeSlots()->create([
+                    'date' => $currentDate->format('Y-m-d'),
+                    'time' => $time,
+                    'duration' => $duration,
+                ]);
+
+                // Move to the same day in the next week
+                $currentDate->addWeek();
+            }
+        }
+
+        return redirect()->route('admin.counsellor.changeTimeSlots', $counsellor_id)
+            ->with('success', 'New time slots added successfully.');
+    }
 
 }
