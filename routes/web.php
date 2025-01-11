@@ -73,6 +73,13 @@ Route::prefix('counsellor')->group(function () {
 
         Route::post('counsellor/availability/store', [CounsellorAuthController::class, 'store'])->name('counsellors.availability.store');
 
+        // Delete all time slots
+        Route::post('/delete-time-slots', [CounsellorController::class, 'deleteAllTimeSlots'])->name('counsellor.deleteTimeSlots');
+        // View delete time slots page
+        Route::get('/delete-time-slots', [CounsellorController::class, 'deleteTimeSlotsView'])->name('counsellor.deleteTimeSlotsView');
+        // Add new time slots
+        Route::post('/add-time-slots', [CounsellorController::class, 'addTimeSlots'])->name('counsellor.addTimeSlots');
+
     });
     Route::post('/bookings/{id}/status', [CounsellorAuthController::class, 'markAsDone'])->name('bookings.status');
 
@@ -81,7 +88,6 @@ Route::prefix('counsellor')->group(function () {
     Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('counsellor.password.email');
     Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('counsellor.password.update');
-
 });
 
 // Admin Routes
@@ -113,25 +119,20 @@ Route::prefix('admin')->group(function () {
 
         Route::delete('/admin/bookings/{id}', [AdminDashboardController::class, 'destroy'])->name('admin.bookings.destroy');
 
+        //change time slots
+        Route::get('/counsellors/{counsellor}/change-time-slots', [CounsellorController::class, 'adminDeleteTimeSlotsView'])
+            ->name('admin.counsellor.changeTimeSlots');
+        // Delete all time slots
+        Route::post('/delete-time-slots/{counsellor}', [CounsellorController::class, 'adminDeleteAllTimeSlots'])->name('admin.deleteTimeSlots');
+        // Add new time slots
+        Route::post('/counsellors/{counsellor}/add-time-slots', [CounsellorController::class, 'adminAddTimeSlots'])
+            ->name('admin.addTimeSlots');
 
     });
     // Password Reset Routes
     Route::get('/password/reset/{token}', [AdminResetPasswordController::class, 'showResetForm'])->name('admin.password.reset');
     Route::post('/password/reset', [AdminResetPasswordController::class, 'reset'])->name('admin.password.update');
 });
-
-Route::middleware(['auth:admin,counsellor'])->group(function () {
-    Route::prefix('counsellor')->group(function () {
-        // Delete all time slots
-        Route::post('/delete-time-slots', [CounsellorController::class, 'deleteAllTimeSlots'])->name('counsellor.deleteTimeSlots');
-        // View delete time slots page
-        Route::get('/delete-time-slots', [CounsellorController::class, 'deleteTimeSlotsView'])->name('counsellor.deleteTimeSlotsView');
-        // Add new time slots
-        Route::post('/add-time-slots', [CounsellorController::class, 'addTimeSlots'])->name('counsellor.addTimeSlots');
-    });
-});
-
-
 
 Route::get('/counsellor/session/delete/{timeslot}', [SessionController::class, 'deleteSession'])
     ->name('session.delete');
