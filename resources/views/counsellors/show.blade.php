@@ -7,7 +7,7 @@
 
 
 
-<div class="container mt-5">
+<div class="container mt-5 " style="padding: 100px 0px;">
     <div class="row">
         <!-- Counsellor Details -->
         <div class="col-12 col-sm-8">
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <!-- Contact Details -->
-                <div class="col-sm-9">
+                <div class="col-sm-5">
                     <div class="contact-details">
                         <div class="name-and-position-wrapper mb-3">
                             <h1>{{ $counsellor->full_name_with_rate }}</h1>
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-4 languages">
+                <div class="col-4  languages">
                     <h2>Languages Spoke</h2>
                     <ul>
                         @if($counsellor->languages && count($counsellor->languages) > 0)
@@ -57,7 +57,7 @@
                         @endif
                     </ul>
                 </div>
-                <div class="col-4 languages">
+                <div class="col-4  languages">
                     <h2>Specialisation</h2>
 
                 <ul>
@@ -72,6 +72,9 @@
                 </ul>
                 </div>
             </div>
+
+{{--
+
             <div class="row mt-4">
                 <div class="col-sm-12 reviews">
                     <h2>Verified Reviews</h2>
@@ -109,7 +112,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div>  --}}
         </div>
 
         <!-- Booking Timeslots -->
@@ -193,8 +196,52 @@
     </div>
 </div>
 
+{{--  <div id="timeslotModal" class="modal" style="display: none;">
+    <div class="modal-content" style="text-align: center; padding: 20px; border: 1px solid #ddd;">
+        <span class="close" onclick="closeModal()" style="cursor: pointer; float: right;">&times;</span>
+        <h3>Timeslot Selection</h3>
+        <img src="path-to-your-image.jpg" alt="Select Timeslot" style="width: 100px; height: 100px; margin: 10px 0;">
+        <p>Please select a timeslot before proceeding.</p>
+        <button onclick="closeModal()">OK</button>
+    </div>
+</div>  --}}
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="timeslotModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 15px; overflow: hidden;">
+            <!-- Alert Section -->
+            <div id="alertSection" class="alert alert-warning text-center" style="margin: 0; border-radius: 0; display: none;">
+                <p style="font-size: 15px;"><strong>⚠️ Warning!</strong> Please select a timeslot before proceeding.</p>
+            </div>
+            <!-- Modal Header -->
+            {{--  <div class="modal-header text-center" style="background-color: #941b9a; color: white; display: flex; justify-content: center;">
+
+                <h5 class="modal-title w-100" id="thankYouModalLabel" style="font-weight: bold; font-size: 2em;">🎉 Thank You!</h5>
+            </div>  --}}
+            <!-- Modal Body -->
+            <div class="modal-body text-center" style="padding: 12px; font-size: 1.5em; color: #444;">
+                <!-- Image -->
+                <img  src="{{ asset('images/sitharana2.gif') }}"   alt="Thank You" style="width: 450px; height: auto; margin-bottom: 20px; border-radius: 10px;">
+                <!-- Text -->
+                {{--  <p style="margin: 0; font-weight: 500;">
+                    Thank you for your feedback!<br>We appreciate your input and support.
+                </p>  --}}
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer d-flex justify-content-center" style="border-top: none; padding-bottom: 30px;">
+                <button type="button" class="btn btn-primary px-4 py-2" id="close1" onclick="closeModal()" style="background-color: #8d1b9a; border-color: #6a1b9a;" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- CSS for Enhanced Styling -->
 <style>
+
+
+
     /* Main Modal Enhancements */
 
 
@@ -251,6 +298,8 @@
         font-weight: 600;
     }
 </style>
+
+
 
 <!-- JavaScript for Month Navigation and Date Selection -->
 
@@ -329,33 +378,55 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-        <script>
-            let selectedTimeslotId = null;
 
-            function selectTimeslot(element) {
-                console.log("Timeslot clicked!");
-
-                const timeslots = document.querySelectorAll('.timeslot');
-                timeslots.forEach((slot) => {
-                    slot.classList.remove('highlight');
-                });
-
-                element.classList.add('highlight');
-                selectedTimeslotId = element.getAttribute('data-timeslot-id');
-                console.log("Selected Timeslot ID: ", selectedTimeslotId);
-            }
-
-            function goToNextPage() {
-                if (selectedTimeslotId) {
-                    window.location.href = `{{ route('counsellors.bookings.create', ['counsellor' => $counsellor->counsellor_id]) }}?timeslot_id=${selectedTimeslotId}`;
-                } else {
-                    alert('Please select a timeslot before proceeding.');
-                }
-            }
-        </script>
 
     </div>
 </div>
+
+<script>
+    let selectedTimeslotId = null;
+
+    function selectTimeslot(element) {
+        console.log("Timeslot clicked!");
+
+        const timeslots = document.querySelectorAll('.timeslot');
+        timeslots.forEach((slot) => {
+            slot.classList.remove('highlight');
+        });
+
+        element.classList.add('highlight');
+        selectedTimeslotId = element.getAttribute('data-timeslot-id');
+        console.log("Selected Timeslot ID: ", selectedTimeslotId);
+    }
+
+    {{--  function goToNextPage() {
+        if (selectedTimeslotId) {
+            window.location.href = `{{ route('counsellors.bookings.create', ['counsellor' => $counsellor->counsellor_id]) }}?timeslot_id=${selectedTimeslotId}`;
+        } else {
+            alert('Please select a timeslot before proceeding.');
+        }
+    }  --}}
+
+
+function goToNextPage() {
+if (selectedTimeslotId) {
+    // Redirect to the next page
+    window.location.href = `{{ route('counsellors.bookings.create', ['counsellor' => $counsellor->counsellor_id]) }}?timeslot_id=${selectedTimeslotId}`;
+} else {
+    // Show the alert and the modal
+    document.getElementById('alertSection').style.display = 'block';
+    const modal = new bootstrap.Modal(document.getElementById('timeslotModal'));
+    modal.show();
+}
+}
+
+function closeModal() {
+// Hide the modal and the alert
+const modal = bootstrap.Modal.getInstance(document.getElementById('timeslotModal'));
+modal.hide();
+document.getElementById('alertSection').style.display = 'none';
+}
+</script>
 
 <!-- Bootstrap JS (Ensure you have Bootstrap CSS included in your app layout) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

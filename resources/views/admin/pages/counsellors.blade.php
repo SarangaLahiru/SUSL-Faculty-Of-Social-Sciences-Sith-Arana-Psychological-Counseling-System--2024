@@ -4,9 +4,14 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center my-4">
         <h1 class="fw-bold">Counsellors</h1>
+        <a href="/download-analysis-pdf" class="btn btn-outline-primary d-flex align-items-center">
+            <i class="fas fa-plus-circle me-2"></i> Generate Report
+        </a>
         <a href="{{ route('counsellorsShow.create') }}" class="btn btn-outline-primary d-flex align-items-center">
             <i class="fas fa-plus-circle me-2"></i> Add New
         </a>
+
+
     </div>
 
     <div class="list-group shadow-sm ">
@@ -19,6 +24,9 @@
                     <span class="fw-semibold m-2"> {{ $counsellor->mobile_no }}</span>
                 </div>
                 <div class="d-flex">
+                    <a href="{{ route('admin.counsellor.changeTimeSlots', $counsellor->counsellor_id) }}" class="btn btn-outline-info btn-sm me-2">
+                        <i class="fas fa-clock"></i> Change Time Slots
+                    </a>
                     <a href="{{ route('counsellorsShow.edit', $counsellor->counsellor_id) }}" class="btn btn-outline-secondary btn-sm me-2">
                         <i class="fas fa-edit"></i>
                     </a>

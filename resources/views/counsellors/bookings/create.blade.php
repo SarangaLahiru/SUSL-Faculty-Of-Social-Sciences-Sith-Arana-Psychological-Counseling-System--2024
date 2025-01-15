@@ -102,6 +102,8 @@
         <form action="{{ route('counsellors.bookings.store', ['counsellor' => $counsellor->counsellor_id, 'timeslot' => $timeslot->timeslot_id ]) }}" method="post" class="row g-3">
             @csrf
 
+            <input type="hidden" name="category" value="student">
+
             <div class="col-md-12">
                 <label for="name" class="form-label">Your Name (Required)</label>
                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Enter your name">
@@ -164,6 +166,19 @@
             </div>
 
             <div class="col-md-12">
+                <label for="year" class="form-label">Year (Required)</label>
+                <select name="year" id="year" class="form-control @error('year') is-invalid @enderror">
+                    <option value="" disabled selected>Select your year</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
+                @error('year')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="col-md-12">
                 <label for="message" class="form-label">Your Message (Optional)</label>
                 <textarea name="message" id="message" rows="4" class="form-control @error('message') is-invalid @enderror" placeholder="Enter any message you want us to hear...">{{ old('message') }}</textarea>
                 @error('message')
@@ -181,6 +196,8 @@
     <div id="otherForm" class="booking-form mt-4" style="display: none;">
         <form action="{{ route('counsellors.bookings.store', ['counsellor' => $counsellor->counsellor_id, 'timeslot' => $timeslot->timeslot_id ]) }}" method="post" class="row g-3">
             @csrf
+
+            <input type="hidden" name="category" value="other">
 
             <div class="col-md-12">
                 <label for="name" class="form-label">Your Name (Required)</label>
@@ -207,6 +224,14 @@
             </div>
 
             <div class="col-md-12">
+                <label for="NIC" class="form-label">NIC (Required)</label>
+                <input type="NIC" class="form-control @error('NIC') is-invalid @enderror" id="NIC" name="NIC" value="{{ old('NIC') }}" placeholder="Enter your NIC">
+                @error('NIC')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="col-md-12">
                 <label for="gender" class="form-label">Gender (Required)</label>
                 <select name="gender" id="gender" class="form-control @error('gender') is-invalid @enderror">
                     <option value="">Select your gender</option>
@@ -218,7 +243,7 @@
                 @enderror
             </div>
 
-            <div class="col-md-12">
+            {{--  <div class="col-md-12">
                 <label for="faculty" class="form-label">Faculty (Required)</label>
                 <select name="faculty" id="faculty" class="form-control @error('faculty') is-invalid @enderror">
                     <option value="">Select your faculty</option>
@@ -235,15 +260,15 @@
                 @error('faculty')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-            </div>
+            </div>  --}}
 
-            <div class="col-md-12">
+            {{--  <div class="col-md-12">
                 <label for="registration_no" class="form-label">Registration Number (Required)</label>
                 <input type="text" class="form-control @error('registration_no') is-invalid @enderror" id="registration_no" name="registration_no" value="{{ old('registration_no') }}" placeholder="Enter your registration number">
                 @error('registration_no')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-            </div>
+            </div>  --}}
 
             <div class="col-md-12">
                 <label for="message" class="form-label">Your Message (Optional)</label>

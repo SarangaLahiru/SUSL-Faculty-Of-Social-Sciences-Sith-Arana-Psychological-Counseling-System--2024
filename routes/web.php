@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\Counsellor\Auth\ForgotPasswordController;
 use App\Http\Controllers\Counsellor\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
@@ -14,10 +13,13 @@ use App\Http\Controllers\student\CounsellorsController;
 use App\Http\Controllers\student\HomeController;
 
 use Illuminate\Support\Facades\Http;
+
 // use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\BookingAnalysisController;
 
+Route::get('/download-analysis-pdf', [BookingAnalysisController::class, 'generateAnalysisPDF']);
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 Route::post('/send/message', function () {
     // Sending the SMS using Laravel's Http client
@@ -69,10 +71,14 @@ Route::prefix('counsellor')->group(function () {
         Route::delete('/counsellors/availability/delete/{id}', [CounsellorsController::class, 'deleteTimeSlot'])->name('counsellors.availability.delete');
 
 
-
-
-
         Route::post('counsellor/availability/store', [CounsellorAuthController::class, 'store'])->name('counsellors.availability.store');
+
+        // Delete all time slots
+        Route::post('/delete-time-slots', [CounsellorController::class, 'deleteAllTimeSlots'])->name('counsellor.deleteTimeSlots');
+        // View delete time slots page
+        Route::get('/delete-time-slots', [CounsellorController::class, 'deleteTimeSlotsView'])->name('counsellor.deleteTimeSlotsView');
+        // Add new time slots
+        Route::post('/add-time-slots', [CounsellorController::class, 'addTimeSlots'])->name('counsellor.addTimeSlots');
 
     });
     Route::post('/bookings/{id}/status', [CounsellorAuthController::class, 'markAsDone'])->name('bookings.status');
@@ -111,22 +117,24 @@ Route::prefix('admin')->group(function () {
         Route::resource('counsellorsShow', CounsellorController::class);
 
 
-
-
         Route::delete('/admin/bookings/{id}', [AdminDashboardController::class, 'destroy'])->name('admin.bookings.destroy');
 
-
-
-
+        //change time slots
+        Route::get('/counsellors/{counsellor}/change-time-slots', [CounsellorController::class, 'adminDeleteTimeSlotsView'])
+            ->name('admin.counsellor.changeTimeSlots');
+        // Delete all time slots
+        Route::post('/delete-time-slots/{counsellor}', [CounsellorController::class, 'adminDeleteAllTimeSlots'])->name('admin.deleteTimeSlots');
+        // Add new time slots
+        Route::post('/counsellors/{counsellor}/add-time-slots', [CounsellorController::class, 'adminAddTimeSlots'])
+            ->name('admin.addTimeSlots');
 
     });
-     // Password Reset Routes
-     Route::get('/password/reset/{token}', [AdminResetPasswordController::class, 'showResetForm'])->name('admin.password.reset');
-     Route::post('/password/reset', [AdminResetPasswordController::class, 'reset'])->name('admin.password.update');
+    // Password Reset Routes
+    Route::get('/password/reset/{token}', [AdminResetPasswordController::class, 'showResetForm'])->name('admin.password.reset');
+    Route::post('/password/reset', [AdminResetPasswordController::class, 'reset'])->name('admin.password.update');
 });
-
 
 Route::get('/counsellor/session/delete/{timeslot}', [SessionController::class, 'deleteSession'])
     ->name('session.delete');
-    Route::get('/counsellor/session/confirm/{timeslot}', [SessionController::class, 'confirmSession'])
+Route::get('/counsellor/session/confirm/{timeslot}', [SessionController::class, 'confirmSession'])
     ->name('session.confirm');

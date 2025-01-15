@@ -4,102 +4,75 @@
 
 @section('content')
 
-    <h1 class="text-center text-6xl font-bold my-5">Contact Us</h1>
+<h1 class="contact-title text-center my-5">Contact Us</h1>
 
-    <p class="text-center mb-8">Feel free to contact us by filling out the form below.</p>
+<p class="contact-subtitle text-left mb-8">Feel free to contact us by filling out the form below.</p>
 
-    <div class="container mx-auto p-5 shadow-lg">
-        <div class="row">
-            <!-- Left side: Contact Form -->
-            <div class="col-md-6 mb-4">
-                <form action="/submit-contact" method="POST">
-                    @csrf
-                    <div class="row">
-                        <!-- First Name -->
-                        <div class="form-group col-md-6 mb-4">
-                            <label for="first_name" class="form-label">First Name</label>
-                            <input type="text" id="first_name" name="first_name" class="form-control @error('first_name') is-invalid @enderror" required>
-                            @error('first_name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <!-- Last Name -->
-                        <div class="form-group col-md-6 mb-4">
-                            <label for="last_name" class="form-label">Last Name</label>
-                            <input type="text" id="last_name" name="last_name" class="form-control @error('last_name') is-invalid @enderror" required>
-                            @error('last_name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <!-- Email -->
-                    <div class="form-group mb-4">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror" required>
-                        @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Subject -->
-                    <div class="form-group mb-4">
-                        <label for="subject" class="form-label">Subject</label>
-                        <input type="text" id="subject" name="subject" class="form-control @error('subject') is-invalid @enderror" required>
-                        @error('subject')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Message -->
-                    <div class="form-group mb-4">
-                        <label for="message" class="form-label">Message</label>
-                        <textarea id="message" name="message" class="form-control @error('message') is-invalid @enderror" rows="5" required></textarea>
-                        @error('message')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary w-full sm:w-auto px-4 py-2 bg-purple-500 hover:bg-purple-700 text-white font-bold rounded">Send Message</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Right side: Image -->
-            <div class="col-md-6 text-center">
-                <img src="/images/contact-img.png" alt="Contact Image" class="w-full h-auto rounded-lg shadow-md">
+<div class="container mx-auto p-5 shadow-lg">
+    <div class="row align-items-center">
+        <!-- Left side: Contact Information -->
+        <div class="col-md-6 mb-4">
+            <div class="contact-info p-4 rounded">
+                <div class="card text-center shadow-sm p-4 rounded mb-4" style="width: 100%;">
+                   
+                    <h5 class="card-title">Email Us</h5>
+                    <p class="card-text">infocounsellor@gmail.com</p>
+                </div>
+                <div class="card text-center shadow-sm p-4 rounded mb-4" style="width: 100%;">
+                    <h5 class="card-title">Call Us</h5>
+                    <p class="card-text">+94 75965738</p>
+                </div>
+                <div class="card text-center shadow-sm p-4 rounded" style="width: 100%;">
+                    <h5 class="card-title">Location</h5>
+                    <p class="card-text">Sabaragamuwa University of Sri Lanka</p>
+                </div>
             </div>
         </div>
+
+        <!-- Right side: Image -->
+        <div class="col-md-6 text-center">
+            <img src="/images/contact-img.png" alt="Contact Image" class="w-100 h-auto rounded-lg shadow-md">
+        </div>
     </div>
+</div>
 
 @endsection
 
 <style>
+.contact-title {
+    font-size: 6rem;
+}
 
-    .container {
-        background-color: white;
-        border-radius: 0.5rem;
-    }
+.contact-subtitle {
+    font-size: 2rem;
+    margin-left: 10rem;
+    color: #5a5858;
+}
 
-    .form-group label {
-        font-weight: bold;
-    }
+.container {
+    background-color: white;
+    border-radius: 0.5rem;
+}
 
-    .form-control {
-        padding: 0.5rem;
-        border: 1px solid #ddd;
-        border-radius: 0.25rem;
-    }
+/* Card styles */
+.card {
+    width: 90%; 
+    max-width: 400px; 
+    margin: 0 auto; 
+    font-size: 1.2rem; 
+}
 
-    .form-control:focus {
-        border-color: #fa30ce;
-        outline: 0;
-        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-    }
+.card-title {
+    font-size: 1.5rem; 
+    color: #333333; 
+}
 
-    .btn-primary {
-        transition: background-color 0.3s;
-    }
+.card-text {
+    font-size: 1.2rem; 
+    color: #666666; 
+}
+
+
+
+
 </style>

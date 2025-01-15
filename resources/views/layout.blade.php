@@ -185,7 +185,7 @@
                             class="{{ Route::is('home.contactus') ? 'active' : '' }}">Contact Us</a></li>
 
                 </ul>
-                <div class="hamburger" onclick="toggleMenu()">
+                <div class="hamburger">
                     <span class="line"></span>
                     <span class="line"></span>
                     <span class="line"></span>
@@ -202,6 +202,8 @@
                             class="{{ Route::is('home.aboutus') ? 'active' : '' }}">About Us</a></li>
                     <li><a href="{{ route('home.calendar') }}"
                             class="{{ Route::is('home.calendar') ? 'active' : '' }}">Calendar</a></li>
+                            <li><a href="{{ route('home.contactus') }}"
+                                class="{{ Route::is('home.contactus') ? 'active' : '' }}">Contact Us</a></li>         
                 </ul>
             </div>
         </div>

@@ -226,10 +226,18 @@
                         <p>Please prepare any relevant materials or resources for this session. You may view further details or manage your appointments in your calendar.</p>
 
                         <center>
-                            <a href="{{ url('counsellor/dashboard') }}" class="proton-button">View All Sessions</a>
-                            <a href="{{ url('counsellor/session/confirm/' . $bookingDetails->booking_id) }}" class="proton-confirm" style="background-color: rgb(50, 231, 0)">Confirm Booking</a>
-                            <a href="{{ url('counsellor/session/delete/' . $bookingDetails->booking_id) }}" class="proton-button" style="background-color: rgb(231, 0, 0)">Cancel Booking</a>
-                            <a href="{{ url('counsellor/dashboard') }}" class="proton-button">View All Sessions</a>
+                            <a href="{{ url('counsellor/session/confirm/' . $bookingDetails->booking_id) }}"
+                               style="display: inline-block; padding: 10px 20px; background-color: #32e700; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px;">
+                                Confirm Booking
+                            </a>
+                            <a href="{{ url('counsellor/session/delete/' . $bookingDetails->booking_id) }}"
+                               style="display: inline-block; padding: 10px 20px; background-color: #e70000; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px;">
+                                Cancel Booking
+                            </a>
+                            <a href="{{ url('counsellor/dashboard') }}"
+                               style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+                                View All Sessions
+                            </a>
                         </center>
                     </td>
                 </tr>

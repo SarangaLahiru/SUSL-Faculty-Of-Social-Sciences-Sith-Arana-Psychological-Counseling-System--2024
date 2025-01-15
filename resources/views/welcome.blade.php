@@ -252,12 +252,13 @@
                 </p>
             </div>
             <div class="modal-footer d-flex justify-content-center" style="border-top: none; padding-bottom: 30px;">
-                <button type="button" class="btn btn-primary px-4 py-2" style="background-color: #8d1b9a; border-color: #6a1b9a;" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary px-4 py-2" id="close1" style="background-color: #8d1b9a; border-color: #6a1b9a;" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 <!-- Include jQuery, Popper.js, and Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
@@ -267,15 +268,51 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-@if(session('success'))
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var myModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
-            myModal.show();
-        });
-    </script>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const myModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
+    @if(session('success'))
+        myModal.show();
+    @endif
+
+    document.getElementById('close1').addEventListener('click', function () {
+        myModal.hide();
+        console.log("Modal closed.");
+    });
+});
+
+
+</script>
+
+@if (session('confirm'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Session Confirmed!',
+        text: 'You have successfully confirmed the session for the client.',
+        showConfirmButton: true,
+        timer: 10000 // Auto close after 10 seconds
+    });
+</script>
 @endif
+
+@if (session('reject'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Session Rejected!',
+        text: 'You have successfully rejected the session request from the client.',
+        showConfirmButton: true,
+        timer: 10000 // Auto close after 10 seconds
+    });
+</script>
+@endif
+
 <script>
 
   const testimonials = @json($testimonials);
