@@ -34,7 +34,7 @@ class BookingDeleted extends Mailable
      */
     public function build()
     {
-        return $this->subject('Booking Deleted Notification')
+        return $this->subject('Booking Cancellation Notification')
                     ->view('admin.pages.email.booking_deleted')
                     ->with([
                         'bookingDate' => $this-> TimeSlot->date,

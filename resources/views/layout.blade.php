@@ -217,11 +217,11 @@
             <div class="container-contacts">
                 <div class="email-wrapper">
                     <img src={{ asset('images/email-icon.svg') }} alt="">
-                    <p>infocounsellor@gmail.com</p>
+                    <p>sitharana@ssl.sab.ac.lk</p>
                 </div>
                 <div class="phone-wrapper">
                     <img src={{ asset('images/phone-icon.svg') }} alt="">
-                    <p>+9475965738</p>
+                    <p>+94 714453450</p>
                 </div>
             </div>
 

@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Sith Arana | Contact us')
+@section('title', 'Sith Arana | Calendar')
 
 @section('content')
 
