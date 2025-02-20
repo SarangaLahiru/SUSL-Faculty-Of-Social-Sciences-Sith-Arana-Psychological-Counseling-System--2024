@@ -25,7 +25,7 @@ class BookedTime extends Mailable
     {
         return $this
             ->from('sumalsurendra1999@gmail.com')
-            ->subject('You have a booking!')
+            ->subject('Booking Request Submitted Successfully!')
             ->view('emails.booked_timeslots')
             ->with([
                 'formDetails' => $this->formDetails,

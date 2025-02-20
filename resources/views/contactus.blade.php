@@ -6,7 +6,7 @@
 
 <h1 class="contact-title text-center my-5">Contact Us</h1>
 
-<p class="contact-subtitle text-left mb-8">Feel free to contact us by filling out the form below.</p>
+<p class="contact-subtitle  text-center mb-8">Feel free to contact us by filling out the form below.</p>
 
 <div class="container mx-auto p-5 shadow-lg">
     <div class="row align-items-center">
@@ -16,15 +16,15 @@
                 <div class="card text-center shadow-sm p-4 rounded mb-4" style="width: 100%;">
                    
                     <h5 class="card-title">Email Us</h5>
-                    <p class="card-text">infocounsellor@gmail.com</p>
+                    <p class="card-text">sitharana@ssl.sab.ac.lk</p>
                 </div>
                 <div class="card text-center shadow-sm p-4 rounded mb-4" style="width: 100%;">
                     <h5 class="card-title">Call Us</h5>
-                    <p class="card-text">+94 75965738</p>
+                    <p class="card-text">+94 714453450</p>
                 </div>
                 <div class="card text-center shadow-sm p-4 rounded" style="width: 100%;">
                     <h5 class="card-title">Location</h5>
-                    <p class="card-text">Sabaragamuwa University of Sri Lanka</p>
+                    <p class="card-text"> Faculty of Social Sciences & Languages, Sabaragamuwa University of Sri Lanka </p>
                 </div>
             </div>
         </div>

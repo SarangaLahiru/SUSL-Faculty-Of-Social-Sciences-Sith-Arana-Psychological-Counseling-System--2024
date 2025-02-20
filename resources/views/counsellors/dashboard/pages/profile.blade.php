@@ -69,9 +69,9 @@
                         <div class="row mb-3">
                             <div class="col-12">
                                 <p><strong>Specializations:</strong>
-                                    @if(is_array($counsellor->languages))
-                                    @foreach($counsellor->languages as $language)
-                                        <span class="badge bg-info text-dark">{{ $language }}</span>
+                                    @if(is_array($counsellor->Specializations))
+                                    @foreach($counsellor->Specializations as $Specialization)
+                                        <span class="badge bg-info text-dark">{{ $Specialization }}</span>
                                     @endforeach
                                 @endif
                                 </p>

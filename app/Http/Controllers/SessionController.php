@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 // Adjust the model name if necessary
 
 use App\Mail\BookingConfirmationMail;
+use App\Mail\AdminBookingCancellation;
 use App\Mail\BookingDeleted;
 use App\Models\BookingDetails;
 use App\Models\Counsellor;
@@ -78,6 +79,9 @@ class SessionController extends Controller
 
         // Send the email notification
         Mail::to($userEmail)->send(new BookingDeleted($booking,$counsellor  ,  $TimeSlot));
+
+        Mail::to('sitharana@ssl.sab.ac.lk')->send(new AdminBookingCancellation($booking, $counsellor, $TimeSlot));
+
 
 
         return redirect()->route('counsellor.loginForm')

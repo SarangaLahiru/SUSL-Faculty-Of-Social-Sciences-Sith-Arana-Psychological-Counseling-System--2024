@@ -222,8 +222,8 @@
             </center>
             <p>Thank you for your understanding and patience. If you have any questions or need further assistance, please don’t hesitate to contact us.</p>
 
-            <p>Contact Us : 077123123123</p>
-            <p>Email : example@gmail.com</p>
+            <p>Contact Us : +94 714453450</p>
+            <p>Email : sitharana@ssl.sab.ac.lk</p>
 
 
                     </td>
@@ -238,7 +238,7 @@
                 <tr>
                     <td>
                         <div class="proton-divider"></div>
-                        <p class="footer">© 2024 Sitharana Psychological Counseling Center, SUSL</p>
+                        <p class="footer">© 2025 Sitharana Psychological Counseling Center, SUSL</p>
                     </td>
                 </tr>
             </tbody>

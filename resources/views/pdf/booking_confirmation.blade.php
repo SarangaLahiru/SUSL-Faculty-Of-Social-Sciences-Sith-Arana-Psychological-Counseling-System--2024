@@ -127,15 +127,15 @@
         <div class="section">
             <h2>Important Instructions</h2>
             <div class="highlight">
-                <p>Please arrive at least 15 minutes before your scheduled session. Bring any necessary documents or identification as mentioned in the booking details.</p>
+                <p>Please arrive at least 15 minutes before your scheduled session. Bring any necessary documents with this document or identification as mentioned in the booking details.</p>
             </div>
         </div>
 
         <!-- Footer Section -->
         <div class="footer">
             <p>For further assistance, contact us at:</p>
-            <p><strong>Phone:</strong> +9475965738 | <strong>Email:</strong> infocounsellor@gmail.com</p>
-            <p>Sitharana Psychological Counseling Center © 2024, Sabaragamuwa University of Sri Lanka. All rights reserved.</p>
+            <p><strong>Phone:</strong> +9475965738 | <strong>Email:</strong> sitharana@ssl.sab.ac.lk</p>
+            <p>Sitharana Psychological Counseling Center © 2025, Sabaragamuwa University of Sri Lanka. All rights reserved.</p>
         </div>
     </div>
 </body>
